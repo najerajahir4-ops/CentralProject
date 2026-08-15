@@ -123,10 +123,13 @@ Una vez ejecutado el `git push`, solo debes esperar un par de minutos y recargar
 
 Se ha realizado una revisión integral del sistema empleando **Skills avanzadas de IA** para pulir la interfaz, la legibilidad y asegurar el proyecto.
 
-### Mejoras de Interfaz (UI/UX)
-- **Corrección de Bugs Visuales:** Eliminación de bordes residuales y problemas de *overflow* que rompían el layout.
-- **Panel Administrativo (Fichas & Pagos):** Refinamiento tipográfico eliminando la pesada fuente *Anton* para datos crudos, reemplazándola por *Manrope* en grosores medianos, aumentando enormemente la legibilidad de las tablas.
-- **Rediseño Premium del Inicio (Hero Section):** Transformación del diseño estático 50/50. El logo se integró como una marca de agua texturizada en el fondo (con un degradado suave para evitar cortes abruptos), se ajustaron las jerarquías de texto, el ritmo espacial entre secciones y se creó un botón moderno.
+### Mejoras de Interfaz (UI/UX) y Responsive Design
+- **Rediseño Mobile-First (Reglas `/impeccable`):** Implementación de "Safe Areas" (notch de iOS) globales en `index.css` y ajuste masivo de espaciados para garantizar legibilidad en teléfonos sin desbordamiento horizontal.
+- **Zonas Táctiles (Touch Targets):** Rediseño del menú móvil (hamburguesa y dropdowns) y del Footer para garantizar que todos los iconos y enlaces cumplan con el estándar mínimo de 44x44px para dedos.
+- **Refinamiento del Hero Section:** Reestructuración de la página de inicio para móviles. Ahora el texto y el logo (a todo color con animación `animate-float`) se apilan jerárquicamente para evitar choques visuales, conservando el diseño premium en computadoras.
+- **Pulido del Footer:** Reducción sistemática de espaciados (paddings) y tamaños tipográficos en escritorio para que el pie de página se sienta elegante, compacto y menos invasivo.
+- **Galería de Alumnos Destacados:** Restauración del esquema de colores élite (`dorado-campeon` y `tatami-blanco`) en el sistema central, adaptación del color de texto para asegurar contraste total sobre fondos blancos, y apilamiento inteligente de los filtros de búsqueda en móviles.
+- **Panel Administrativo (Fichas & Pagos):** Refinamiento tipográfico eliminando la pesada fuente *Anton* para datos crudos, reemplazándola por tipografías más legibles, y adición de *scroll horizontal* en todas las tablas para permitir la gestión desde el celular.
 - **Etiquetas Editoriales:** Se reemplazaron los "badges" genéricos encajonados (ej. en la sección de Contactos) por subtítulos de lujo con líneas finas, aportando un look de revista.
 - **Motor de Artículos (Markdown):** Se eliminó el antiguo e inflexible *ContentCard*. Ahora la sección de Contenido utiliza `react-markdown` y el plugin oficial de lectura `@tailwindcss/typography` (con un estilo personalizado `prose-dorado`), permitiendo anchos de lectura más generosos y asegurando que ninguna palabra enviada desde el panel se pierda.
 - **Automatización de Contenido (Admin):** Se incluyó un botón de "+ Insertar Plantilla Base" en el creador de publicaciones para facilitar el formateo perfecto vía Markdown de forma automática.

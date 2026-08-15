@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, Moon, Sun } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
 import { useAuth } from './context/AuthContext';
+import { useTheme } from './context/ThemeContext';
 
 // Public Pages
 import Home from './pages/Home';
@@ -30,10 +31,12 @@ import ModulosAdmin from './pages/admin/ModulosAdmin';
 import PerfilesAdmin from './pages/admin/PerfilesAdmin';
 import PerfilDetalleAdmin from './pages/admin/PerfilDetalleAdmin';
 import GeneralPhotosAdmin from './pages/admin/GeneralPhotosAdmin';
+import AuditoriaAdmin from './pages/admin/AuditoriaAdmin';
 
 // Sidebar Navigation for Admin
 const AdminSidebar = () => {
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -45,14 +48,15 @@ const AdminSidebar = () => {
     { path: '/admin/contenido', label: 'Contenido' },
     { path: '/admin/alumnos-destacados', label: 'Destacados' },
     { path: '/admin/modulos', label: 'Configuración' },
+    { path: '/admin/auditoria', label: 'Auditoría' },
   ];
 
   const getLinkClass = (path) => {
     const isActive = location.pathname.startsWith(path);
-    return `flex items-center gap-3 py-3 px-4 transition-all uppercase tracking-widest font-body text-xs font-semibold border-l-4 ${
+    return `flex items-center gap-3 py-3 px-4 transition-all uppercase tracking-widest font-body text-xs font-bold border-l-4 ${
       isActive 
-        ? 'border-dorado-campeon bg-dorado-campeon/10 text-dorado-campeon' 
-        : 'border-transparent text-gray-400 hover:text-tatami-blanco hover:bg-white/5'
+        ? 'border-rojo-impacto bg-rojo-impacto/5 text-rojo-impacto' 
+        : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-carbon dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
     }`;
   };
 
@@ -64,12 +68,12 @@ const AdminSidebar = () => {
   return (
     <>
       {/* Mobile Topbar (only visible on mobile to open sidebar) */}
-      <div className="lg:hidden bg-[#0A0B0E] border-b border-dorado-campeon/30 p-4 flex items-center justify-between sticky top-0 z-40">
-        <span className="font-body font-bold text-dorado-campeon text-lg flex items-center gap-2 tracking-widest uppercase">
+      <div className="lg:hidden bg-blanco-absoluto dark:bg-[#0A0B0E] border-b border-carbon dark:border-white/10 p-4 flex items-center justify-between sticky top-0 z-40 transition-colors">
+        <span className="font-body font-bold text-carbon dark:text-white text-lg flex items-center gap-2 tracking-widest uppercase">
           <span className="w-3 h-3 bg-rojo-impacto"></span>
           PANEL ADMIN
         </span>
-        <button onClick={() => setMobileOpen(true)} className="text-white p-1">
+        <button onClick={() => setMobileOpen(true)} className="text-carbon dark:text-white p-3 -mr-2" aria-label="Abrir panel de administración">
           <Menu size={24} />
         </button>
       </div>
@@ -83,20 +87,20 @@ const AdminSidebar = () => {
       )}
 
       {/* Sidebar Container */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#0A0B0E] border-r border-dorado-campeon/20 shadow-[5px_0_15px_rgba(0,0,0,0.5)] transform transition-transform duration-300 flex flex-col justify-between ${
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-blanco-absoluto dark:bg-[#0A0B0E] border-r-4 border-carbon dark:border-white/10 shadow-[5px_0_15px_rgba(0,0,0,0.1)] dark:shadow-[5px_0_15px_rgba(0,0,0,0.5)] transform transition-transform duration-300 flex flex-col justify-between ${
         mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       }`}>
         
         {/* Top Section: Logo & Nav */}
         <div>
           {/* Logo / Header */}
-          <div className="p-6 border-b border-white/5 flex items-center justify-between lg:justify-center">
-            <Link to="/admin/estudiantes" onClick={() => setMobileOpen(false)} className="font-body font-bold text-dorado-campeon text-xl flex items-center gap-2 tracking-widest uppercase text-center w-full justify-center">
-              <span className="w-4 h-4 bg-rojo-impacto shadow-[0_0_10px_rgba(214,40,57,0.5)]"></span>
+          <div className="p-6 border-b-4 border-carbon dark:border-white/10 flex items-center justify-between lg:justify-center transition-colors">
+            <Link to="/admin/estudiantes" onClick={() => setMobileOpen(false)} className="font-body font-black text-carbon dark:text-white text-xl flex items-center gap-2 tracking-widest uppercase text-center w-full justify-center">
+              <span className="w-4 h-4 bg-rojo-impacto shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[0_0_10px_rgba(214,40,57,0.5)]"></span>
               PANEL ADMIN
             </Link>
-            <button onClick={() => setMobileOpen(false)} className="lg:hidden text-gray-400 hover:text-white">
-              <X size={20} />
+            <button onClick={() => setMobileOpen(false)} className="lg:hidden text-gray-400 hover:text-carbon dark:hover:text-white p-3 -mr-3" aria-label="Cerrar panel">
+              <X size={24} />
             </button>
           </div>
           
@@ -116,23 +120,34 @@ const AdminSidebar = () => {
         </div>
 
         {/* Bottom Section: User Info & Logout */}
-        <div className="p-4 border-t border-white/5 space-y-4">
+        <div className="p-4 border-t-4 border-carbon dark:border-white/10 space-y-4 transition-colors">
+          <button 
+            onClick={toggleTheme}
+            className="w-full py-2 bg-gray-100 dark:bg-black/30 hover:bg-gray-200 dark:hover:bg-white/5 border-2 border-carbon dark:border-white/20 flex items-center justify-center gap-2 text-xs font-bold font-body uppercase tracking-widest shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-none transition-colors text-carbon dark:text-gray-300"
+          >
+            {theme === 'light' ? (
+              <><Moon size={14} /> Modo Noche</>
+            ) : (
+              <><Sun size={14} /> Modo Día</>
+            )}
+          </button>
+
           <Link 
             to="/" 
             onClick={() => setMobileOpen(false)} 
-            className="block text-center text-[10px] text-gray-500 hover:text-dorado-campeon font-body uppercase tracking-widest underline"
+            className="block text-center text-[10px] text-gray-500 dark:text-gray-400 hover:text-rojo-impacto dark:hover:text-white font-body uppercase tracking-widest font-bold underline"
           >
             Ver Web Pública
           </Link>
           
-          <div className="flex items-center justify-center gap-2 bg-carbon p-3 border border-white/5 text-[10px] font-body font-semibold text-tatami-blanco/80 uppercase tracking-widest">
-            <User size={14} className="text-dorado-campeon" />
+          <div className="flex items-center justify-center gap-2 bg-gray-100 dark:bg-black/40 p-3 border-2 border-carbon dark:border-white/20 text-[10px] font-body font-bold text-carbon dark:text-white uppercase tracking-widest shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-none">
+            <User size={14} className="text-rojo-impacto" />
             {user?.usuario}
           </div>
           
           <button
             onClick={handleLogout}
-            className="w-full py-3 bg-rojo-impacto hover:bg-white hover:text-rojo-impacto text-tatami-blanco font-body text-xs font-bold tracking-widest uppercase transition-colors shadow-[0_0_15px_rgba(214,40,57,0.3)] flex items-center justify-center"
+            className="w-full py-3 bg-rojo-impacto hover:bg-carbon dark:hover:bg-white dark:hover:text-carbon text-white font-body text-xs font-black tracking-widest uppercase transition-colors flex items-center justify-center border-2 border-carbon dark:border-rojo-impacto shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[0_0_15px_rgba(214,40,57,0.3)] hover:shadow-none hover:translate-y-1 hover:translate-x-1"
           >
             CERRAR SESIÓN
           </button>
@@ -151,10 +166,10 @@ const PublicLayout = ({ children }) => (
 );
 
 const AdminLayout = ({ children }) => (
-  <div className="min-h-screen bg-carbon text-tatami-blanco flex flex-col lg:flex-row">
+  <div className="min-h-screen bg-white dark:bg-[#0A0B0E] text-carbon dark:text-white flex flex-col lg:flex-row transition-colors">
     <AdminSidebar />
     {/* Contenedor principal que deja margen izquierdo equivalente al ancho del sidebar en lg */}
-    <div className="flex-grow lg:ml-64 w-full relative min-w-0">
+    <div className="flex-grow lg:ml-64 w-full relative min-w-0 bg-[#F4F4F4] dark:bg-[#060709] transition-colors">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">{children}</main>
     </div>
   </div>
@@ -177,7 +192,7 @@ function App() {
       <Route path="/galeria/generales" element={<PublicLayout><GeneralGallery /></PublicLayout>} />
       <Route path="/galeria/:id" element={<PublicLayout><GaleriaDetalle /></PublicLayout>} />
       <Route path="/contactos" element={<PublicLayout><Contactos /></PublicLayout>} />
-      <Route path="/admin/login" element={<PublicLayout><AdminLogin /></PublicLayout>} />
+      <Route path="/admin/login" element={<AdminLogin />} />
 
       {/* Rutas de Administración Protegidas */}
       <Route
@@ -211,6 +226,10 @@ function App() {
       <Route
         path="/admin/perfiles/generales"
         element={<ProtectedRoute><AdminLayout><GeneralPhotosAdmin /></AdminLayout></ProtectedRoute>}
+      />
+      <Route
+        path="/admin/auditoria"
+        element={<ProtectedRoute><AdminLayout><AuditoriaAdmin /></AdminLayout></ProtectedRoute>}
       />
       </Routes>
     </>

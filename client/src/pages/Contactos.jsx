@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Mail, Phone, MapPin, User, Send, CheckCircle2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2 } from 'lucide-react';
 
 const Contactos = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -9,7 +9,6 @@ const Contactos = () => {
     asunto: '',
     mensaje: '',
   });
-  const [shouldPulse, setShouldPulse] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -18,33 +17,16 @@ const Contactos = () => {
     if (scrollTarget) {
       const targetElement = document.getElementById(scrollTarget);
       if (targetElement) {
-        setShouldPulse(true);
         setTimeout(() => {
           targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 200);
-
-        const timer = setTimeout(() => {
-          setShouldPulse(false);
-        }, 4000);
-        return () => clearTimeout(timer);
       }
     }
   }, [location]);
 
-  const contacts = [
-    {
-      nombre: 'Mtro. Bryan Nájera',
-      cargo: 'Director General & Head Coach',
-      ciudad: 'Santo Domingo, Ecuador (Sector Bombolí)',
-      telefono: '+593 98 324 4247',
-    }
-  ];
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Generar mensaje personalizado de WhatsApp sin emojis
-    const message = `*Nueva Consulta - Najera's Team Central*\n\n` +
+    const message = `*Nueva Consulta - Club Central*\n\n` +
       `- *Nombre:* ${formData.nombre}\n` +
       `- *Asunto:* ${formData.asunto}\n\n` +
       `*Mensaje:* ${formData.mensaje}`;
@@ -57,177 +39,123 @@ const Contactos = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+    <div className="bg-blanco-absoluto w-full overflow-hidden pb-24">
       
-      {/* Header Ledger */}
-      <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <div className="flex items-center justify-center gap-4 mb-2">
-          <div className="h-[1px] w-12 bg-dorado-campeon/40"></div>
-          <span className="text-[11px] font-body font-bold text-dorado-campeon/80 tracking-[0.25em] uppercase">
-            COMUNICACIÓN DIRECTA • SEDE CENTRAL
-          </span>
-          <div className="h-[1px] w-12 bg-dorado-campeon/40"></div>
-        </div>
-        <h1 className="text-5xl font-heading text-tatami-blanco uppercase tracking-tight">
-          CONTACTOS & <span className="text-dorado-campeon">ADMISIONES</span>
+      {/* HEADER NORMALIZADO */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-12 border-b-4 border-carbon mb-12">
+        <h1 className="font-title text-4xl sm:text-5xl uppercase leading-none text-carbon m-0 p-0 break-words mix-blend-multiply">
+          COMUNÍCATE <br/>
+          CON <span className="text-rojo-impacto">NOSOTROS</span>
         </h1>
-        <p className="text-sm font-body text-tatami-blanco/70 uppercase tracking-widest max-w-xl mx-auto">
-          Atención directa con la dirección técnica de Najera's Team Central.
+        <p className="font-body text-lg font-bold mt-4 max-w-2xl text-carbon leading-snug">
+          Atención directa con los Profesores Diego Pérez y Mauricio Almeida.
         </p>
       </div>
 
-      {/* Tarjeta de Responsable */}
-      <div id="contact-cards-section" className="flex justify-center w-full scroll-mt-24">
-        {contacts.map((c, idx) => (
-          <div
-            key={idx}
-            className={`w-full max-w-lg bg-[#0A0B0E] border p-8 space-y-6 transition-all duration-300 transform relative ${
-              shouldPulse 
-                ? 'border-dorado-campeon shadow-[0_0_40px_rgba(227,178,60,0.3)] animate-pulse' 
-                : 'border-white/10 shadow-[0_0_20px_rgba(227,178,60,0.05)] hover:border-dorado-campeon/30'
-            }`}
-          >
-            {/* Minimalist Top Edge */}
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-dorado-campeon/50"></div>
-
-            <div className="text-dorado-campeon flex items-center justify-center w-16 h-16 bg-carbon border border-dorado-campeon/20 rounded-none mx-auto">
-              <User size={32} />
-            </div>
-            
-            <div className="text-center">
-              <h3 className="text-2xl font-heading text-tatami-blanco tracking-widest uppercase mb-1">{c.nombre}</h3>
-              <p className="text-[10px] text-dorado-campeon font-body font-bold uppercase tracking-[0.2em]">{c.cargo}</p>
-            </div>
-            
-            <div className="space-y-3 text-xs text-tatami-blanco/80 border-t border-white/5 pt-6 font-body uppercase tracking-widest">
-              <div className="flex items-center gap-4 bg-carbon p-3 border border-white/5">
-                <MapPin size={16} className="text-dorado-campeon flex-shrink-0" />
-                <span className="leading-tight">{c.ciudad}</span>
-              </div>
-              <div className="flex items-center gap-4 bg-carbon p-3 border border-white/5">
-                <Phone size={16} className="text-dorado-campeon flex-shrink-0" />
-                <span className="font-bold tabular-nums">{c.telefono}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Formulario + Mapa Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pt-4">
+      <div id="contact-cards-section" className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
         
-        {/* Formulario */}
-        <div className="lg:col-span-6 bg-[#0A0B0E] border border-white/5 p-8 sm:p-10 shadow-[0_0_20px_rgba(0,0,0,0.5)] flex flex-col justify-between">
-          <div className="border-b border-dorado-campeon/30 pb-4 mb-8">
-            <h3 className="text-3xl font-heading text-tatami-blanco tracking-widest uppercase">Mensaje Directo</h3>
-            <p className="text-[10px] text-dorado-campeon/80 font-body uppercase tracking-[0.2em] mt-2">Atención pedagógica y técnica.</p>
+        {/* INFO Y MAPA */}
+        <div className="flex flex-col space-y-12">
+          
+          <div className="border-brutal p-4 sm:p-6 bg-blanco-absoluto text-carbon">
+            <h3 className="font-title text-xl uppercase mb-4">SEDE CENTRAL</h3>
+            
+            <div className="space-y-3 font-body text-sm font-medium">
+              <div className="flex items-start gap-3">
+                <MapPin size={18} strokeWidth={2.5} className="text-rojo-impacto flex-shrink-0 mt-1" />
+                <span>Sector Bombolí, Santo Domingo, Ecuador<br/><span className="text-carbon/60 text-xs">Plus Code: QR27+62H</span></span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Phone size={18} strokeWidth={2.5} className="text-rojo-impacto flex-shrink-0" />
+                <span className="font-bold text-base tracking-wide">+593 98 324 4247</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Mail size={18} strokeWidth={2.5} className="text-rojo-impacto flex-shrink-0" />
+                <span>contacto@clubcentral.com</span>
+              </div>
+            </div>
           </div>
 
+          <div className="border-brutal h-[300px] w-full relative group bg-gris-claro">
+            <iframe
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-79.192382%2C-0.254442%2C-79.182382%2C-0.244442&amp;layer=mapnik&amp;marker=-0.249442%2C-79.187382"
+              className="w-full h-full border-0 grayscale group-hover:grayscale-0 transition-all duration-700"
+              title="Mapa Ubicación"
+            ></iframe>
+            <div className="absolute top-4 right-4 bg-carbon text-blanco-absoluto font-title px-3 py-1 text-sm uppercase tracking-widest">
+              Dojang Central
+            </div>
+          </div>
+        </div>
+
+        {/* FORMULARIO BRUTALISTA */}
+        <div className="border-brutal p-4 sm:p-6 bg-blanco-absoluto flex flex-col h-full">
+          <h3 className="font-title text-2xl sm:text-3xl uppercase mb-6 text-carbon">MENSAJE DIRECTO</h3>
+          
           {submitted ? (
-            <div className="bg-[#0A0B0E] border border-emerald-500/30 p-8 text-center space-y-6 flex-grow flex flex-col justify-center shadow-[0_0_30px_rgba(16,185,129,0.1)]">
-              <div className="w-20 h-20 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto">
-                <CheckCircle2 size={40} className="text-emerald-500" />
-              </div>
-              <h4 className="text-xl font-heading text-tatami-blanco uppercase tracking-widest">¡Envío Exitoso!</h4>
-              <p className="text-xs font-body text-tatami-blanco/60 uppercase tracking-widest">Un responsable se comunicará contigo pronto.</p>
+            <div className="flex-grow flex flex-col items-center justify-center text-center space-y-6 py-12">
+              <CheckCircle2 size={64} strokeWidth={2} className="text-rojo-impacto" />
+              <h4 className="text-3xl font-title uppercase text-carbon">¡LISTO!</h4>
+              <p className="text-xl font-body text-carbon font-medium">Te responderemos a la brevedad.</p>
               <button
                 onClick={() => setSubmitted(false)}
-                className="mt-6 px-6 py-3 bg-transparent border border-rojo-impacto text-rojo-impacto text-xs font-bold font-heading uppercase tracking-widest hover:bg-rojo-impacto hover:text-tatami-blanco transition-all"
+                className="mt-6 px-6 py-3 border-2 border-carbon font-title text-lg tracking-widest text-carbon hover:bg-carbon hover:text-blanco-absoluto transition-all uppercase"
               >
-                ENVIAR OTRO MENSAJE
+                OTRO MENSAJE
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6 flex-grow flex flex-col">
-              <div className="space-y-6 flex-grow">
+            <form onSubmit={handleSubmit} className="flex-grow flex flex-col justify-between h-full">
+              <div className="space-y-3">
                 <div>
-                  <label className="block text-[10px] font-bold text-tatami-blanco/70 font-body uppercase tracking-widest mb-2">
-                    NOMBRE Y APELLIDO
-                  </label>
+                  <label className="block font-title text-sm uppercase text-carbon mb-1">NOMBRE Y APELLIDO</label>
                   <input
                     type="text"
                     required
-                    placeholder="Ej. Juan Pérez"
+                    placeholder="Escribe tu nombre"
                     value={formData.nombre}
                     onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-                    className="w-full bg-carbon border border-white/10 px-4 py-3 text-sm text-tatami-blanco focus:outline-none focus:border-dorado-campeon transition-colors font-body uppercase tracking-wider placeholder-tatami-blanco/20"
+                    className="w-full border-2 border-carbon bg-transparent px-3 py-2 text-base text-carbon font-body font-bold focus:outline-none focus:border-rojo-impacto transition-colors placeholder-carbon/30"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-tatami-blanco/70 font-body uppercase tracking-widest mb-2">
-                    ASUNTO PRINCIPAL
-                  </label>
+                  <label className="block font-title text-sm uppercase text-carbon mb-1">ASUNTO PRINCIPAL</label>
                   <input
                     type="text"
                     required
-                    placeholder="Inscripción / Informes"
+                    placeholder="Ej. Informes de clases"
                     value={formData.asunto}
                     onChange={(e) => setFormData({ ...formData, asunto: e.target.value })}
-                    className="w-full bg-carbon border border-white/10 px-4 py-3 text-sm text-tatami-blanco focus:outline-none focus:border-dorado-campeon transition-colors font-body uppercase tracking-wider placeholder-tatami-blanco/20"
+                    className="w-full border-2 border-carbon bg-transparent px-3 py-2 text-base text-carbon font-body font-bold focus:outline-none focus:border-rojo-impacto transition-colors placeholder-carbon/30"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-tatami-blanco/70 font-body uppercase tracking-widest mb-2">
-                    TU CONSULTA
-                  </label>
+                  <label className="block font-title text-sm uppercase text-carbon mb-1">TU MENSAJE</label>
                   <textarea
-                    rows="4"
+                    rows="3"
                     required
-                    placeholder="Escribe tu mensaje aquí..."
+                    placeholder="¿En qué te podemos ayudar?"
                     value={formData.mensaje}
                     onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })}
-                    className="w-full bg-carbon border border-white/10 px-4 py-3 text-sm text-tatami-blanco focus:outline-none focus:border-dorado-campeon transition-colors font-body tracking-wider placeholder-tatami-blanco/20 resize-none"
+                    className="w-full border-2 border-carbon bg-transparent px-3 py-2 text-base text-carbon font-body font-bold focus:outline-none focus:border-rojo-impacto transition-colors resize-none placeholder-carbon/30"
                   ></textarea>
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-4 bg-rojo-impacto text-tatami-blanco font-heading text-sm tracking-widest uppercase hover:bg-white hover:text-rojo-impacto transition-colors flex items-center justify-center gap-3 mt-4"
+                className="w-full py-3 mt-4 bg-carbon text-blanco-absoluto font-title text-lg uppercase hover:bg-rojo-impacto transition-colors flex items-center justify-center gap-2 group"
               >
-                <Send size={16} />
-                ENVIAR VÍA WHATSAPP
+                ENVIAR
+                <Send size={20} strokeWidth={3} className="group-hover:translate-x-2 transition-transform" />
               </button>
             </form>
           )}
         </div>
 
-        {/* Mapa Embebido */}
-        <div className="lg:col-span-6 bg-[#0A0B0E] border border-white/5 p-8 sm:p-10 shadow-[0_0_20px_rgba(0,0,0,0.5)] flex flex-col justify-between space-y-6">
-          <div className="border-b border-dorado-campeon/30 pb-4 flex items-end justify-between">
-            <div>
-              <h3 className="text-3xl font-heading text-tatami-blanco tracking-widest uppercase">UBICACIÓN</h3>
-              <p className="text-[10px] text-dorado-campeon/80 font-body uppercase tracking-[0.2em] mt-2">Dojang Central Santo Domingo.</p>
-            </div>
-            <a
-              href="https://www.google.com/maps/search/?api=1&query=-0.249442,-79.187382"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[10px] font-heading font-bold text-rojo-impacto hover:text-white transition-colors flex items-center gap-1 uppercase tracking-widest border border-rojo-impacto/50 px-3 py-1.5"
-            >
-              ABRIR MAPA ↗
-            </a>
-          </div>
-          
-          <div className="bg-carbon p-4 border border-white/5 text-[10px] font-body text-tatami-blanco/60 uppercase tracking-widest leading-relaxed">
-            Sector Bombolí, Santo Domingo, Ecuador <br/>
-            Plus Code: QR27+62H • Coord: 0°14'58.0"S 79°11'14.6"W
-          </div>
-
-          <div className="flex-grow min-h-[300px] border border-white/10 bg-carbon overflow-hidden relative group">
-            <div className="absolute inset-0 bg-dorado-campeon/5 pointer-events-none group-hover:bg-transparent transition-colors z-10"></div>
-            <iframe
-              src="https://www.openstreetmap.org/export/embed.html?bbox=-79.192382%2C-0.254442%2C-79.182382%2C-0.244442&amp;layer=mapnik&amp;marker=-0.249442%2C-79.187382"
-              className="w-full h-full border-0 grayscale group-hover:grayscale-0 transition-all duration-700 opacity-80"
-              title="Mapa Ubicación Najeras Team Santo Domingo"
-            ></iframe>
-          </div>
-        </div>
-
       </div>
-
     </div>
   );
 };

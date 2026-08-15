@@ -13,6 +13,7 @@ const clubRoutes = require('./routes/clubRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const generalPhotoRoutes = require('./routes/generalPhotoRoutes');
+const auditRoutes = require('./routes/auditRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -72,6 +73,7 @@ app.use('/api/clubs', clubRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/general-photos', generalPhotoRoutes);
+app.use('/api/audit', auditRoutes);
 
 // Error Handler Middleware
 app.use(errorHandler);

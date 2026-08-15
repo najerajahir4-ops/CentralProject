@@ -1,4 +1,5 @@
 const prisma = require('../config/db');
+const { logAction } = require('../utils/auditLogger');
 const { calculatePaymentStatus, calculateNextPaymentDate } = require('../utils/dateUtils');
 const { studentCreateSchema, studentUpdateSchema } = require('../utils/validators');
 
@@ -210,6 +211,8 @@ const deleteStudent = async (req, res, next) => {
   try {
     const { id } = req.params;
     await prisma.student.delete({ where: { id: parseInt(id) } });
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'ELIMINAR', 'ALUMNO', parseInt(id), `Alumno eliminado con ID: ${id}`);
     return res.json({ message: 'Estudiante eliminado con éxito.' });
   } catch (error) {
     next(error);

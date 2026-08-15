@@ -13,7 +13,19 @@ model AdminUser {
   usuario      String   @unique
   passwordHash String
   rol          String   @default("ADMIN")
-  createdAt    DateTime @default(now())
+  createdAt    DateTime   @default(now())
+  auditLogs    AuditLog[]
+}
+
+model AuditLog {
+  id          Int        @id @default(autoincrement())
+  adminId     Int?
+  admin       AdminUser? @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  accion      String     // CREAR, EDITAR, ELIMINAR, LOGIN
+  entidad     String     // ALUMNO, PAGO, ASISTENCIA, CONTENIDO, AUTH
+  entidadId   Int?       // ID de la entidad afectada
+  detalles    String?    // Descripción en texto
+  createdAt   DateTime   @default(now())
 }
 
 model Club {

@@ -40,6 +40,9 @@ const login = async (req, res, next) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
+    const { logAction } = require('../utils/auditLogger');
+    await logAction(admin.id, 'LOGIN', 'AUTH', null, `Sesión iniciada por ${admin.usuario}`);
+
     return res.json({
       message: 'Inicio de sesión exitoso',
       user: { id: admin.id, usuario: admin.usuario, rol: admin.rol },

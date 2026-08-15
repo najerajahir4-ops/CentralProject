@@ -2,28 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --carbon: #15171C;
-  --rojo-impacto: #D62839;
-  --dorado-campeon: #E3B23C;
-  --azul-cinturon: #2B4C7E;
-  --tatami-blanco: #F2EFE9;
-}
-
 @layer base {
   html {
     scroll-behavior: smooth;
   }
 
+  /* El fondo base es blanco puro, el texto base es negro carbón */
   body {
-    @apply bg-carbon text-tatami-blanco font-body selection:bg-rojo-impacto selection:text-tatami-blanco;
+    @apply bg-blanco-absoluto text-carbon font-body selection:bg-rojo-impacto selection:text-blanco-absoluto;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tight uppercase;
+    @apply font-title uppercase tracking-tight;
   }
 
-  /* Respeta la preferencia de accesibilidad "reducir movimiento" */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -44,17 +40,38 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--carbon);
+  background: theme('colors.gris-claro');
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: theme('colors.carbon');
   border-radius: 0;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--dorado-campeon);
+  background: theme('colors.rojo-impacto');
 }
 
-/* Efecto de "Flash" en Hover (Impact Flash) */
+/* Texto destacado grande pero legible */
+.text-bleed {
+  font-size: clamp(2.5rem, 8vw, 6.5rem);
+  line-height: 1.05;
+  letter-spacing: normal;
+}
+
+/* Cajas y líneas de estructura brutalista */
+.border-brutal {
+  border: 2px solid theme('colors.carbon');
+}
+
+/* Animaciones */
+@keyframes slide-right {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+.animate-slide-right {
+  animation: slide-right 0.5s ease-out forwards;
+}
+
+/* Efecto de "Flash" en Hover */
 .impact-flash {
   position: relative;
   overflow: hidden;
@@ -63,7 +80,7 @@
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: var(--dorado-campeon);
+  background-color: theme('colors.carbon');
   opacity: 0;
   transition: opacity 0.2s ease-out;
   pointer-events: none;
@@ -75,31 +92,19 @@
 
 @keyframes flash {
   0% { opacity: 0; transform: scale(1); }
-  50% { opacity: 0.25; transform: scale(1.05); }
+  50% { opacity: 0.15; transform: scale(1.05); }
   100% { opacity: 0; transform: scale(1); }
 }
 
 @keyframes loop-fade {
-  0% { opacity: 0; }      /* Reinicio en negro */
-  25% { opacity: 0.9; }   /* Termina de aparecer a los 2s */
-  70% { opacity: 0.9; }   /* Empieza a desaparecer a los 5.6s */
-  85% { opacity: 0; }     /* Se oscurece por completo antes del corte */
-  100% { opacity: 0; }    /* Permanece oculto durante el salto de bucle */
+  0% { opacity: 0; }
+  25% { opacity: 0.9; }
+  70% { opacity: 0.9; }
+  85% { opacity: 0; }
+  100% { opacity: 0; }
 }
 
-/* SVG Draw Animation */
-.draw-path {
-  stroke-dasharray: 2000;
-  stroke-dashoffset: 2000;
-  animation: draw 2s ease-out forwards;
-}
-@keyframes draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-/* Diagonal Dividers & Clip Paths */
+/* Diagonal Dividers & Clip Paths (Mantenidos para cortes agresivos) */
 .clip-diagonal-left {
   clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
 }
@@ -109,15 +114,9 @@
 .clip-button {
   clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
 }
-.clip-card {
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
-}
 
 @media (max-width: 1024px) {
   .clip-diagonal-left, .clip-diagonal-right {
     clip-path: none;
   }
 }
-
-
-

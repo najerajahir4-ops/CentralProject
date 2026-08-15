@@ -5,130 +5,136 @@ const QuienesSomos = () => {
   const pilares = [
     {
       titulo: 'El Sello Circular',
-      desc: 'No somos solo una academia, somos una familia marcial extendida. El formato circular simboliza el ciclo continuo de aprendizaje, la unidad y la perfección constante.',
+      desc: 'No somos solo una academia, somos una familia marcial. El formato circular simboliza el ciclo continuo de aprendizaje, unidad y perfección.',
     },
     {
       titulo: 'El Dragón Guardián',
-      desc: 'El dragón oriental enroscado en forma de infinito representa que el camino del guerrero nunca termina y el flujo perfecto entre la fluidez del Taekwondo y el poder del Kickboxing.',
-    },
-    {
-      titulo: 'Garantía del Fundador',
-      desc: 'Llevar el apellido Nájera en el corazón de nuestro escudo es un compromiso personal de liderazgo, responsabilidad y acompañamiento pedagógico con cada alumno.',
+      desc: 'El dragón oriental enroscado representa el flujo perfecto entre la fluidez del Taekwondo y el poder destructivo del Kickboxing.',
     },
     {
       titulo: 'Formando Campeones',
-      desc: 'Un campeón no solo levanta medallas en el tatami, sino que aplica la disciplina, fuerza y humildad en su estudio, trabajo y vida diaria.',
+      desc: 'Un campeón no solo levanta medallas en el tatami, aplica la disciplina y fuerza en su estudio, trabajo y vida.',
+    },
+    {
+      titulo: 'Garantía del Fundador',
+      desc: 'Liderazgo, responsabilidad y acompañamiento pedagógico absoluto con cada alumno, sin excepciones.',
     },
     {
       titulo: 'Formativo Especializado',
-      desc: 'Enfoque pedagógico, estructurado y profesional para todas las edades. Enseñanza segura y metodológica.',
+      desc: 'Enfoque pedagógico y profesional para todas las edades. Enseñanza segura, estructurada y metodológica.',
     },
     {
       titulo: 'Simbolismo del Color',
-      desc: 'Azul Real (Inteligencia táctica), Dorado (Éxito y campeonatos), y Blanco (Pureza técnica y mentalidad de aprendizaje continuo).',
+      desc: 'Rojo vibrante (Poder y Acción), Negro carbón (Disciplina técnica), y Blanco absoluto (Pureza y lienzo en blanco).',
     },
   ];
 
+  const [isVisible, setIsVisible] = React.useState(false);
+  const logoRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (logoRef.current) {
+      observer.observe(logoRef.current);
+    }
+
+    return () => {
+      if (logoRef.current) {
+        observer.unobserve(logoRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+    <div className="bg-blanco-absoluto w-full overflow-hidden pb-24">
       
-      {/* Manifesto Header */}
-      <div className="flex flex-col items-center text-center space-y-6">
-        <div className="text-xs font-body font-bold text-dorado-campeon tracking-[0.2em] uppercase border border-dorado-campeon/30 px-4 py-1.5 bg-dorado-campeon/5">
-          FILOSOFÍA INSTITUCIONAL
-        </div>
-        <h1 className="text-5xl sm:text-7xl font-heading text-tatami-blanco tracking-tight uppercase leading-[0.9]">
-          NAJERA'S TEAM <span className="text-dorado-campeon">CENTRAL</span>
+      {/* HEADER GIGANTE -> NORMALIZADO */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-12 border-b-4 border-carbon mb-12">
+        <h1 className="font-title text-4xl sm:text-5xl uppercase leading-none text-carbon m-0 p-0 break-words mix-blend-multiply">
+          NUESTRA <br/>
+          <span className="text-rojo-impacto">HISTORIA</span>
         </h1>
-        <p className="text-sm sm:text-base text-tatami-blanco/60 font-body uppercase tracking-[0.15em] max-w-2xl mx-auto">
+        <p className="font-body text-lg font-bold mt-4 max-w-4xl text-carbon leading-snug">
           "Formando campeones en el tatami con disciplina, fuerza y humildad"
         </p>
-        <div className="h-[2px] w-24 bg-dorado-campeon/50"></div>
-        <div className="text-xs font-body text-tatami-blanco/40 uppercase tracking-widest">
-          Fundado por el Mtro. Bryan Nájera<br/>Taekwondo Olímpico & Kickboxing WAKO
-        </div>
       </div>
 
-      {/* Main Asymmetric Panel (The Dragon Meaning) */}
-      <div className="relative bg-[#0A0B0E] border border-white/5 p-8 sm:p-12 shadow-[0_0_30px_rgba(227,178,60,0.05)] overflow-hidden">
+      {/* EL DRAGÓN - ASIMETRÍA BRUTAL */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-12 flex flex-col lg:flex-row gap-12 items-center">
         
-        <div className="absolute top-0 left-0 w-1 h-full bg-dorado-campeon/50"></div>
-        
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-8 space-y-8">
-            <h2 className="text-4xl font-heading text-tatami-blanco tracking-wide uppercase leading-tight">
-              EL DRAGÓN EN <br/>NUESTRO <span className="text-dorado-campeon">ESCUDO</span>
-            </h2>
-            <p className="text-base font-body text-tatami-blanco/70 leading-relaxed max-w-2xl">
-              En la cultura oriental, el dragón representa la <strong className="text-dorado-campeon font-bold">fuerza elemental controlada</strong>, la agilidad y el dominio absoluto de la técnica.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
-              <div className="bg-carbon border border-white/5 p-6 space-y-3">
-                <h4 className="text-lg font-heading text-dorado-campeon tracking-widest uppercase">Poder & Maestría</h4>
-                <p className="text-sm font-body text-tatami-blanco/60 leading-relaxed">Fuerza bruta bajo control absoluto y agilidad técnica en Taekwondo y Kickboxing.</p>
-              </div>
-              <div className="bg-carbon border border-white/5 p-6 space-y-3">
-                <h4 className="text-lg font-heading text-dorado-campeon tracking-widest uppercase">Sabiduría & Protección</h4>
-                <p className="text-sm font-body text-tatami-blanco/60 leading-relaxed">Un entorno seguro donde el verdadero poder no necesita tiranía sino humildad.</p>
-              </div>
-            </div>
+        <div className="w-full lg:w-1/2 flex justify-center">
+          <div ref={logoRef} className="w-full max-w-sm aspect-square flex items-center justify-center relative">
+            <img 
+              src="/admin_logo.png" 
+              alt="Escudo Club Central" 
+              className={`w-full h-full object-contain relative z-10 filter transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] drop-shadow-2xl ${isVisible ? 'scale-100' : 'scale-90'}`} 
+            />
           </div>
+        </div>
 
-          <div className="lg:col-span-4 flex justify-center relative items-center mt-8 lg:mt-0 pb-4 lg:pb-0">
-            <div className="absolute w-[150%] h-[150%] bg-[radial-gradient(circle_at_center,_rgba(227,178,60,0.15)_0%,_transparent_60%)] pointer-events-none"></div>
-            
-            <div className="relative w-64 h-64 lg:w-72 lg:h-72 transition-transform duration-700 hover:scale-105">
-              <img src="/logo.png" alt="Najera's Team Logo" className="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(227,178,60,0.2)]" />
+        <div className="w-full lg:w-1/2 space-y-8">
+          <h2 className="text-3xl sm:text-4xl font-title uppercase leading-tight text-carbon">
+            EL DRAGÓN EN <br/>NUESTRO ESCUDO
+          </h2>
+          <p className="text-lg font-body font-medium text-carbon leading-relaxed">
+            Representa la fuerza elemental controlada, la agilidad y el dominio absoluto de la técnica.
+          </p>
+          
+          <div className="border-l-4 border-carbon pl-6 space-y-6">
+            <div>
+              <h3 className="font-title text-xl uppercase text-carbon mb-1">PODER & MAESTRÍA</h3>
+              <p className="font-body text-base text-carbon/80 font-medium">Fuerza bruta bajo control absoluto y agilidad técnica extrema.</p>
+            </div>
+            <div>
+              <h3 className="font-title text-xl uppercase text-carbon mb-1">SABIDURÍA & PROTECCIÓN</h3>
+              <p className="font-body text-base text-carbon/80 font-medium">Un entorno seguro donde el verdadero poder no necesita tiranía sino humildad.</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 6 Pilares Institucionales Grid */}
-      <div className="space-y-10 pt-8">
-        <div className="text-center space-y-3">
-          <h3 className="text-4xl font-heading text-tatami-blanco tracking-widest uppercase">LOS 6 <span className="text-rojo-impacto">PILARES</span></h3>
-          <div className="h-[2px] w-16 bg-dorado-campeon/50 mx-auto"></div>
-          <p className="text-xs font-body text-tatami-blanco/50 uppercase font-bold tracking-[0.2em]">La promesa de valor inquebrantable</p>
-        </div>
+      {/* LOS 6 PILARES - GRID MASIVO */}
+      <div className="bg-carbon text-blanco-absoluto w-full py-16 sm:py-24 px-4 sm:px-8 lg:px-16 mt-8 sm:mt-16 border-y-4 border-carbon shadow-[0_4px_0px_0px_rgba(220,38,38,1)] sm:shadow-[0_8px_0px_0px_rgba(220,38,38,1)]">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="font-title text-4xl sm:text-5xl lg:text-6xl uppercase leading-none mb-10 sm:mb-16">
+            LOS 6 <span className="text-rojo-impacto">PILARES</span>
+          </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {pilares.map((p, idx) => (
-            <div key={idx} className="bg-[#0A0B0E] border border-white/5 p-8 flex flex-col justify-between group transition-all duration-300 hover:border-dorado-campeon/30 shadow-[0_0_15px_rgba(227,178,60,0.05)] hover:shadow-[0_0_25px_rgba(227,178,60,0.1)] relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-[2px] bg-dorado-campeon/30 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              
-              <div className="space-y-4">
-                <div className="font-body text-xs font-bold text-dorado-campeon/60 tracking-[0.2em] uppercase">
-                  PILAR 0{idx + 1}
-                </div>
-                <h4 className="text-xl font-heading text-tatami-blanco tracking-wide uppercase group-hover:text-dorado-campeon transition-colors">{p.titulo}</h4>
-                <p className="text-sm font-body text-tatami-blanco/60 leading-relaxed">{p.desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            {pilares.map((p, idx) => (
+              <div key={idx} className="border-2 border-blanco-absoluto p-5 sm:p-8 hover:bg-blanco-absoluto hover:text-carbon transition-colors group flex flex-col">
+                <div className="font-title text-5xl sm:text-6xl text-rojo-impacto mb-2 sm:mb-4 group-hover:-translate-y-1 transition-transform">0{idx + 1}</div>
+                <h4 className="text-xl sm:text-2xl font-title uppercase mb-2 sm:mb-3">{p.titulo}</h4>
+                <p className="text-sm sm:text-base font-body font-medium leading-relaxed">{p.desc}</p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Misión y Visión */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8">
-        <div className="bg-rojo-impacto border border-rojo-impacto p-10 flex flex-col items-center text-center space-y-6 shadow-[0_0_30px_rgba(214,40,57,0.15)] group hover:shadow-[0_0_40px_rgba(214,40,57,0.25)] transition-all">
-          <div className="w-16 h-16 rounded-none bg-white/10 flex items-center justify-center text-white group-hover:scale-110 transition-transform">
-            <Target size={32} />
-          </div>
-          <h3 className="text-3xl font-heading text-white tracking-widest uppercase">MISIÓN FORMATIVA</h3>
-          <p className="text-sm font-body text-white/90 leading-relaxed max-w-sm">
+      {/* MISIÓN Y VISIÓN */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-16 sm:py-24 grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
+        <div className="border-4 p-6 sm:p-10 bg-rojo-impacto text-blanco-absoluto border-carbon hover:-translate-y-2 transition-transform shadow-[4px_4px_0px_0px_rgba(13,13,13,1)] sm:shadow-[8px_8px_0px_0px_rgba(13,13,13,1)]">
+          <Target size={40} strokeWidth={2.5} className="mb-4 sm:mb-6 text-carbon sm:w-12 sm:h-12" />
+          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-title uppercase mb-3 sm:mb-6 text-carbon">MISIÓN FORMATIVA</h3>
+          <p className="font-body text-base sm:text-lg lg:text-xl font-medium leading-relaxed">
             Formar campeones dentro y fuera del tatami mediante una metodología estructurada, pedagógica y segura que combina el Taekwondo Olímpico y el Kickboxing.
           </p>
         </div>
 
-        <div className="bg-[#0A0B0E] border border-white/5 p-10 flex flex-col items-center text-center space-y-6 shadow-[0_0_20px_rgba(227,178,60,0.05)] group hover:shadow-[0_0_30px_rgba(227,178,60,0.15)] transition-all hover:border-dorado-campeon/20">
-          <div className="w-16 h-16 rounded-none bg-carbon border border-dorado-campeon/20 flex items-center justify-center text-dorado-campeon group-hover:scale-110 transition-transform">
-            <Eye size={32} />
-          </div>
-          <h3 className="text-3xl font-heading text-tatami-blanco tracking-widest uppercase">VISIÓN DE EXCELENCIA</h3>
-          <p className="text-sm font-body text-tatami-blanco/60 leading-relaxed max-w-sm">
-            Consolidar a Najera's Team Central como la sede marcial de élite en el país, referente en formación integral, organización de eventos y preparación de atletas de selección.
+        <div className="border-4 p-6 sm:p-10 bg-blanco-absoluto text-carbon hover:-translate-y-2 transition-transform shadow-[4px_4px_0px_0px_rgba(13,13,13,1)] sm:shadow-[8px_8px_0px_0px_rgba(13,13,13,1)]">
+          <Eye size={40} strokeWidth={2.5} className="mb-4 sm:mb-6 text-rojo-impacto sm:w-12 sm:h-12" />
+          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-title uppercase mb-3 sm:mb-6">VISIÓN DE EXCELENCIA</h3>
+          <p className="font-body text-base sm:text-lg lg:text-xl font-medium leading-relaxed">
+            Consolidar a Club Central como la sede marcial de élite en el país, referente en formación integral, organización de eventos y preparación de atletas de selección.
           </p>
         </div>
       </div>

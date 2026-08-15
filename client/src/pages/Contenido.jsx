@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { FileText, Calendar, Video, Edit3, Check, GripVertical } from 'lucide-react';
+import { FileText, Calendar, Video, Edit3, Check, GripVertical, Loader } from 'lucide-react';
 
 // Dnd-kit imports
 import {
@@ -42,48 +42,43 @@ const SortableContentCard = ({ item, isEditMode }) => {
     <article
       ref={setNodeRef}
       style={style}
-      className="bg-[#0A0B0E] border border-white/5 flex flex-col justify-between shadow-[0_0_15px_rgba(227,178,60,0.05)] hover:shadow-[0_0_25px_rgba(227,178,60,0.15)] hover:border-dorado-campeon/30 transition-all duration-300 relative group overflow-hidden"
+      className="border-brutal bg-blanco-absoluto flex flex-col justify-between transition-transform hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(13,13,13,1)] relative group overflow-hidden"
     >
-      <div className="absolute top-0 left-0 w-full h-[2px] bg-dorado-campeon/30 opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
-      
       {/* Handle de Arrastre */}
       {isEditMode && (
         <div
           {...attributes}
           {...listeners}
-          className="absolute top-3 right-3 z-30 p-2 bg-carbon border border-dorado-campeon/50 text-dorado-campeon hover:bg-dorado-campeon hover:text-carbon cursor-grab active:cursor-grabbing shadow-[0_0_10px_rgba(227,178,60,0.3)] transition-colors"
+          className="absolute top-3 right-3 z-30 p-2 bg-blanco-absoluto border-2 border-carbon text-carbon hover:bg-carbon hover:text-blanco-absoluto cursor-grab active:cursor-grabbing transition-colors shadow-[4px_4px_0px_0px_rgba(13,13,13,1)]"
           title="Arrastra para reordenar"
         >
-          <GripVertical size={16} />
+          <GripVertical size={20} />
         </div>
       )}
 
       {/* Cover Image */}
-      <div className="relative h-56 overflow-hidden bg-carbon border-b border-white/5">
+      <div className="relative h-56 overflow-hidden bg-gris-claro border-b-2 border-carbon">
         {item.imagenUrl ? (
           <img
             src={item.imagenUrl}
             alt={item.titulo}
-            className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
           />
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center space-y-2 opacity-50 group-hover:opacity-100 transition-opacity">
-            <div className="w-16 h-16 bg-tatami-blanco/5 border border-white/10 flex items-center justify-center">
-              <FileText size={32} className="text-tatami-blanco/50" />
+          <div className="w-full h-full flex flex-col items-center justify-center space-y-2 group-hover:scale-105 transition-transform">
+            <div className="w-20 h-20 border-4 border-carbon flex items-center justify-center bg-blanco-absoluto">
+              <FileText size={40} className="text-carbon" />
             </div>
-            <span className="text-[10px] text-tatami-blanco/40 font-heading uppercase tracking-widest">Sin Imagen</span>
           </div>
         )}
         
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-transparent opacity-80"></div>
-        
         <div className="absolute top-0 left-0 w-full flex">
-          <span className="px-4 py-1.5 text-[10px] font-heading font-extrabold uppercase bg-rojo-impacto text-tatami-blanco tracking-widest border-b border-rojo-impacto/50 flex-1 text-center">
+          <span className="px-4 py-2 text-xs font-title uppercase bg-carbon text-blanco-absoluto tracking-widest border-r-2 border-b-2 border-carbon">
             {item.categoria}
           </span>
           {item.videoUrl && (
-            <span className="px-4 py-1.5 text-[10px] font-heading font-extrabold uppercase bg-dorado-campeon/10 text-dorado-campeon border-b border-dorado-campeon/30 tracking-widest flex items-center justify-center gap-2 backdrop-blur-sm flex-1 text-center">
-              <Video size={12} />
+            <span className="px-4 py-2 text-xs font-title uppercase bg-rojo-impacto text-blanco-absoluto border-b-2 border-l-2 border-carbon tracking-widest flex items-center justify-center gap-2 ml-auto">
+              <Video size={14} />
               VIDEO
             </span>
           )}
@@ -91,25 +86,24 @@ const SortableContentCard = ({ item, isEditMode }) => {
       </div>
 
       {/* Body */}
-      <div className="p-6 space-y-6 flex-grow flex flex-col justify-between bg-[#0A0B0E] relative z-10">
-        <div className="space-y-3 text-center">
-          <div className="flex items-center justify-center gap-2 text-[10px] font-body text-dorado-campeon/60 uppercase tracking-widest font-bold">
-            <Calendar size={12} className="text-dorado-campeon" />
+      <div className="p-6 space-y-4 flex-grow flex flex-col justify-between bg-blanco-absoluto relative z-10">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 text-xs font-title text-carbon/60 uppercase tracking-widest">
+            <Calendar size={14} className="text-rojo-impacto" />
             {item.fechaPublicacion}
           </div>
-          <h3 className="text-xl font-heading text-tatami-blanco uppercase tracking-wide leading-tight group-hover:text-dorado-campeon transition-colors line-clamp-2">
+          <h3 className="text-2xl font-title text-carbon uppercase tracking-wide leading-tight group-hover:text-rojo-impacto transition-colors line-clamp-2">
             {item.titulo}
           </h3>
-          <div className="w-8 h-[1px] bg-dorado-campeon/30 mx-auto"></div>
-          <p className="text-sm font-body text-tatami-blanco/60 line-clamp-3 leading-relaxed">
+          <p className="text-base font-body text-carbon/80 line-clamp-3 leading-relaxed">
             {item.resumen}
           </p>
         </div>
 
-        <div className="pt-4 border-t border-white/5 text-center mt-auto">
+        <div className="pt-4 border-t-2 border-carbon text-center mt-auto">
           <Link
             to={isEditMode ? '#' : `/contenido/${item.id}`}
-            className={`inline-flex items-center justify-center gap-2 font-heading text-xs text-rojo-impacto hover:text-tatami-blanco tracking-widest uppercase transition-colors ${isEditMode ? 'pointer-events-none opacity-50' : ''}`}
+            className={`inline-flex items-center justify-center font-title text-sm text-rojo-impacto hover:text-carbon tracking-widest uppercase transition-colors ${isEditMode ? 'pointer-events-none opacity-50' : ''}`}
           >
             LEER PUBLICACIÓN COMPLETA
           </Link>
@@ -188,139 +182,140 @@ const Contenido = () => {
   const canEdit = !selectedCat;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12 relative animate-fade-in">
+    <div className="bg-blanco-absoluto w-full min-h-screen pb-24">
       
-      {/* Header Ledger */}
-      <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 border border-dorado-campeon/30 px-4 py-1.5 bg-dorado-campeon/5">
-          <FileText size={14} className="text-dorado-campeon" />
-          <span className="text-xs font-body font-bold text-dorado-campeon tracking-[0.2em] uppercase">
-            CENTRO DE RECURSOS TÉCNICOS
-          </span>
-        </div>
-        <h1 className="text-5xl font-heading text-tatami-blanco uppercase tracking-tight">
-          BIBLIOTECA <span className="text-dorado-campeon">MARCIAL</span>
+      {/* HEADER NORMALIZADO */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-12 border-b-4 border-carbon mb-12">
+        <h1 className="font-title text-4xl sm:text-5xl uppercase leading-none text-carbon m-0 p-0 break-words mix-blend-multiply">
+          BIBLIOTECA <span className="text-rojo-impacto">MARCIAL</span>
         </h1>
-        <p className="text-sm font-body text-tatami-blanco/70 uppercase tracking-widest max-w-xl mx-auto">
-          Artículos técnicos, novedades del reglamento WAKO/WT y consejos de combate.
+        <p className="font-body text-lg font-bold mt-4 max-w-2xl text-carbon leading-snug">
+          Artículos técnicos, novedades del reglamento y consejos de combate.
         </p>
       </div>
 
-      {/* Category Pills & Controls */}
-      <div className="bg-carbon border-y border-dorado-campeon/20 py-4 px-2 max-w-5xl mx-auto flex flex-col md:flex-row gap-4 items-center justify-between">
-        <div className="flex flex-wrap border border-dorado-campeon/30 p-1 bg-[#0A0B0E] w-full md:w-auto">
-          <button
-            onClick={() => setSelectedCat('')}
-            disabled={isEditMode}
-            className={`px-4 py-2 font-heading text-[10px] tracking-widest uppercase transition-colors flex-1 md:flex-none disabled:opacity-50 ${
-              selectedCat === ''
-                ? 'bg-dorado-campeon text-carbon'
-                : 'text-tatami-blanco/50 hover:text-tatami-blanco bg-transparent'
-            }`}
-          >
-            TODOS
-          </button>
-          {categories.map((cat) => (
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
+        
+        {/* Category Pills & Controls */}
+        <div className="border-brutal p-4 mb-12 bg-gris-claro flex flex-col md:flex-row gap-4 items-center justify-between">
+          <div className="flex flex-wrap gap-2 w-full md:w-auto">
             <button
-              key={cat}
-              onClick={() => setSelectedCat(cat)}
+              onClick={() => setSelectedCat('')}
               disabled={isEditMode}
-              className={`px-4 py-2 font-heading text-[10px] tracking-widest uppercase transition-colors flex-1 md:flex-none disabled:opacity-50 ${
-                selectedCat === cat
-                  ? 'bg-dorado-campeon text-carbon'
-                  : 'text-tatami-blanco/50 hover:text-tatami-blanco bg-transparent'
+              className={`px-4 py-2 border-2 border-carbon font-title text-sm tracking-widest uppercase transition-colors disabled:opacity-50 ${
+                selectedCat === ''
+                  ? 'bg-carbon text-blanco-absoluto'
+                  : 'bg-blanco-absoluto text-carbon hover:bg-carbon hover:text-blanco-absoluto'
               }`}
             >
-              {cat}
+              TODOS
             </button>
-          ))}
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCat(cat)}
+                disabled={isEditMode}
+                className={`px-4 py-2 border-2 border-carbon font-title text-sm tracking-widest uppercase transition-colors disabled:opacity-50 ${
+                  selectedCat === cat
+                    ? 'bg-carbon text-blanco-absoluto'
+                    : 'bg-blanco-absoluto text-carbon hover:bg-carbon hover:text-blanco-absoluto'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Informative message for admin if filters are active */}
+          {isAuthenticated && !canEdit && (
+            <span className="text-xs text-rojo-impacto font-title uppercase tracking-widest border-2 border-rojo-impacto px-3 py-1.5 bg-blanco-absoluto">
+              SELECCIONA "TODOS" PARA REORDENAR
+            </span>
+          )}
         </div>
 
-        {/* Informative message for admin if filters are active */}
-        {isAuthenticated && !canEdit && (
-          <span className="text-[10px] text-rojo-impacto font-heading uppercase tracking-widest border border-rojo-impacto/50 px-3 py-1 bg-rojo-impacto/10">
-            SELECCIONA "TODOS" PARA REORDENAR
-          </span>
+        {/* Reorder instructions in edit mode */}
+        {isEditMode && (
+          <div className="mb-10 border-2 border-carbon bg-rojo-impacto p-3 text-blanco-absoluto font-title text-lg uppercase tracking-widest text-center shadow-[4px_4px_0px_0px_rgba(13,13,13,1)]">
+            MODO EDICIÓN: Arrastra las publicaciones para cambiar su orden.
+          </div>
         )}
-      </div>
 
-      {/* Reorder instructions in edit mode */}
-      {isEditMode && (
-        <div className="bg-dorado-campeon/10 border border-dorado-campeon/40 p-4 flex items-center justify-center text-xs text-dorado-campeon font-bold uppercase tracking-[0.1em] text-center max-w-5xl mx-auto">
-          <span>Modo Edición Activo: Arrastra las publicaciones para cambiar su orden de aparición.</span>
-        </div>
-      )}
-
-      {/* Grid of Content Cards */}
-      {loading ? (
-        <div className="flex justify-center py-32">
-          <div className="animate-spin rounded-none h-10 w-10 border-t-2 border-b-2 border-dorado-campeon"></div>
-        </div>
-      ) : contents.length === 0 ? (
-        <div className="text-center py-24 flex flex-col items-center">
-          <FileText size={40} className="text-dorado-campeon/30 mb-4" />
-          <h3 className="font-heading text-tatami-blanco text-xl tracking-widest uppercase mb-2">Sin Publicaciones</h3>
-          <p className="text-sm font-body text-tatami-blanco/50">No hay contenido en esta categoría por ahora.</p>
-        </div>
-      ) : isEditMode ? (
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext
-            items={contents.map(item => item.id)}
-            strategy={rectSortingStrategy}
+        {/* Grid of Content Cards */}
+        {loading ? (
+          <div className="flex justify-center items-center py-24">
+            <Loader className="animate-spin text-rojo-impacto" size={48} strokeWidth={3} />
+          </div>
+        ) : contents.length === 0 ? (
+          <div className="py-16 text-center border-4 border-carbon border-dashed flex flex-col items-center justify-center p-6">
+            <FileText size={48} strokeWidth={2} className="text-carbon mb-4" />
+            <p className="font-title text-2xl sm:text-3xl text-carbon uppercase mb-2">
+              SIN PUBLICACIONES
+            </p>
+            <p className="font-body text-base font-medium text-carbon/60">
+              No hay contenido en esta categoría por ahora.
+            </p>
+          </div>
+        ) : isEditMode ? (
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {contents.map((item) => (
-                <SortableContentCard
-                  key={item.id}
-                  item={item}
-                  isEditMode={isEditMode}
-                />
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-12">
-          {contents.map((item) => (
-            <SortableContentCard
-              key={item.id}
-              item={item}
-              isEditMode={isEditMode}
-            />
-          ))}
-        </div>
-      )}
+            <SortableContext
+              items={contents.map(item => item.id)}
+              strategy={rectSortingStrategy}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                {contents.map((item) => (
+                  <SortableContentCard
+                    key={item.id}
+                    item={item}
+                    isEditMode={isEditMode}
+                  />
+                ))}
+              </div>
+            </SortableContext>
+          </DndContext>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {contents.map((item) => (
+              <SortableContentCard
+                key={item.id}
+                item={item}
+                isEditMode={isEditMode}
+              />
+            ))}
+          </div>
+        )}
 
-      {/* Floating Action Admin Button (Lápiz) */}
-      {isAuthenticated && canEdit && (
-        <button
-          onClick={() => setIsEditMode(!isEditMode)}
-          className={`fixed bottom-8 right-8 z-50 p-4 transition-all duration-300 shadow-[0_0_20px_rgba(0,0,0,0.5)] ${
-            isEditMode
-              ? 'bg-dorado-campeon text-carbon border border-dorado-campeon hover:bg-white hover:border-white'
-              : 'bg-carbon text-dorado-campeon border border-dorado-campeon/50 hover:bg-dorado-campeon/10 hover:border-dorado-campeon'
-          }`}
-          title={isEditMode ? 'Guardar Cambios' : 'Modo Edición'}
-        >
-          {isEditMode ? <Check size={24} strokeWidth={3} /> : <Edit3 size={24} />}
-        </button>
-      )}
+        {/* Floating Action Admin Button (Lápiz) */}
+        {isAuthenticated && canEdit && (
+          <button
+            onClick={() => setIsEditMode(!isEditMode)}
+            className={`fixed bottom-8 right-8 z-50 p-4 border-4 border-carbon transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(13,13,13,1)] hover:-translate-y-1 hover:shadow-[12px_12px_0px_0px_rgba(13,13,13,1)] ${
+              isEditMode
+                ? 'bg-rojo-impacto text-blanco-absoluto'
+                : 'bg-blanco-absoluto text-carbon'
+            }`}
+            title={isEditMode ? 'Guardar Cambios' : 'Modo Edición'}
+          >
+            {isEditMode ? <Check size={32} strokeWidth={3} /> : <Edit3 size={32} strokeWidth={3} />}
+          </button>
+        )}
 
-      {/* Toast Notification */}
-      {toast.message && (
-        <div className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 border shadow-[0_0_30px_rgba(0,0,0,0.5)] flex items-center justify-center text-xs font-heading uppercase tracking-widest ${
-          toast.type === 'success'
-            ? 'bg-[#0A0B0E] border-emerald-500/50 text-emerald-500'
-            : 'bg-[#0A0B0E] border-rojo-impacto/50 text-rojo-impacto'
-        }`}>
-          <span>{toast.message}</span>
-        </div>
-      )}
+        {/* Toast Notification */}
+        {toast.message && (
+          <div className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-4 border-4 shadow-[8px_8px_0px_0px_rgba(13,13,13,1)] flex items-center justify-center font-title text-lg uppercase tracking-widest bg-blanco-absoluto ${
+            toast.type === 'success'
+              ? 'border-carbon text-carbon'
+              : 'border-rojo-impacto text-rojo-impacto'
+          }`}>
+            <span>{toast.message}</span>
+          </div>
+        )}
 
+      </div>
     </div>
   );
 };

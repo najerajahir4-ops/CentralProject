@@ -1,0 +1,29 @@
+{
+  "assigned": {
+    "kicker": "DIRECCIÓN RECOMENDADA",
+    "name": "Manifiesto Atlético de Alto Rendimiento",
+    "thesis": "Una página deportiva brutalista que elimina los contenedores genéricos. El blanco domina como un lienzo inmenso, la tipografía negra es gigante e indiscutible, y el rojo vibrante del escudo corta la página para marcar la acción. Transmite disciplina de élite, no un folleto escolar.",
+    "palette": "Fondo blanco puro, tipografía negro intenso, acentos en rojo sangre.",
+    "materials": "Espacio negativo masivo, tipografía desbordante (bleed), sin cajas ni bordes redondeados.",
+    "firstViewport": "El logo de Club Central flota sobre un fondo blanco deslumbrante. Un titular gigante en la fuente Anton que rompe los márgenes. Una sola línea roja oblicua guía el ojo hacia el botón de inscripción.",
+    "honestRisk": "Exige muy buenas fotografías; un diseño tan expuesto no perdona imágenes de baja calidad.",
+    "raises": [
+      "Moire Gallery: Disciplina de monocromo estricto. El rojo solo aparece cuando se pide una acción."
+    ]
+  },
+  "canonCard": {
+    "kicker": "EL ESTÁNDAR",
+    "name": "Academia Tradicional (Tarjetas)",
+    "thesis": "El diseño de la mayoría de dojangs. Tarjetas de colores para cada turno, botones redondeados, y secciones claramente divididas por franjas horizontales de color.",
+    "palette": "Fondo gris claro, tarjetas blancas, botones rojos.",
+    "materials": "Contenedores con sombras suaves, bordes redondeados, iconos genéricos.",
+    "firstViewport": "Un carrusel de fotos genérico con texto centrado encima y un botón de 'Únete'. Debajo, 3 tarjetas con los horarios.",
+    "honestRisk": "Es seguro y esperado, pero exactamente igual a la competencia."
+  },
+  "challengers": [],
+  "steer": true,
+  "buildPath": {
+    "value": "code",
+    "toggle": false
+  }
+}

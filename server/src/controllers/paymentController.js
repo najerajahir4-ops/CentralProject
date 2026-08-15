@@ -40,6 +40,10 @@ const registerPayment = async (req, res, next) => {
       },
     });
 
+    const { logAction } = require('../utils/auditLogger');
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'CREAR', 'PAGO', payment.id, `Pago de $${monto} registrado para ${student.nombres} ${student.apellidos}`);
+
     return res.status(201).json({
       payment,
       updatedStudent,

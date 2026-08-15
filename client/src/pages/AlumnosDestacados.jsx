@@ -204,27 +204,27 @@ const AlumnosDestacados = () => {
             CUADRO DE HONOR Y ATLETAS DE ÉLITE
           </span>
         </div>
-        <h1 className="text-5xl font-heading text-tatami-blanco uppercase tracking-tight">
+        <h1 className="text-5xl font-title text-carbon uppercase tracking-tight">
           ALUMNOS <span className="text-rojo-impacto drop-shadow-[0_0_15px_rgba(214,40,57,0.3)]">DESTACADOS</span>
         </h1>
-        <p className="text-sm font-body text-tatami-blanco/70 uppercase tracking-widest max-w-xl mx-auto">
+        <p className="text-sm font-body text-carbon/70 uppercase tracking-widest max-w-xl mx-auto">
           Reconocimiento oficial a nuestros competidores con logros destacados.
         </p>
       </div>
 
       {/* Filters Bar - Registro Oficial */}
-      <div className="bg-carbon border-y border-dorado-campeon/20 py-4 px-2 max-w-4xl mx-auto flex flex-col md:flex-row gap-4 md:items-center justify-between">
+      <div className="bg-carbon border-y border-dorado-campeon/20 py-4 px-2 max-w-4xl mx-auto flex flex-col md:flex-row gap-4 md:items-center justify-between w-full overflow-hidden">
         <div className="flex items-center gap-3 text-dorado-campeon/70 font-body font-bold text-xs uppercase tracking-widest px-4">
           <Filter size={16} />
           FILTROS DEL CUADRO:
         </div>
 
-        <div className="flex flex-1 gap-4 px-4 md:px-0">
+        <div className="flex flex-col sm:flex-row flex-1 gap-4 sm:gap-6 px-4 md:px-0 w-full overflow-hidden">
           <select
             value={categoria}
             onChange={(e) => setCategoria(e.target.value)}
             disabled={isEditMode}
-            className="bg-transparent border-none text-sm text-tatami-blanco focus:outline-none focus:ring-0 font-body uppercase tracking-wider cursor-pointer appearance-none md:border-l md:border-dorado-campeon/20 md:pl-4 flex-1 disabled:opacity-50"
+            className="bg-carbon sm:bg-transparent border border-dorado-campeon/20 sm:border-none text-sm text-tatami-blanco focus:outline-none focus:ring-0 font-body uppercase tracking-wider cursor-pointer appearance-none md:border-l md:border-dorado-campeon/20 p-3 sm:p-0 md:pl-4 flex-1 disabled:opacity-50 w-full truncate"
           >
             <option value="" className="bg-carbon">TODAS LAS CATEGORÍAS</option>
             <option value="INFANTIL" className="bg-carbon">INFANTIL</option>
@@ -236,7 +236,7 @@ const AlumnosDestacados = () => {
             value={disciplina}
             onChange={(e) => setDisciplina(e.target.value)}
             disabled={isEditMode}
-            className="bg-transparent border-none text-sm text-tatami-blanco focus:outline-none focus:ring-0 font-body uppercase tracking-wider cursor-pointer appearance-none md:border-l md:border-dorado-campeon/20 md:pl-4 flex-1 disabled:opacity-50"
+            className="bg-carbon sm:bg-transparent border border-dorado-campeon/20 sm:border-none text-sm text-tatami-blanco focus:outline-none focus:ring-0 font-body uppercase tracking-wider cursor-pointer appearance-none md:border-l md:border-dorado-campeon/20 p-3 sm:p-0 md:pl-4 flex-1 disabled:opacity-50 w-full truncate"
           >
             <option value="" className="bg-carbon">TODAS LAS DISCIPLINAS</option>
             <option value="TAEKWONDO" className="bg-carbon">TAEKWONDO</option>
@@ -259,9 +259,9 @@ const AlumnosDestacados = () => {
         </div>
       ) : featured.length === 0 ? (
         <div className="text-center py-24 flex flex-col items-center">
-          <Trophy size={40} className="text-dorado-campeon/30 mb-4" />
-          <p className="font-heading text-tatami-blanco text-xl tracking-widest uppercase mb-2">Sin Registros</p>
-          <p className="text-sm font-body text-tatami-blanco/50">No hay placas de honor con los filtros aplicados.</p>
+          <Trophy size={40} className="text-carbon/30 mb-4" />
+          <p className="font-heading text-carbon text-xl tracking-widest uppercase mb-2">Sin Registros</p>
+          <p className="text-sm font-body text-carbon/70">No hay placas de honor con los filtros aplicados.</p>
         </div>
       ) : isEditMode ? (
         <DndContext

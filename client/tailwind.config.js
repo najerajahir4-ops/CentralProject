@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -7,16 +8,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        carbon: "var(--carbon)",
-        'rojo-impacto': "var(--rojo-impacto)",
-        'dorado-campeon': "var(--dorado-campeon)",
-        'azul-cinturon': "var(--azul-cinturon)",
-        'tatami-blanco': "var(--tatami-blanco)",
+        'carbon': '#0D0D0D', // El negro para la tipografía principal
+        'rojo-impacto': '#E60000', // El rojo vibrante del escudo
+        'blanco-absoluto': '#FFFFFF', // Fondo
+        'gris-claro': '#F5F5F5',
+        'dorado-campeon': '#E3B23C', // Dorado para medallas
+        'tatami-blanco': '#F4F4F9', // Blanco humo
       },
       fontFamily: {
-        display: ['Manrope', 'sans-serif'],
-        body: ['Manrope', 'sans-serif'],
-        heading: ['Anton', 'sans-serif'],
+        title: ['Anton', 'sans-serif'], // Tipografía gigante y brutalista
+        body: ['Inter', 'sans-serif'], // Tipografía limpia
       },
       keyframes: {
         hit: {
@@ -40,28 +41,26 @@ export default {
         'slide-up': 'slideUp 0.5s ease-out forwards',
       },
       typography: ({ theme }) => ({
-        dorado: {
+        carbon: {
           css: {
-            '--tw-prose-body': theme('colors.tatami-blanco / 0.8'),
-            '--tw-prose-headings': theme('colors.tatami-blanco'),
-            '--tw-prose-lead': theme('colors.tatami-blanco / 0.9'),
-            '--tw-prose-links': theme('colors.dorado-campeon'),
-            '--tw-prose-bold': theme('colors.tatami-blanco'),
-            '--tw-prose-counters': theme('colors.dorado-campeon'),
-            '--tw-prose-bullets': theme('colors.dorado-campeon'),
-            '--tw-prose-hr': theme('colors.white / 0.1'),
-            '--tw-prose-quotes': theme('colors.dorado-campeon'),
-            '--tw-prose-quote-borders': theme('colors.dorado-campeon'),
-            '--tw-prose-captions': theme('colors.tatami-blanco / 0.5'),
+            '--tw-prose-body': theme('colors.carbon'),
+            '--tw-prose-headings': theme('colors.carbon'),
+            '--tw-prose-lead': theme('colors.carbon'),
+            '--tw-prose-links': theme('colors.rojo-impacto'),
+            '--tw-prose-bold': theme('colors.carbon'),
+            '--tw-prose-counters': theme('colors.rojo-impacto'),
+            '--tw-prose-bullets': theme('colors.rojo-impacto'),
+            '--tw-prose-hr': theme('colors.carbon / 0.1'),
+            '--tw-prose-quotes': theme('colors.rojo-impacto'),
+            '--tw-prose-quote-borders': theme('colors.rojo-impacto'),
+            '--tw-prose-captions': theme('colors.carbon / 0.5'),
             '--tw-prose-code': theme('colors.rojo-impacto'),
-            '--tw-prose-pre-code': theme('colors.tatami-blanco'),
-            '--tw-prose-pre-bg': 'rgb(0 0 0 / 50%)',
-            '--tw-prose-th-borders': theme('colors.white / 0.2'),
-            '--tw-prose-td-borders': theme('colors.white / 0.1'),
+            '--tw-prose-pre-code': theme('colors.blanco-absoluto'),
+            '--tw-prose-pre-bg': theme('colors.carbon'),
             
             // Custom sizing and spacing for editorial feel
             'h1, h2': {
-              fontFamily: theme('fontFamily.heading').join(', '),
+              fontFamily: theme('fontFamily.title').join(', '),
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
               fontSize: '2.5rem',
@@ -70,38 +69,34 @@ export default {
               marginBottom: '1em',
             },
             'h3, h4': {
-              fontFamily: theme('fontFamily.display').join(', '),
+              fontFamily: theme('fontFamily.title').join(', '),
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              color: theme('colors.dorado-campeon'),
-              fontSize: '1.25rem',
-              fontWeight: '800',
+              color: theme('colors.carbon'),
+              fontSize: '1.5rem',
               marginTop: '2em',
               marginBottom: '0.5em',
             },
             'a': {
               textDecoration: 'none',
-              borderBottom: `1px solid ${theme('colors.dorado-campeon / 0.3')}`,
+              borderBottom: `2px solid ${theme('colors.rojo-impacto')}`,
               transition: 'all 0.2s ease',
               '&:hover': {
-                borderBottomColor: theme('colors.dorado-campeon'),
-                backgroundColor: theme('colors.dorado-campeon / 0.1'),
+                backgroundColor: theme('colors.rojo-impacto'),
+                color: theme('colors.blanco-absoluto'),
               }
             },
             'blockquote': {
-              backgroundColor: 'rgba(227, 178, 60, 0.1)', // dorado-campeon al 10%
-              borderLeftWidth: '4px',
-              borderLeftColor: 'var(--dorado-campeon)',
-              padding: '1rem 1.5rem',
-              borderRadius: '0 0.5rem 0.5rem 0',
+              backgroundColor: theme('colors.gris-claro'),
+              borderLeftWidth: '8px',
+              borderLeftColor: theme('colors.rojo-impacto'),
+              padding: '1.5rem',
               fontStyle: 'italic',
-              color: 'var(--tatami-blanco)',
-            },
-            'blockquote p': {
-              color: 'var(--tatami-blanco)',
+              color: theme('colors.carbon'),
             },
             'strong': {
-              color: theme('colors.dorado-campeon'),
+              color: theme('colors.carbon'),
+              fontWeight: '900',
             },
           },
         },
