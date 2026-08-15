@@ -161,58 +161,56 @@ const Grados = () => {
       
       {/* Header Ledger */}
       <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 border border-dorado-campeon/30 px-4 py-1.5 bg-dorado-campeon/5">
-          <Award size={14} className="text-dorado-campeon" />
-          <span className="text-xs font-body font-bold text-dorado-campeon tracking-[0.2em] uppercase">
-            REGISTRO OFICIAL
-          </span>
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-100 text-rojo-impacto text-xs font-bold tracking-widest uppercase">
+          <Award size={14} />
+          Registro Oficial
         </div>
-        <h1 className="text-5xl font-heading text-carbon uppercase tracking-tight">
-          GRADOS Y <span className="text-dorado-campeon">CINTURONES</span>
+        <h1 className="text-4xl sm:text-5xl font-bold font-body normal-case tracking-normal text-carbon">
+          Grados y <span className="text-rojo-impacto">Cinturones</span>
         </h1>
-        <p className="text-sm font-body text-carbon/70 uppercase tracking-widest max-w-xl mx-auto">
+        <p className="text-lg text-gray-500 max-w-xl mx-auto font-body">
           Listado de alumnos activos acreditados en sus respectivos cinturones.
         </p>
       </div>
 
       {/* Controls: Tab selector + Search */}
-      <div className="bg-carbon border-y border-dorado-campeon/20 py-4 px-2 max-w-5xl mx-auto flex flex-col md:flex-row gap-4 items-center justify-between">
+      <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4 max-w-4xl mx-auto flex flex-col md:flex-row gap-4 md:items-center justify-between w-full">
         
         {/* Tab filters */}
-        <div className="flex border border-dorado-campeon/30 p-1 w-full md:w-auto bg-[#0A0B0E]">
+        <div className="flex bg-gray-50 border border-gray-100 rounded-lg p-1 w-full md:w-auto">
           {['TODOS', 'TAEKWONDO', 'KICKBOXING'].map(filter => (
             <button
               key={filter}
               onClick={() => setActiveFilter(filter)}
-              className={`px-6 py-2 text-[10px] font-heading tracking-widest uppercase transition-all flex-1 md:flex-none ${
+              className={`px-4 sm:px-6 py-2 text-xs font-bold font-body tracking-wider transition-all rounded-md flex-1 md:flex-none ${
                 activeFilter === filter
-                  ? 'bg-dorado-campeon text-carbon'
-                  : 'text-tatami-blanco/50 hover:text-tatami-blanco bg-transparent'
+                  ? 'bg-white text-rojo-impacto shadow-sm border border-gray-200/50'
+                  : 'text-gray-500 hover:text-carbon bg-transparent'
               }`}
             >
-              {filter}
+              {filter.charAt(0) + filter.slice(1).toLowerCase()}
             </button>
           ))}
         </div>
 
         {/* Search */}
-        <div className="relative w-full md:max-w-sm">
-          <Search size={16} className="text-dorado-campeon/50 absolute left-4 top-1/2 -translate-y-1/2" />
+        <div className="relative w-full md:max-w-sm flex-1">
+          <Search size={18} className="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Buscar alumno o cédula..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#0A0B0E] border border-white/5 pl-10 pr-4 py-2.5 text-xs text-tatami-blanco font-body uppercase tracking-wider placeholder-tatami-blanco/30 focus:outline-none focus:border-dorado-campeon/50 transition-colors"
+            className="w-full bg-white border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-sm text-carbon focus:outline-none focus:border-rojo-impacto focus:ring-2 focus:ring-rojo-impacto/20 transition-all placeholder:text-gray-400"
           />
         </div>
       </div>
 
       {/* Admin Quick Alert */}
       {isAuthenticated && (
-        <div className="bg-dorado-campeon/10 border border-dorado-campeon/40 p-4 flex items-center justify-center text-xs text-dorado-campeon font-bold uppercase tracking-[0.1em] text-center max-w-5xl mx-auto">
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center justify-center text-sm text-rojo-impacto font-medium text-center max-w-4xl mx-auto">
           <div className="flex items-center gap-2">
-            <ShieldAlert size={16} />
+            <ShieldAlert size={18} />
             <span>Modo Administrador: Puedes editar fotos y grados directamente desde las placas</span>
           </div>
         </div>
@@ -221,13 +219,13 @@ const Grados = () => {
       {/* Gallery Grid */}
       {loading ? (
         <div className="flex justify-center py-32">
-          <div className="animate-spin rounded-none h-10 w-10 border-t-2 border-b-2 border-dorado-campeon"></div>
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-rojo-impacto"></div>
         </div>
       ) : filteredStudents.length === 0 ? (
         <div className="text-center py-24 flex flex-col items-center">
-          <Award size={40} className="text-dorado-campeon/30 mb-4" />
-          <h3 className="font-heading text-carbon text-xl tracking-widest uppercase mb-2">Sin Registros</h3>
-          <p className="text-sm font-body text-carbon/70">No hay alumnos con la disciplina o búsqueda seleccionada.</p>
+          <Award size={48} className="text-gray-300 mb-4" />
+          <h3 className="font-bold font-body text-carbon text-xl normal-case mb-2">Sin Registros</h3>
+          <p className="text-sm font-body text-gray-500">No hay alumnos con la disciplina o búsqueda seleccionada.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 pb-12">

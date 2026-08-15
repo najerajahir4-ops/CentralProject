@@ -35,10 +35,10 @@ export default {
         }
       },
       animation: {
-        'hit': 'hit 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-        'hit-delay': 'hit 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.15s forwards',
-        'fade-in': 'fadeIn 0.5s ease-out forwards',
-        'slide-up': 'slideUp 0.5s ease-out forwards',
+        'hit': 'hit 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+        'hit-delay': 'hit 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.05s forwards',
+        'fade-in': 'fadeIn 0.2s ease-out forwards',
+        'slide-up': 'slideUp 0.2s ease-out forwards',
       },
       typography: ({ theme }) => ({
         carbon: {

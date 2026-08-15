@@ -35,7 +35,13 @@ const studentUpdateSchema = studentCreateSchema.partial().extend({
   estado: z.string().optional(),
 });
 
+const authLoginSchema = z.object({
+  usuario: z.string().min(1, 'El usuario es requerido').max(50, 'Usuario demasiado largo').trim(),
+  password: z.string().min(1, 'La contraseña es requerida').max(100, 'Contraseña demasiado larga'),
+});
+
 module.exports = {
   studentCreateSchema,
   studentUpdateSchema,
+  authLoginSchema,
 };

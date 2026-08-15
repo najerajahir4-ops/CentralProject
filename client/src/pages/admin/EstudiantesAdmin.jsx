@@ -842,36 +842,36 @@ const EstudiantesAdmin = () => {
     <div class="space-y-8">
       
       {/* Tabs / Secciones de Disciplina */}
-      <div className="flex border-b border-carbon/20 dark:border-white/10 mb-2">
+      <div className="flex space-x-2 border-b border-gray-200 dark:border-white/10 mb-6">
         <button
           onClick={() => setSelectedTab('TAEKWONDO')}
-          className={`flex-1 py-3 text-xs font-bold tracking-widest uppercase transition-colors border-b-2 ${
+          className={`px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-[1px] ${
             selectedTab === 'TAEKWONDO'
-              ? 'border-carbon dark:border-white/20 text-carbon dark:text-white bg-black/5 dark:bg-white/5'
-              : 'border-transparent text-carbon dark:text-white/50 hover:text-carbon dark:text-white hover:bg-black/5 dark:hover:bg-white/5'
+              ? 'border-rojo-impacto text-rojo-impacto'
+              : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
           }`}
         >
-          TAEKWONDO
+          Taekwondo
         </button>
         <button
           onClick={() => setSelectedTab('KICKBOXING')}
-          className={`flex-1 py-3 text-xs font-bold tracking-widest uppercase transition-colors border-b-2 ${
+          className={`px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-[1px] ${
             selectedTab === 'KICKBOXING'
-              ? 'border-rojo-impacto text-rojo-impacto bg-rojo-impacto/5'
-              : 'border-transparent text-carbon dark:text-white/50 hover:text-carbon dark:text-white hover:bg-black/5 dark:hover:bg-white/5'
+              ? 'border-rojo-impacto text-rojo-impacto'
+              : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
           }`}
         >
-          KICKBOXING
+          Kickboxing
         </button>
       </div>
 
       {/* Header & Warning Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-carbon dark:border-white/20 pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-carbon dark:text-white font-body tracking-tight">
+          <h1 className="text-2xl font-bold text-carbon dark:text-white font-body">
             Gestión de Estudiantes & Pagos
           </h1>
-          <p className="text-xs text-carbon dark:text-white font-bold tracking-widest uppercase mt-1">
+          <p className="text-sm text-gray-500 mt-1 font-body">
             Administra el padrón de alumnos y registro de fichas
           </p>
         </div>
@@ -879,77 +879,76 @@ const EstudiantesAdmin = () => {
         <div className="flex flex-wrap gap-3">
           <button
             onClick={handleExportExcel}
-            className="h-11 px-6 bg-white dark:bg-[#0A0B0E] border border-carbon dark:border-white/20 text-carbon dark:text-white text-xs font-bold rounded-none hover:bg-carbon dark:hover:bg-white hover:text-white dark:hover:text-carbon transition-colors inline-flex items-center justify-center gap-2 tracking-widest uppercase shadow-[0_0_15px_rgba(227,178,60,0.1)] hover:shadow-[0_0_20px_rgba(227,178,60,0.3)]"
+            className="h-10 px-4 bg-white dark:bg-[#0A0B0E] border border-gray-300 dark:border-white/20 text-carbon dark:text-white text-sm font-medium rounded-md hover:bg-gray-50 dark:hover:bg-white/5 transition-colors inline-flex items-center gap-2"
           >
             <FileSpreadsheet size={16} />
-            EXCEL
+            Exportar Excel
           </button>
           <button
             onClick={() => handleOpenStudentModal()}
-            className="h-11 px-6 bg-rojo-impacto hover:bg-carbon hover:text-white text-white text-xs font-bold rounded-none transition-colors inline-flex items-center justify-center gap-2 tracking-widest uppercase shadow-[0_0_15px_rgba(214,40,57,0.3)] hover:shadow-[0_0_20px_rgba(214,40,57,0.5)]"
+            className="h-10 px-4 bg-rojo-impacto hover:bg-red-700 text-white text-sm font-medium rounded-md transition-colors inline-flex items-center gap-2 shadow-sm"
           >
             <Plus size={16} />
-            NUEVA FICHA
+            Nueva Ficha
           </button>
         </div>
       </div>
 
       {/* Warning Badge for Overdue Students */}
       {overdueOrDueCount > 0 && (
-        <div className="bg-white dark:bg-[#0A0B0E] border border-carbon dark:border-white/20 shadow-[0_0_20px_rgba(227,178,60,0.12)] p-4 flex items-center justify-between text-xs text-carbon dark:text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-black/5 dark:bg-white/5 pointer-events-none"></div>
-          <div className="flex items-center gap-3 font-bold relative z-10">
-            <AlertTriangle size={20} className="text-rojo-impacto" />
-            <span className="uppercase tracking-wide">
+        <div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/50 rounded-md p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-sm text-red-800 dark:text-red-200 mb-6">
+          <div className="flex items-center gap-3 font-medium">
+            <AlertTriangle size={18} className="text-red-500 shrink-0" />
+            <span>
               Alerta de Cobranza: {overdueOrDueCount} alumnos con pago vencido o próximo a vencer.
             </span>
           </div>
           <button
             onClick={() => setSelectedEstado('ROJO')}
-            className="px-4 py-2 bg-rojo-impacto hover:bg-carbon hover:text-white text-white font-body font-bold tracking-widest uppercase transition-colors relative z-10"
+            className="px-4 py-2 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 text-red-700 dark:text-red-300 font-medium rounded-md transition-colors whitespace-nowrap"
           >
-            Ver Vencidos ➔
+            Ver Vencidos
           </button>
         </div>
       )}
 
       {/* Filters Bar */}
-      <div className="bg-white dark:bg-[#0A0B0E] border border-carbon/20 dark:border-white/10 shadow-[0_0_15px_rgba(227,178,60,0.08)] p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
-        <div className="relative">
-          <Search className="w-4 h-4 text-carbon dark:text-white absolute left-3 top-1/2 -translate-y-1/2" />
+      <div className="bg-white dark:bg-[#0A0B0E] border border-gray-200 dark:border-white/10 rounded-md p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6 shadow-sm">
+        <div className="relative md:col-span-2">
+          <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Buscar por nombre o cédula..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-white dark:bg-[#0A0B0E] border border-carbon/20 dark:border-white/10 pl-10 pr-4 py-2.5 text-xs text-carbon dark:text-white focus:outline-none focus:border-carbon dark:border-white/20 font-body uppercase tracking-wider placeholder-tatami-blanco/30 transition-colors"
+            className="w-full bg-white dark:bg-black/20 border border-gray-300 dark:border-white/10 rounded-md pl-10 pr-4 py-2 text-sm text-carbon dark:text-white focus:outline-none focus:ring-2 focus:ring-rojo-impacto/50 transition-colors"
           />
         </div>
         <select
           value={selectedEstado}
           onChange={(e) => setSelectedEstado(e.target.value)}
-          className="bg-white dark:bg-[#0A0B0E] border border-carbon/20 dark:border-white/10 px-4 py-2.5 text-xs text-carbon dark:text-white focus:outline-none focus:border-carbon dark:border-white/20 uppercase tracking-wider font-bold transition-colors appearance-none"
+          className="bg-white dark:bg-black/20 border border-gray-300 dark:border-white/10 rounded-md px-4 py-2 text-sm text-carbon dark:text-white focus:outline-none focus:ring-2 focus:ring-rojo-impacto/50 transition-colors"
         >
-          <option value="" className="bg-white dark:bg-[#0A0B0E]">TODOS LOS ESTADOS</option>
-          <option value="VERDE" className="bg-white dark:bg-[#0A0B0E]">AL DÍA (VERDE)</option>
-          <option value="AMARILLO" className="bg-white dark:bg-[#0A0B0E]">PRÓXIMO A VENCER (AMARILLO)</option>
-          <option value="ROJO" className="bg-white dark:bg-[#0A0B0E]">VENCIDO (ROJO)</option>
+          <option value="">Todos los estados</option>
+          <option value="VERDE">Al Día (Verde)</option>
+          <option value="AMARILLO">Próximo a Vencer (Amarillo)</option>
+          <option value="ROJO">Vencido (Rojo)</option>
         </select>
       </div>
 
       {/* Table */}
-      <div className="bg-white dark:bg-[#0A0B0E] border border-carbon/10 dark:border-white/5 shadow-[0_0_8px_rgba(227,178,60,0.05)] overflow-hidden">
+      <div className="bg-white dark:bg-[#0A0B0E] border border-gray-200 dark:border-white/10 rounded-md shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse">
-            <thead className="bg-white dark:bg-[#0A0B0E] text-carbon dark:text-white font-body font-medium text-[11px] uppercase tracking-wider border-b-2 border-carbon dark:border-white/20">
+          <table className="w-full text-left text-sm whitespace-nowrap">
+            <thead className="bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider border-b border-gray-200 dark:border-white/10">
               <tr>
-                <th className="py-4 px-4 border-r border-carbon/10 dark:border-white/5">Alumno</th>
-                <th className="py-4 px-4 border-r border-carbon/10 dark:border-white/5">Cédula</th>
-                <th className="py-4 px-4 border-r border-carbon/10 dark:border-white/5">Grado</th>
-                <th className="py-4 px-4 border-r border-carbon/10 dark:border-white/5">Último Pago</th>
-                <th className="py-4 px-4 border-r border-carbon/10 dark:border-white/5">Próximo Pago</th>
-                <th className="py-4 px-4 border-r border-carbon/10 dark:border-white/5 text-center">Estado</th>
-                <th className="py-4 px-4 text-center">Acciones</th>
+                <th className="py-3 px-6">Alumno</th>
+                <th className="py-3 px-6">Cédula</th>
+                <th className="py-3 px-6">Grado</th>
+                <th className="py-3 px-6">Último Pago</th>
+                <th className="py-3 px-6">Próximo Pago</th>
+                <th className="py-3 px-6 text-center">Estado</th>
+                <th className="py-3 px-6 text-center">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-carbon/10 dark:divide-white/5 text-carbon dark:text-white/80 font-body">
@@ -967,27 +966,24 @@ const EstudiantesAdmin = () => {
                 </tr>
               ) : (
                 filteredStudentsByTab.map((student) => (
-                  <tr key={student.id} className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors group">
-                    <td className="py-6 px-4 flex items-center gap-4 border-r border-carbon/10 dark:border-white/5">
-                      <div className="w-10 h-10 bg-white dark:bg-[#0A0B0E] border border-carbon dark:border-white/20 text-carbon dark:text-white flex flex-shrink-0 items-center justify-center font-body font-semibold text-sm uppercase shadow-[0_0_10px_rgba(227,178,60,0.2)] group-hover:bg-carbon dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-carbon transition-colors">
+                  <tr key={student.id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors border-b border-gray-100 dark:border-white/5 last:border-0">
+                    <td className="py-4 px-6 flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-full bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 flex flex-shrink-0 items-center justify-center font-medium text-sm">
                         {student.nombres.charAt(0)}{student.apellidos.charAt(0)}
                       </div>
-                      <div className="flex flex-col gap-1">
-                        <span className="font-body font-semibold text-sm text-carbon dark:text-white capitalize tracking-wide leading-tight">
+                      <div className="flex flex-col">
+                        <span className="font-medium text-carbon dark:text-white capitalize">
                           {student.nombres.toLowerCase()} {student.apellidos.toLowerCase()}
                         </span>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="inline-flex items-center gap-1 bg-white dark:bg-[#0A0B0E] border border-carbon/20 dark:border-white/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest text-carbon dark:text-white/50">
-                            EDAD: {student.edad}
-                          </span>
-                          <span className="inline-flex items-center gap-1 bg-white dark:bg-[#0A0B0E] border border-carbon/20 dark:border-white/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest text-carbon dark:text-white/50">
-                            CEL: {student.celular}
-                          </span>
+                        <div className="flex items-center gap-2 mt-0.5 text-xs text-gray-500">
+                          <span>Edad: {student.edad}</span>
+                          <span>•</span>
+                          <span>Cel: {student.celular}</span>
                         </div>
                       </div>
                     </td>
-                    <td className="py-6 px-4 font-mono text-carbon dark:text-white/70 border-r border-carbon/10 dark:border-white/5">{student.cedula}</td>
-                    <td className="py-6 px-4 border-r border-carbon/10 dark:border-white/5">
+                    <td className="py-4 px-6 text-gray-600 dark:text-gray-300">{student.cedula}</td>
+                    <td className="py-4 px-6">
                       {student.modalidad === 'AMBAS' ? (
                         <div className="flex flex-col gap-1">
                           <span className="inline-block bg-white dark:bg-[#0A0B0E] border border-carbon/10 dark:border-white/5 px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-carbon dark:text-white/70">
@@ -1001,26 +997,26 @@ const EstudiantesAdmin = () => {
                         <span className="block font-bold text-[10px] uppercase tracking-widest text-carbon dark:text-white/90">{student.grado}</span>
                       )}
                     </td>
-                    <td className="py-6 px-4 font-mono text-carbon dark:text-white/50 border-r border-carbon/10 dark:border-white/5">{student.fechaUltimoPago}</td>
-                    <td className="py-6 px-4 font-bold font-mono text-carbon dark:text-white border-r border-carbon/10 dark:border-white/5">{student.fechaProximoPago}</td>
-                    <td className="py-6 px-4 text-center border-r border-carbon/10 dark:border-white/5">
+                    <td className="py-4 px-6 text-gray-500">{student.fechaUltimoPago}</td>
+                    <td className="py-4 px-6 font-medium text-carbon dark:text-white">{student.fechaProximoPago}</td>
+                    <td className="py-4 px-6 text-center">
                       <StatusBadge status={student.estadoPago} />
                     </td>
-                    <td className="py-6 px-4">
+                    <td className="py-4 px-6">
                       <div className="flex items-center justify-center gap-2 relative">
                         {/* Always reserve space for 4 buttons (chat, payment, edit, kebab) */}
                         <div className="w-8 h-8">
                           {student.estadoPago !== 'VERDE' && (
-                            <button onClick={() => sendWhatsAppNotification(student)} title="Recordatorio de Pago (WhatsApp)" className="w-full h-full flex items-center justify-center bg-white dark:bg-[#0A0B0E] border border-emerald-500/30 text-emerald-500 hover:bg-emerald-500 hover:text-carbon dark:text-white transition-colors shadow-[0_0_10px_rgba(16,185,129,0.1)]">
-                              <MessageCircle size={14} />
+                            <button onClick={() => sendWhatsAppNotification(student)} title="Recordatorio de Pago (WhatsApp)" className="w-full h-full flex items-center justify-center bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 dark:hover:bg-emerald-900/40 rounded-md transition-colors">
+                              <MessageCircle size={16} />
                             </button>
                           )}
                         </div>
-                        <button onClick={() => handleOpenPaymentModal(student)} title="Registrar Pago" className="w-8 h-8 flex items-center justify-center bg-white dark:bg-[#0A0B0E] border border-carbon dark:border-white/20 text-carbon dark:text-white hover:bg-carbon dark:hover:bg-white hover:text-white dark:hover:text-carbon transition-colors shadow-[0_0_10px_rgba(227,178,60,0.1)]">
-                          <CreditCard size={14} />
+                        <button onClick={() => handleOpenPaymentModal(student)} title="Registrar Pago" className="w-8 h-8 flex items-center justify-center bg-gray-50 text-gray-600 hover:bg-gray-100 dark:bg-white/5 dark:text-gray-300 dark:hover:bg-white/10 rounded-md transition-colors">
+                          <CreditCard size={16} />
                         </button>
-                        <button onClick={() => handleOpenStudentModal(student)} title="Ver / Editar Ficha" className="w-8 h-8 flex items-center justify-center bg-white dark:bg-[#0A0B0E] border border-carbon/30 dark:border-white/20 text-carbon dark:text-white/70 hover:bg-white dark:bg-[#0A0B0E] hover:text-carbon dark:text-white transition-colors shadow-[0_0_10px_rgba(255,255,255,0.05)]">
-                          <Edit size={14} />
+                        <button onClick={() => handleOpenStudentModal(student)} title="Ver / Editar Ficha" className="w-8 h-8 flex items-center justify-center bg-gray-50 text-gray-600 hover:bg-gray-100 dark:bg-white/5 dark:text-gray-300 dark:hover:bg-white/10 rounded-md transition-colors">
+                          <Edit size={16} />
                         </button>
 
                         {/* Menú Kebab (Acciones Secundarias) */}
@@ -1030,22 +1026,22 @@ const EstudiantesAdmin = () => {
                               e.stopPropagation();
                               setActiveKebabId(activeKebabId === student.id ? null : student.id);
                             }}
-                            className={`w-8 h-8 flex items-center justify-center border transition-colors ${activeKebabId === student.id ? 'bg-white dark:bg-[#0A0B0E] text-carbon dark:text-white border-white' : 'bg-white dark:bg-[#0A0B0E] border-carbon/20 dark:border-white/10 text-carbon dark:text-white/50 hover:border-white/30 hover:text-carbon dark:text-white'}`}
+                            className={`w-8 h-8 flex items-center justify-center rounded-md transition-colors ${activeKebabId === student.id ? 'bg-gray-200 text-gray-800 dark:bg-white/20 dark:text-white' : 'bg-transparent text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-white/10 dark:hover:text-gray-300'}`}
                             title="Más acciones"
                           >
-                            <MoreVertical size={14} />
+                            <MoreVertical size={16} />
                           </button>
 
                           {activeKebabId === student.id && (
-                            <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-[#0A0B0E] border border-carbon/30 dark:border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-50 py-1 text-left">
+                            <div className="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50 py-1 text-left">
                               <button
                                 onClick={() => {
                                   handleOpenHistoryModal(student);
                                   setActiveKebabId(null);
                                 }}
-                                className="w-full px-4 py-2.5 text-xs font-body font-medium tracking-widest uppercase text-carbon dark:text-white/80 hover:bg-white dark:bg-[#0A0B0E] hover:text-carbon dark:text-white flex items-center gap-3 transition-colors"
+                                className="w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-3 transition-colors"
                               >
-                                <History size={14} />
+                                <History size={16} />
                                 Historial Pagos
                               </button>
                               <button
@@ -1053,19 +1049,19 @@ const EstudiantesAdmin = () => {
                                   handleDownloadPDF(student);
                                   setActiveKebabId(null);
                                 }}
-                                className="w-full px-4 py-2.5 text-xs font-body font-medium tracking-widest uppercase text-carbon dark:text-white/80 hover:bg-white dark:bg-[#0A0B0E] hover:text-carbon dark:text-white flex items-center gap-3 transition-colors"
+                                className="w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-3 transition-colors"
                               >
-                                <FileText size={14} />
+                                <FileText size={16} />
                                 Ficha PDF
                               </button>
-                              <div className="border-t border-carbon/20 dark:border-white/10 my-1"></div>
+                              <div className="border-t border-gray-100 dark:border-gray-800 my-1"></div>
                               <button
                                 onClick={() => handleDeleteStudent(student.id)}
                                 disabled={isDeleting}
-                                className="w-full px-4 py-2.5 text-xs font-body font-bold tracking-widest uppercase text-rojo-impacto hover:bg-rojo-impacto/10 flex items-center gap-3 disabled:opacity-50 transition-colors"
+                                className="w-full px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-3 disabled:opacity-50 transition-colors"
                               >
-                                <Trash2 size={14} />
-                                {isDeleting ? 'ELIMINANDO...' : 'ELIMINAR ALUMNO'}
+                                <Trash2 size={16} />
+                                {isDeleting ? 'Eliminando...' : 'Eliminar Alumno'}
                               </button>
                             </div>
                           )}

@@ -199,48 +199,43 @@ const AlumnosDestacados = () => {
       
       {/* Header Ledger */}
       <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <div className="inline-block border border-dorado-campeon/30 px-4 py-1.5 bg-dorado-campeon/5">
-          <span className="text-xs font-body font-bold text-dorado-campeon tracking-[0.2em] uppercase">
-            CUADRO DE HONOR Y ATLETAS DE ÉLITE
-          </span>
-        </div>
-        <h1 className="text-5xl font-title text-carbon uppercase tracking-tight">
-          ALUMNOS <span className="text-rojo-impacto drop-shadow-[0_0_15px_rgba(214,40,57,0.3)]">DESTACADOS</span>
+        <h1 className="text-4xl sm:text-5xl font-bold font-body normal-case tracking-normal text-carbon">
+          Alumnos <span className="text-rojo-impacto">Destacados</span>
         </h1>
-        <p className="text-sm font-body text-carbon/70 uppercase tracking-widest max-w-xl mx-auto">
+        <p className="text-lg text-gray-500 max-w-xl mx-auto">
           Reconocimiento oficial a nuestros competidores con logros destacados.
         </p>
       </div>
 
       {/* Filters Bar - Registro Oficial */}
-      <div className="bg-carbon border-y border-dorado-campeon/20 py-4 px-2 max-w-4xl mx-auto flex flex-col md:flex-row gap-4 md:items-center justify-between w-full overflow-hidden">
-        <div className="flex items-center gap-3 text-dorado-campeon/70 font-body font-bold text-xs uppercase tracking-widest px-4">
-          <Filter size={16} />
-          FILTROS DEL CUADRO:
+      <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4 max-w-4xl mx-auto flex flex-col md:flex-row gap-4 md:items-center justify-between w-full">
+        <div className="flex items-center gap-2 text-gray-500 font-medium text-sm px-2">
+          <Filter size={18} />
+          <span>Filtrar por:</span>
         </div>
 
-        <div className="flex flex-col sm:flex-row flex-1 gap-4 sm:gap-6 px-4 md:px-0 w-full overflow-hidden">
+        <div className="flex flex-col sm:flex-row flex-1 gap-4 w-full">
           <select
             value={categoria}
             onChange={(e) => setCategoria(e.target.value)}
             disabled={isEditMode}
-            className="bg-carbon sm:bg-transparent border border-dorado-campeon/20 sm:border-none text-sm text-tatami-blanco focus:outline-none focus:ring-0 font-body uppercase tracking-wider cursor-pointer appearance-none md:border-l md:border-dorado-campeon/20 p-3 sm:p-0 md:pl-4 flex-1 disabled:opacity-50 w-full truncate"
+            className="w-full bg-white border border-gray-300 rounded-md text-sm text-carbon focus:outline-none focus:ring-2 focus:ring-rojo-impacto/50 focus:border-rojo-impacto p-2.5 disabled:opacity-50 transition-colors"
           >
-            <option value="" className="bg-carbon">TODAS LAS CATEGORÍAS</option>
-            <option value="INFANTIL" className="bg-carbon">INFANTIL</option>
-            <option value="JUVENIL" className="bg-carbon">JUVENIL</option>
-            <option value="ADULTO" className="bg-carbon">ADULTO</option>
+            <option value="">Todas las categorías</option>
+            <option value="INFANTIL">Infantil</option>
+            <option value="JUVENIL">Juvenil</option>
+            <option value="ADULTO">Adulto</option>
           </select>
 
           <select
             value={disciplina}
             onChange={(e) => setDisciplina(e.target.value)}
             disabled={isEditMode}
-            className="bg-carbon sm:bg-transparent border border-dorado-campeon/20 sm:border-none text-sm text-tatami-blanco focus:outline-none focus:ring-0 font-body uppercase tracking-wider cursor-pointer appearance-none md:border-l md:border-dorado-campeon/20 p-3 sm:p-0 md:pl-4 flex-1 disabled:opacity-50 w-full truncate"
+            className="w-full bg-white border border-gray-300 rounded-md text-sm text-carbon focus:outline-none focus:ring-2 focus:ring-rojo-impacto/50 focus:border-rojo-impacto p-2.5 disabled:opacity-50 transition-colors"
           >
-            <option value="" className="bg-carbon">TODAS LAS DISCIPLINAS</option>
-            <option value="TAEKWONDO" className="bg-carbon">TAEKWONDO</option>
-            <option value="KICKBOXING" className="bg-carbon">KICKBOXING</option>
+            <option value="">Todas las disciplinas</option>
+            <option value="TAEKWONDO">Taekwondo</option>
+            <option value="KICKBOXING">Kickboxing</option>
           </select>
         </div>
       </div>

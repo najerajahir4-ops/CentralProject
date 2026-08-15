@@ -41,119 +41,105 @@ const Dashboard = () => {
   ];
 
   return (
-    <div class="space-y-8">
+    <div className="space-y-10">
       
       {/* Header */}
-      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-carbon/20 dark:border-white/10 pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-carbon/10 pb-6">
         <div>
-          <h1 class="text-3xl font-extrabold text-carbon dark:text-white font-display tracking-widest uppercase font-body">
-            Panel Principal de Control
+          <h1 className="text-3xl font-title text-carbon tracking-widest uppercase">
+            Panel de Control
           </h1>
-          <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 font-body">
-            Resumen estadístico de estudiantes, estado de cobranza e ingresos generales.
+          <p className="text-sm font-medium text-carbon/60 mt-1 uppercase tracking-wider">
+            Resumen estadístico de estudiantes e ingresos
           </p>
         </div>
 
         <Link
           to="/admin/estudiantes"
-          class="px-5 py-2.5 bg-rojo-impacto hover:bg-carbon hover:text-white text-white text-xs font-bold clip-button uppercase transition-colors shadow-lg inline-flex items-center gap-2 impact-flash"
+          className="px-6 py-3 bg-rojo-impacto hover:bg-carbon text-blanco-absoluto text-xs font-title tracking-widest uppercase transition-colors inline-flex items-center gap-3"
         >
           <Users size={16} />
           GESTIONAR ESTUDIANTES
         </Link>
       </div>
 
-      {/* Metrics Cards */}
+      {/* Metrics Roster Panel */}
       {loading ? (
-        <div class="flex justify-center py-8">
-          <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-rojo-impacto"></div>
+        <div className="flex justify-center py-12">
+          <div className="w-8 h-8 border-4 border-carbon/20 border-t-rojo-impacto rounded-full animate-spin"></div>
         </div>
       ) : (
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex flex-col border-precision bg-blanco-absoluto">
+          {/* Header Row */}
+          <div className="border-b border-carbon/10 px-6 py-3 bg-carbon/5">
+            <h2 className="font-title text-sm tracking-widest uppercase text-carbon">ESTADO DEL DOJANG</h2>
+          </div>
           
-          {/* Total Estudiantes Activos */}
-          <div class="bg-white dark:bg-[#0A0B0E]/80 border border-carbon/20 dark:border-white/10 p-6 rounded-2xl space-y-3 shadow-xl">
-            <div class="flex items-center justify-between text-blue-400">
-              <span class="text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300">Estudiantes Activos</span>
-              <div class="p-2 rounded-xl bg-blue-500/10">
-                <Users size={20} />
+          {/* Data Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-carbon/10">
+            {/* Activos */}
+            <div className="p-6 flex flex-col justify-between">
+              <span className="font-title text-xs tracking-wider uppercase text-carbon/60 mb-4">Plantilla Activa</span>
+              <div className="flex items-end gap-3">
+                <span className="font-title text-5xl leading-none text-carbon">{stats.totalActiveStudents}</span>
+                <span className="text-xs font-bold text-carbon/50 uppercase pb-1 tracking-widest">ATLETAS</span>
               </div>
             </div>
-            <div class="text-3xl font-extrabold text-carbon dark:text-white font-body">
-              {stats.totalActiveStudents}
-            </div>
-            <p class="text-[11px] text-gray-600 dark:text-gray-400">Inscritos en la academia</p>
-          </div>
 
-          {/* Pagos al Día */}
-          <div class="bg-white dark:bg-[#0A0B0E]/80 border border-carbon/20 dark:border-white/10 p-6 rounded-2xl space-y-3 shadow-xl">
-            <div class="flex items-center justify-between text-emerald-400">
-              <span class="text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300">Pagos al Día</span>
-              <div class="p-2 rounded-xl bg-emerald-500/10">
-                <Users size={20} />
+            {/* Al Día */}
+            <div className="p-6 flex flex-col justify-between">
+              <span className="font-title text-xs tracking-wider uppercase text-carbon/60 mb-4">Cuotas Corrientes</span>
+              <div className="flex items-end gap-3">
+                <span className="font-title text-5xl leading-none text-carbon">{stats.alDiaCount}</span>
+                <span className="text-xs font-bold text-carbon/50 uppercase pb-1 tracking-widest">AL DÍA</span>
               </div>
             </div>
-            <div class="text-3xl font-extrabold text-emerald-400 font-body">
-              {stats.alDiaCount}
-            </div>
-            <p class="text-[11px] text-gray-600 dark:text-gray-400">Cuotas al corriente</p>
-          </div>
 
-          {/* Por Vencer (7 días o menos) */}
-          <div class="bg-white dark:bg-[#0A0B0E]/80 border border-carbon/20 dark:border-white/10 p-6 rounded-2xl space-y-3 shadow-xl">
-            <div class="flex items-center justify-between text-amber-400">
-              <span class="text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300">Por Vencer (7 días)</span>
-              <div class="p-2 rounded-xl bg-amber-500/10">
-                <Clock size={20} />
+            {/* Por Vencer */}
+            <div className="p-6 flex flex-col justify-between">
+              <span className="font-title text-xs tracking-wider uppercase text-carbon/60 mb-4">Próximos (7 días)</span>
+              <div className="flex items-end gap-3">
+                <span className="font-title text-5xl leading-none text-carbon">{stats.porVencerCount}</span>
+                <span className="text-xs font-bold text-carbon/50 uppercase pb-1 tracking-widest">VENCEN</span>
               </div>
             </div>
-            <div class="text-3xl font-extrabold text-amber-400 font-body">
-              {stats.porVencerCount}
-            </div>
-            <p class="text-[11px] text-gray-600 dark:text-gray-400">Requieren recordatorio</p>
-          </div>
 
-          {/* Pagos Vencidos */}
-          <div class="bg-white dark:bg-[#0A0B0E]/80 border border-carbon/20 dark:border-white/10 p-6 rounded-2xl space-y-3 shadow-xl">
-            <div class="flex items-center justify-between text-rose-400">
-              <span class="text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300">Pagos Vencidos</span>
-              <div class="p-2 rounded-xl bg-rose-500/10">
-                <AlertTriangle size={20} />
+            {/* Vencidos */}
+            <div className="p-6 flex flex-col justify-between bg-rojo-impacto/5 group hover:bg-rojo-impacto/10 transition-colors">
+              <span className="font-title text-xs tracking-wider uppercase text-rojo-impacto mb-4">Acción Requerida</span>
+              <div className="flex items-end gap-3">
+                <span className="font-title text-5xl leading-none text-rojo-impacto">{stats.vencidoCount}</span>
+                <span className="text-xs font-bold text-rojo-impacto/70 uppercase pb-1 tracking-widest">VENCIDOS</span>
               </div>
             </div>
-            <div class="text-3xl font-extrabold text-rose-400 font-body">
-              {stats.vencidoCount}
-            </div>
-            <p class="text-[11px] text-gray-600 dark:text-gray-400">Cobro prioritario</p>
           </div>
-
         </div>
       )}
 
       {/* Chart Section */}
-      <div class="bg-white dark:bg-[#0A0B0E] border border-carbon/20 dark:border-white/10 p-6 sm:p-8 rounded-sm shadow-xl space-y-6">
-        <div class="flex items-center justify-between">
+      <div className="border-precision bg-blanco-absoluto p-6 sm:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-carbon/10 pb-6">
           <div>
-            <h3 class="text-xl font-bold text-carbon dark:text-white font-display uppercase tracking-widest font-body">Ingresos Mensuales por Colegiaturas</h3>
-            <p class="text-xs text-gray-600 dark:text-gray-400 font-body">Histórico de recaudación acumulada del año 2026</p>
+            <h3 className="text-xl font-bold text-carbon font-title uppercase tracking-widest">RENDIMIENTO FINANCIERO</h3>
+            <p className="text-xs text-carbon/60 font-body uppercase tracking-wider mt-1">Histórico de recaudación acumulada 2026</p>
           </div>
-          <div class="flex items-center gap-2 text-carbon dark:text-white font-bold text-sm">
-            <DollarSign size={18} />
-            Total Recaudado: ${stats.totalRevenue.toFixed(2)} USD
+          <div className="flex items-center gap-2 bg-carbon text-blanco-absoluto px-4 py-2">
+            <DollarSign size={16} />
+            <span className="font-title text-sm tracking-widest">{stats.totalRevenue.toFixed(2)} USD</span>
           </div>
         </div>
 
-        <div class="h-72 w-full pt-4">
+        <div className="h-72 w-full pt-4">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-              <XAxis dataKey="mes" stroke="#94a3b8" fontSize={12} />
-              <YAxis stroke="#94a3b8" fontSize={12} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(13,13,13,0.1)" />
+              <XAxis dataKey="mes" stroke="rgba(13,13,13,0.5)" fontSize={12} fontFamily="Inter" />
+              <YAxis stroke="rgba(13,13,13,0.5)" fontSize={12} fontFamily="Inter" />
               <Tooltip
-                contentStyle={{ backgroundColor: '#0d0d38', borderColor: '#ffffff20', borderRadius: '12px' }}
-                itemStyle={{ color: '#66FCF1' }}
+                contentStyle={{ backgroundColor: '#0d0d0d', borderColor: '#0d0d0d', borderRadius: '0' }}
+                itemStyle={{ color: '#ffffff' }}
               />
-              <Bar dataKey="ingresos" fill="#c8102e" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="ingresos" fill="#c8102e" radius={[0, 0, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

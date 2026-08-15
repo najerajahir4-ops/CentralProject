@@ -40,55 +40,54 @@ const Galeria = () => {
     <div className="bg-blanco-absoluto w-full min-h-screen pb-24">
       
       {/* HEADER NORMALIZADO */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-12 border-b-4 border-carbon mb-12">
-        <h1 className="font-title text-4xl sm:text-5xl uppercase leading-none text-carbon m-0 p-0 break-words mix-blend-multiply">
-          SALÓN DE <br/>
-          <span className="text-rojo-impacto">CAMPEONES</span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-8 mb-12 border-b border-gray-200">
+        <h1 className="text-4xl sm:text-5xl font-bold font-body normal-case tracking-normal text-carbon">
+          Salón de <span className="text-rojo-impacto">Campeones</span>
         </h1>
-        <p className="font-body text-lg font-bold mt-4 max-w-2xl text-carbon leading-snug">
+        <p className="text-lg text-gray-500 mt-4 max-w-2xl">
           El registro oficial de nuestros artistas marciales. Disciplina, enfoque y legado.
         </p>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
-        {/* PANEL DE FILTROS BRUTALISTA */}
-        <div className="border-brutal p-3 mb-10 flex flex-col md:flex-row gap-3 items-center bg-gris-claro">
-          <div className="flex items-center gap-2 w-full md:w-1/2 bg-blanco-absoluto border-2 border-carbon px-3 py-2">
-            <Search className="text-carbon flex-shrink-0" size={18} strokeWidth={2.5} />
+        {/* PANEL DE FILTROS */}
+        <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4 mb-10 flex flex-col md:flex-row gap-4 items-center">
+          <div className="flex items-center gap-2 w-full md:w-1/2 relative">
+            <Search className="text-gray-400 absolute left-3" size={18} />
             <input
               type="text"
-              placeholder="BUSCAR NOMBRE O CÉDULA..."
+              placeholder="Buscar nombre o cédula..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-transparent border-none text-sm text-carbon font-title uppercase placeholder-carbon/40 focus:outline-none"
+              className="w-full bg-white border border-gray-300 rounded-md pl-10 pr-4 py-2.5 text-sm text-carbon focus:outline-none focus:ring-2 focus:ring-rojo-impacto/50 focus:border-rojo-impacto transition-colors"
             />
           </div>
           
-          <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-1/2">
-            <div className="flex items-center gap-2 w-full border-2 border-carbon bg-blanco-absoluto px-3 py-2">
-              <Filter className="text-carbon flex-shrink-0" size={16} strokeWidth={2.5} />
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-1/2">
+            <div className="flex items-center gap-2 w-full relative">
+              <Filter className="text-gray-400 absolute left-3" size={16} />
               <select 
                 value={rankFilter}
                 onChange={(e) => setRankFilter(e.target.value)}
-                className="w-full bg-transparent border-none text-sm text-carbon font-title uppercase cursor-pointer focus:outline-none appearance-none"
+                className="w-full bg-white border border-gray-300 rounded-md pl-10 pr-4 py-2.5 text-sm text-carbon focus:outline-none focus:ring-2 focus:ring-rojo-impacto/50 focus:border-rojo-impacto transition-colors appearance-none cursor-pointer"
               >
-                <option value="">TODOS LOS RANGOS</option>
+                <option value="">Todos los rangos</option>
                 {availableRanks.map(r => (
-                  <option key={r} value={r}>{r.toUpperCase()}</option>
+                  <option key={r} value={r}>{r}</option>
                 ))}
               </select>
             </div>
 
-            <div className="flex items-center gap-2 w-full border-2 border-carbon bg-blanco-absoluto px-3 py-2">
+            <div className="flex items-center gap-2 w-full">
               <select 
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="w-full bg-transparent border-none text-sm text-carbon font-title uppercase cursor-pointer focus:outline-none appearance-none"
+                className="w-full bg-white border border-gray-300 rounded-md px-4 py-2.5 text-sm text-carbon focus:outline-none focus:ring-2 focus:ring-rojo-impacto/50 focus:border-rojo-impacto transition-colors appearance-none cursor-pointer"
               >
-                <option value="">CATEGORÍA</option>
-                <option value="infantil">INFANTIL</option>
-                <option value="juvenil">JUVENIL</option>
-                <option value="adulto">ADULTO</option>
+                <option value="">Categoría</option>
+                <option value="infantil">Infantil</option>
+                <option value="juvenil">Juvenil</option>
+                <option value="adulto">Adulto</option>
               </select>
             </div>
           </div>
@@ -102,12 +101,14 @@ const Galeria = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredStudents.length === 0 ? (
-              <div className="col-span-full py-24 text-center border-4 border-carbon border-dashed flex flex-col items-center justify-center p-8">
-                <AlertCircle size={64} strokeWidth={2} className="text-carbon mb-6" />
-                <p className="font-title text-4xl text-carbon uppercase mb-4">
-                  SIN REGISTROS
-                </p>
-                <p className="font-body text-lg font-medium text-carbon/60">
+              <div className="col-span-full py-24 text-center border border-gray-200 bg-gray-50 rounded-xl flex flex-col items-center justify-center p-8 shadow-sm">
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm">
+                  <AlertCircle size={32} className="text-gray-400" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  Sin Registros
+                </h3>
+                <p className="text-sm text-gray-500">
                   No se encontraron estudiantes con esos criterios de búsqueda.
                 </p>
               </div>
@@ -117,7 +118,7 @@ const Galeria = () => {
                 {search === '' && rankFilter === '' && categoryFilter === '' && (
                   <Link 
                     to={`/galeria/generales`}
-                    className="group flex flex-col border-brutal bg-blanco-absoluto transition-transform hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(13,13,13,1)]"
+                    className="group flex flex-col border-precision bg-blanco-absoluto transition-transform hover:-translate-y-2 hover:border-carbon"
                   >
                     <div className="aspect-[4/5] bg-gris-claro border-b-2 border-carbon flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
                       <div className="absolute inset-0 bg-[url('/logo.png')] bg-center bg-no-repeat opacity-5 scale-150"></div>
@@ -148,7 +149,7 @@ const Galeria = () => {
                     <Link 
                       key={student.id} 
                       to={`/galeria/${student.id}`}
-                      className="group flex flex-col border-brutal bg-blanco-absoluto transition-transform hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(13,13,13,1)]"
+                      className="group flex flex-col border-precision bg-blanco-absoluto transition-transform hover:-translate-y-2 hover:border-carbon"
                     >
                       <div className="aspect-[4/5] bg-gris-claro border-b-2 border-carbon relative overflow-hidden">
                         {student.foto ? (

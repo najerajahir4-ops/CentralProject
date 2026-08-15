@@ -57,9 +57,9 @@
   letter-spacing: normal;
 }
 
-/* Cajas y líneas de estructura brutalista */
-.border-brutal {
-  border: 2px solid theme('colors.carbon');
+/* Cajas y líneas de precisión */
+.border-precision {
+  border: 1px solid rgba(13, 13, 13, 0.15);
 }
 
 /* Animaciones */
@@ -87,12 +87,12 @@
   z-index: 10;
 }
 .impact-flash:hover::after {
-  animation: flash 0.3s ease-out forwards;
+  animation: flash 0.15s ease-out forwards;
 }
 
 @keyframes flash {
   0% { opacity: 0; transform: scale(1); }
-  50% { opacity: 0.15; transform: scale(1.05); }
+  50% { opacity: 0.1; transform: scale(1.02); }
   100% { opacity: 0; transform: scale(1); }
 }
 
@@ -104,12 +104,12 @@
   100% { opacity: 0; }
 }
 
-/* Diagonal Dividers & Clip Paths (Mantenidos para cortes agresivos) */
+/* Diagonal Dividers & Clip Paths (Cortes de Precisión) */
 .clip-diagonal-left {
-  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+  clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
 }
 .clip-diagonal-right {
-  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
+  clip-path: polygon(5% 0, 100% 0, 100% 100%, 0 100%);
 }
 .clip-button {
   clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);

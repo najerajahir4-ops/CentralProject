@@ -1,14 +1,12 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const prisma = require('../config/db');
+const { authLoginSchema } = require('../utils/validators');
 
 const login = async (req, res, next) => {
   try {
-    const { usuario, password } = req.body;
-
-    if (!usuario || !password) {
-      return res.status(400).json({ error: 'Por favor ingrese usuario y contraseña.' });
-    }
+    // Validación estricta de seguridad con Zod (rechaza campos adicionales y excesivamente largos)
+    const { usuario, password } = authLoginSchema.parse(req.body);
 
     const admin = await prisma.adminUser.findUnique({ where: { usuario: usuario.toLowerCase() } });
     if (!admin) {

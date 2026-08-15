@@ -42,14 +42,14 @@ const SortableContentCard = ({ item, isEditMode }) => {
     <article
       ref={setNodeRef}
       style={style}
-      className="border-brutal bg-blanco-absoluto flex flex-col justify-between transition-transform hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(13,13,13,1)] relative group overflow-hidden"
+      className="border-precision bg-blanco-absoluto flex flex-col justify-between transition-transform hover:-translate-y-2 hover:border-carbon relative group overflow-hidden"
     >
       {/* Handle de Arrastre */}
       {isEditMode && (
         <div
           {...attributes}
           {...listeners}
-          className="absolute top-3 right-3 z-30 p-2 bg-blanco-absoluto border-2 border-carbon text-carbon hover:bg-carbon hover:text-blanco-absoluto cursor-grab active:cursor-grabbing transition-colors shadow-[4px_4px_0px_0px_rgba(13,13,13,1)]"
+          className="absolute top-3 right-3 z-30 p-2 bg-blanco-absoluto border-precision text-carbon hover:bg-carbon hover:text-blanco-absoluto cursor-grab active:cursor-grabbing transition-colors"
           title="Arrastra para reordenar"
         >
           <GripVertical size={20} />
@@ -185,11 +185,11 @@ const Contenido = () => {
     <div className="bg-blanco-absoluto w-full min-h-screen pb-24">
       
       {/* HEADER NORMALIZADO */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-12 border-b-4 border-carbon mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-8 mb-12 border-b border-gray-200">
         <h1 className="font-title text-4xl sm:text-5xl uppercase leading-none text-carbon m-0 p-0 break-words mix-blend-multiply">
-          BIBLIOTECA <span className="text-rojo-impacto">MARCIAL</span>
+          Biblioteca <span className="text-rojo-impacto">Marcial</span>
         </h1>
-        <p className="font-body text-lg font-bold mt-4 max-w-2xl text-carbon leading-snug">
+        <p className="font-body text-lg text-gray-600 mt-4 max-w-2xl leading-relaxed">
           Artículos técnicos, novedades del reglamento y consejos de combate.
         </p>
       </div>
@@ -197,64 +197,62 @@ const Contenido = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
         
         {/* Category Pills & Controls */}
-        <div className="border-brutal p-4 mb-12 bg-gris-claro flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div className="border-b border-gray-200 pb-6 mb-12 flex flex-col md:flex-row gap-4 items-center justify-between">
           <div className="flex flex-wrap gap-2 w-full md:w-auto">
             <button
               onClick={() => setSelectedCat('')}
               disabled={isEditMode}
-              className={`px-4 py-2 border-2 border-carbon font-title text-sm tracking-widest uppercase transition-colors disabled:opacity-50 ${
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors disabled:opacity-50 ${
                 selectedCat === ''
-                  ? 'bg-carbon text-blanco-absoluto'
-                  : 'bg-blanco-absoluto text-carbon hover:bg-carbon hover:text-blanco-absoluto'
+                  ? 'bg-rojo-impacto text-white shadow-sm'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
-              TODOS
+              Todos
             </button>
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCat(cat)}
                 disabled={isEditMode}
-                className={`px-4 py-2 border-2 border-carbon font-title text-sm tracking-widest uppercase transition-colors disabled:opacity-50 ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors disabled:opacity-50 capitalize ${
                   selectedCat === cat
-                    ? 'bg-carbon text-blanco-absoluto'
-                    : 'bg-blanco-absoluto text-carbon hover:bg-carbon hover:text-blanco-absoluto'
+                    ? 'bg-rojo-impacto text-white shadow-sm'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
-                {cat}
+                {cat.toLowerCase()}
               </button>
             ))}
           </div>
 
           {/* Informative message for admin if filters are active */}
           {isAuthenticated && !canEdit && (
-            <span className="text-xs text-rojo-impacto font-title uppercase tracking-widest border-2 border-rojo-impacto px-3 py-1.5 bg-blanco-absoluto">
-              SELECCIONA "TODOS" PARA REORDENAR
+            <span className="text-xs text-amber-600 bg-amber-50 px-3 py-1.5 rounded-full font-medium">
+              Selecciona "Todos" para reordenar
             </span>
           )}
         </div>
 
         {/* Reorder instructions in edit mode */}
         {isEditMode && (
-          <div className="mb-10 border-2 border-carbon bg-rojo-impacto p-3 text-blanco-absoluto font-title text-lg uppercase tracking-widest text-center shadow-[4px_4px_0px_0px_rgba(13,13,13,1)]">
-            MODO EDICIÓN: Arrastra las publicaciones para cambiar su orden.
+          <div className="mb-10 bg-blue-50 border border-blue-200 rounded-xl p-4 text-blue-700 text-sm font-medium text-center shadow-sm">
+            Modo Edición: Arrastra las publicaciones para cambiar su orden.
           </div>
         )}
 
         {/* Grid of Content Cards */}
         {loading ? (
           <div className="flex justify-center items-center py-24">
-            <Loader className="animate-spin text-rojo-impacto" size={48} strokeWidth={3} />
+            <Loader className="animate-spin text-red-600" size={48} strokeWidth={3} />
           </div>
         ) : contents.length === 0 ? (
-          <div className="py-16 text-center border-4 border-carbon border-dashed flex flex-col items-center justify-center p-6">
-            <FileText size={48} strokeWidth={2} className="text-carbon mb-4" />
-            <p className="font-title text-2xl sm:text-3xl text-carbon uppercase mb-2">
-              SIN PUBLICACIONES
-            </p>
-            <p className="font-body text-base font-medium text-carbon/60">
-              No hay contenido en esta categoría por ahora.
-            </p>
+          <div className="py-16 text-center border border-gray-200 rounded-xl bg-white flex flex-col items-center justify-center p-6 shadow-sm">
+            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+              <FileText size={32} className="text-gray-400" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-1">Sin Publicaciones</h3>
+            <p className="text-gray-500 text-sm">No hay contenido en esta categoría por ahora.</p>
           </div>
         ) : isEditMode ? (
           <DndContext
@@ -293,7 +291,7 @@ const Contenido = () => {
         {isAuthenticated && canEdit && (
           <button
             onClick={() => setIsEditMode(!isEditMode)}
-            className={`fixed bottom-8 right-8 z-50 p-4 border-4 border-carbon transition-all duration-300 shadow-[8px_8px_0px_0px_rgba(13,13,13,1)] hover:-translate-y-1 hover:shadow-[12px_12px_0px_0px_rgba(13,13,13,1)] ${
+            className={`fixed bottom-8 right-8 z-50 p-4 border-precision transition-all duration-300 hover:-translate-y-1 hover:border-carbon ${
               isEditMode
                 ? 'bg-rojo-impacto text-blanco-absoluto'
                 : 'bg-blanco-absoluto text-carbon'
@@ -306,7 +304,7 @@ const Contenido = () => {
 
         {/* Toast Notification */}
         {toast.message && (
-          <div className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-4 border-4 shadow-[8px_8px_0px_0px_rgba(13,13,13,1)] flex items-center justify-center font-title text-lg uppercase tracking-widest bg-blanco-absoluto ${
+          <div className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-4 border-precision flex items-center justify-center font-title text-lg uppercase tracking-widest bg-blanco-absoluto ${
             toast.type === 'success'
               ? 'border-carbon text-carbon'
               : 'border-rojo-impacto text-rojo-impacto'

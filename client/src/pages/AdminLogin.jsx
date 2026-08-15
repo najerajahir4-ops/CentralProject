@@ -38,60 +38,60 @@ const AdminLogin = () => {
   };
 
   return (
-    <div class="relative min-h-screen flex items-center justify-center px-4 py-12 bg-white dark:bg-[#0A0B0E] transition-colors">
-      <div class="absolute top-6 left-6 sm:top-10 sm:left-10">
-        <Link to="/" class="flex items-center gap-2 text-carbon dark:text-gray-400 hover:text-rojo-impacto dark:hover:text-white transition-colors font-title text-sm tracking-widest uppercase">
-          <ArrowLeft size={16} strokeWidth={3} /> VOLVER A LA WEB
+    <div className="relative min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50 transition-colors">
+      <div className="absolute top-6 left-6 sm:top-10 sm:left-10">
+        <Link to="/" className="flex items-center gap-2 text-gray-500 hover:text-carbon transition-colors font-body font-medium text-sm">
+          <ArrowLeft size={16} strokeWidth={2.5} /> Volver a la Web
         </Link>
       </div>
-      <div class="bg-blanco-absoluto dark:bg-carbon border-4 border-carbon dark:border-white/10 p-8 sm:p-10 shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-2xl w-full max-w-md space-y-6 transition-colors">
+      <div className="bg-white border border-gray-200 rounded-2xl p-8 sm:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] w-full max-w-md space-y-8 transition-colors">
         
-        <div class="text-center space-y-4">
-          <div class="w-40 h-40 flex items-center justify-center mx-auto mb-2">
-            <img src="/admin_logo.png" alt="Club Central Admin" class="w-full h-full object-contain drop-shadow-md" />
+        <div className="text-center space-y-2">
+          <div className="w-32 h-32 flex items-center justify-center mx-auto mb-4">
+            <img src="/admin_logo.png" alt="Club Central Admin" className="w-full h-full object-contain" />
           </div>
-          <h2 class="text-2xl font-black text-carbon dark:text-white font-display tracking-widest uppercase">
-            CLUB CENTRAL - ADMIN
+          <h2 className="text-2xl font-bold text-carbon font-body normal-case tracking-normal">
+            Panel de Administración
           </h2>
-          <p class="text-xs text-gray-600 dark:text-gray-400 font-body">
-            Panel de gestión técnica para Taekwondo y Kickboxing Formativo Especializado.
+          <p className="text-sm text-gray-500 font-body leading-relaxed px-4">
+            Gestión técnica de Taekwondo y Kickboxing.
           </p>
         </div>
 
         {error && (
-          <div class="bg-red-50 border-2 border-rojo-impacto p-3 flex items-center gap-2 text-xs text-rojo-impacto font-bold">
-            <AlertCircle size={16} class="flex-shrink-0" />
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2 text-sm text-rojo-impacto font-medium">
+            <AlertCircle size={18} className="flex-shrink-0 mt-0.5" />
             <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} class="space-y-4">
-          <div>
-            <label class="block text-xs font-black text-carbon dark:text-gray-300 uppercase mb-1">Usuario</label>
-            <div class="relative">
-              <User class="w-4 h-4 text-gray-500 dark:text-gray-400 absolute left-3.5 top-3" />
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-1.5">
+            <label className="block text-sm font-bold font-body text-carbon normal-case tracking-normal">Usuario</label>
+            <div className="relative">
+              <User className="w-5 h-5 text-gray-400 absolute left-3.5 top-3" />
               <input
                 type="text"
                 required
                 value={usuario}
                 onChange={(e) => setUsuario(e.target.value)}
-                placeholder=""
-                class="w-full bg-white dark:bg-black/40 border-2 border-carbon dark:border-white/10 pl-10 pr-4 py-2.5 text-xs text-carbon dark:text-white font-bold focus:outline-none focus:border-rojo-impacto shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-none"
+                placeholder="Ingresa tu usuario"
+                className="w-full bg-white border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm text-carbon font-medium focus:outline-none focus:border-rojo-impacto focus:ring-4 focus:ring-rojo-impacto/10 transition-all placeholder:font-normal placeholder:text-gray-400"
               />
             </div>
           </div>
 
-          <div>
-            <label class="block text-xs font-black text-carbon dark:text-gray-300 uppercase mb-1">Contraseña</label>
-            <div class="relative">
-              <Lock class="w-4 h-4 text-gray-500 dark:text-gray-400 absolute left-3.5 top-3" />
+          <div className="space-y-1.5">
+            <label className="block text-sm font-bold font-body text-carbon normal-case tracking-normal">Contraseña</label>
+            <div className="relative">
+              <Lock className="w-5 h-5 text-gray-400 absolute left-3.5 top-3" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder=""
-                class="w-full bg-white dark:bg-black/40 border-2 border-carbon dark:border-white/10 pl-10 pr-4 py-2.5 text-xs text-carbon dark:text-white font-bold focus:outline-none focus:border-rojo-impacto shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-none"
+                placeholder="Ingresa tu contraseña"
+                className="w-full bg-white border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm text-carbon font-medium focus:outline-none focus:border-rojo-impacto focus:ring-4 focus:ring-rojo-impacto/10 transition-all placeholder:font-normal placeholder:text-gray-400"
               />
             </div>
           </div>
@@ -99,9 +99,9 @@ const AdminLogin = () => {
           <button
             type="submit"
             disabled={submitting}
-            class="w-full py-3 bg-rojo-impacto hover:bg-carbon text-white text-xs font-black tracking-widest font-display uppercase border-2 border-carbon transition-colors flex items-center justify-center gap-2 disabled:opacity-50 shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[0_0_15px_rgba(214,40,57,0.3)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none"
+            className="w-full py-3.5 mt-2 bg-rojo-impacto hover:bg-carbon text-white text-sm font-bold font-body normal-case tracking-normal rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 shadow-sm hover:shadow-md"
           >
-            {submitting ? 'Verificando...' : 'INICIAR SESIÓN'}
+            {submitting ? 'Verificando...' : 'Iniciar Sesión'}
           </button>
         </form>
 
