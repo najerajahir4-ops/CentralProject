@@ -1,0 +1,11 @@
+{
+  "name": "central-project",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "build": "npm run build -w client"
+  }
+}
