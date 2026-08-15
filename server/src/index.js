@@ -47,8 +47,8 @@ if (process.env.FRONTEND_URL) {
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Permitir peticiones sin origen (como Postman) o si está en la lista de permitidos
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      // Permitir peticiones sin origen, de la lista de permitidos, o desde dominios de Vercel
+      if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
         callback(null, true);
       } else {
         callback(new Error('Bloqueado por políticas de CORS'));
