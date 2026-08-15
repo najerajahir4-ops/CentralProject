@@ -167,10 +167,10 @@ const Grados = () => {
             REGISTRO OFICIAL
           </span>
         </div>
-        <h1 className="text-5xl font-heading text-tatami-blanco uppercase tracking-tight">
+        <h1 className="text-5xl font-heading text-carbon uppercase tracking-tight">
           GRADOS Y <span className="text-dorado-campeon">CINTURONES</span>
         </h1>
-        <p className="text-sm font-body text-tatami-blanco/70 uppercase tracking-widest max-w-xl mx-auto">
+        <p className="text-sm font-body text-carbon/70 uppercase tracking-widest max-w-xl mx-auto">
           Listado de alumnos activos acreditados en sus respectivos cinturones.
         </p>
       </div>
@@ -226,8 +226,8 @@ const Grados = () => {
       ) : filteredStudents.length === 0 ? (
         <div className="text-center py-24 flex flex-col items-center">
           <Award size={40} className="text-dorado-campeon/30 mb-4" />
-          <h3 className="font-heading text-tatami-blanco text-xl tracking-widest uppercase mb-2">Sin Registros</h3>
-          <p className="text-sm font-body text-tatami-blanco/50">No hay alumnos con la disciplina o búsqueda seleccionada.</p>
+          <h3 className="font-heading text-carbon text-xl tracking-widest uppercase mb-2">Sin Registros</h3>
+          <p className="text-sm font-body text-carbon/70">No hay alumnos con la disciplina o búsqueda seleccionada.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 pb-12">
