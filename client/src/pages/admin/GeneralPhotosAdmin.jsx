@@ -124,7 +124,7 @@ const GeneralPhotosAdmin = () => {
           </div>
           <button 
             onClick={() => setShowAddForm(!showAddForm)}
-            class="flex items-center gap-2 bg-carbon dark:bg-white hover:bg-yellow-500 text-carbon dark:text-white font-bold px-4 py-2 rounded-lg text-xs transition-colors"
+            className="flex items-center gap-2 bg-carbon dark:bg-white hover:bg-rojo-impacto text-white dark:text-carbon font-bold px-4 py-2 rounded-lg text-xs transition-colors"
           >
             {showAddForm ? 'Cancelar' : <><Plus size={16}/> Nueva Foto</>}
           </button>

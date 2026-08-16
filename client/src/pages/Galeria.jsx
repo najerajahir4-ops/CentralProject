@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ChevronRight, AlertCircle, Loader, Filter } from 'lucide-react';
+import { Search, ChevronRight, AlertCircle, Loader, Filter, Camera } from 'lucide-react';
 import API from '../services/api';
 import { getBeltStyle } from '../utils/belt-colors';
 
@@ -118,26 +118,28 @@ const Galeria = () => {
                 {search === '' && rankFilter === '' && categoryFilter === '' && (
                   <Link 
                     to={`/galeria/generales`}
-                    className="group flex flex-col border-precision bg-blanco-absoluto transition-transform hover:-translate-y-2 hover:border-carbon"
+                    className="group flex flex-col border border-gray-200 bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
                   >
-                    <div className="aspect-[4/5] bg-gris-claro border-b-2 border-carbon flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                    <div className="aspect-[4/5] bg-gray-50 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
                       <div className="absolute inset-0 bg-[url('/logo.png')] bg-center bg-no-repeat opacity-5 scale-150"></div>
-                      <div className="w-20 h-20 border-4 border-carbon flex items-center justify-center mb-6 bg-blanco-absoluto relative z-10 group-hover:bg-rojo-impacto group-hover:text-blanco-absoluto transition-colors">
-                        <span className="text-4xl">📸</span>
+                      
+                      <div className="w-20 h-20 rounded-full border border-gray-200 flex items-center justify-center mb-6 bg-white relative z-10 group-hover:bg-rojo-impacto group-hover:border-rojo-impacto transition-colors shadow-sm">
+                        <Camera className="w-8 h-8 text-gray-400 group-hover:text-white transition-colors" strokeWidth={2} />
                       </div>
-                      <p className="font-title text-3xl text-carbon uppercase leading-none mb-2 relative z-10">
-                        FOTOS GENERALES
+                      
+                      <p className="font-body font-bold text-2xl text-carbon mb-1 relative z-10">
+                        Fotos Generales
                       </p>
-                      <p className="font-body font-bold text-sm uppercase tracking-widest text-rojo-impacto relative z-10">
+                      <p className="font-body text-sm font-medium text-rojo-impacto relative z-10 tracking-wide">
                         ÁLBUM OFICIAL
                       </p>
                     </div>
                     
-                    <div className="h-4 w-full bg-carbon"></div>
-                    
-                    <div className="p-4 flex justify-between items-center bg-blanco-absoluto border-t-2 border-carbon">
-                      <span className="font-body font-bold text-xs text-carbon uppercase tracking-widest">ACCESO PÚBLICO</span>
-                      <ChevronRight className="w-6 h-6 text-carbon group-hover:text-rojo-impacto group-hover:translate-x-1 transition-all" strokeWidth={3} />
+                    <div className="p-4 flex justify-between items-center bg-white border-t border-gray-100">
+                      <span className="font-body font-semibold text-xs text-gray-500 uppercase tracking-wider">Acceso Público</span>
+                      <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-red-50 transition-colors">
+                        <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-rojo-impacto transition-colors" strokeWidth={2.5} />
+                      </div>
                     </div>
                   </Link>
                 )}
@@ -149,19 +151,19 @@ const Galeria = () => {
                     <Link 
                       key={student.id} 
                       to={`/galeria/${student.id}`}
-                      className="group flex flex-col border-precision bg-blanco-absoluto transition-transform hover:-translate-y-2 hover:border-carbon"
+                      className="group flex flex-col border border-gray-200 bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
                     >
-                      <div className="aspect-[4/5] bg-gris-claro border-b-2 border-carbon relative overflow-hidden">
+                      <div className="aspect-[4/5] bg-gray-50 relative overflow-hidden">
                         {student.foto ? (
                           <img 
                             src={student.foto} 
                             alt={student.nombres} 
-                            className="w-full h-full object-cover object-top filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                            className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                           />
                         ) : (
-                          <div className="w-full h-full flex flex-col justify-center items-center bg-gris-claro">
-                            <div className="w-24 h-24 border-4 border-carbon flex items-center justify-center bg-blanco-absoluto">
-                              <span className="font-title text-5xl text-carbon">
+                          <div className="w-full h-full flex flex-col justify-center items-center bg-gray-100">
+                            <div className="w-24 h-24 rounded-full border border-gray-200 flex items-center justify-center bg-white shadow-sm">
+                              <span className="font-body font-bold text-3xl text-gray-400">
                                 {student.nombres?.charAt(0)}{student.apellidos?.charAt(0)}
                               </span>
                             </div>
@@ -170,29 +172,34 @@ const Galeria = () => {
                       </div>
                       
                       {/* INFO Y ANCLAJE DE RANGO */}
-                      <div className="bg-blanco-absoluto relative flex flex-col justify-between p-5 min-h-[140px]">
+                      <div className="bg-white relative flex flex-col justify-between p-5 min-h-[140px]">
                         <div>
-                          <p className="font-title text-carbon text-2xl uppercase leading-none mb-2 line-clamp-2 group-hover:text-rojo-impacto transition-colors">
+                          <p className="font-body font-bold text-gray-900 text-lg leading-tight mb-1 line-clamp-2 group-hover:text-rojo-impacto transition-colors">
                             {student.nombres} {student.apellidos}
                           </p>
-                          <p className="font-body font-bold text-carbon/60 text-sm uppercase tracking-widest">
+                          <p className="font-body font-medium text-gray-500 text-xs uppercase tracking-wider">
                             {student.grado || 'SIN GRADO'}
                           </p>
                         </div>
                         
-                        <p className="font-body font-bold text-[10px] text-carbon uppercase tracking-widest mt-4">
-                          VER REGISTRO <ChevronRight size={14} className="inline group-hover:translate-x-1 transition-transform" />
-                        </p>
+                        <div className="flex justify-between items-center mt-4 border-t border-gray-100 pt-3">
+                          <span className="font-body font-semibold text-[11px] text-gray-400 uppercase tracking-widest">
+                            VER REGISTRO
+                          </span>
+                          <div className="w-6 h-6 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-red-50 transition-colors">
+                            <ChevronRight size={14} className="text-gray-400 group-hover:text-rojo-impacto transition-colors" />
+                          </div>
+                        </div>
                       </div>
                       
-                      {/* Línea de Cinturón Brutalista */}
-                      <div className="relative border-t-2 border-carbon h-6 w-full flex items-center justify-center bg-carbon overflow-hidden">
+                      {/* Línea de Cinturón Suave */}
+                      <div className="relative border-t border-gray-100 h-2 w-full flex items-center justify-center overflow-hidden opacity-90 group-hover:opacity-100 transition-opacity">
                         <div 
                           className="absolute inset-0"
                           style={{ backgroundColor: belt.backgroundColor }}
                         ></div>
                         {belt.isBlackBelt && (
-                          <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[4px] bg-rojo-impacto z-20"></div>
+                          <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px] bg-red-600 z-20"></div>
                         )}
                       </div>
                     </Link>
