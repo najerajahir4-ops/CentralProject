@@ -937,8 +937,8 @@ const EstudiantesAdmin = () => {
       </div>
 
       {/* Table */}
-      <div className="bg-white dark:bg-[#0A0B0E] border border-gray-200 dark:border-white/10 rounded-md shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="bg-white dark:bg-[#0A0B0E] border border-gray-200 dark:border-white/10 rounded-md shadow-sm">
+        <div className="overflow-x-auto pb-24 min-h-[300px]">
           <table className="w-full text-left text-sm whitespace-nowrap">
             <thead className="bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-gray-400 font-medium text-xs uppercase tracking-wider border-b border-gray-200 dark:border-white/10">
               <tr>
