@@ -1,4 +1,5 @@
 const prisma = require('../config/db');
+const { logAction } = require('../utils/auditLogger');
 
 // --- CLUBES ---
 const getClubs = async (req, res, next) => {
@@ -23,6 +24,9 @@ const createClub = async (req, res, next) => {
     const club = await prisma.club.create({
       data: { nombre, descripcion: descripcion || '' },
     });
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'CREAR', 'CLUB', club.id, `Club creado: ${nombre}`);
+
     return res.status(201).json(club);
   } catch (error) {
     next(error);
@@ -37,6 +41,9 @@ const updateClub = async (req, res, next) => {
       where: { id: parseInt(id) },
       data: { nombre, descripcion },
     });
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'EDITAR', 'CLUB', updated.id, `Club actualizado: ${nombre}`);
+
     return res.json(updated);
   } catch (error) {
     next(error);
@@ -47,6 +54,9 @@ const deleteClub = async (req, res, next) => {
   try {
     const { id } = req.params;
     await prisma.club.delete({ where: { id: parseInt(id) } });
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'ELIMINAR', 'CLUB', parseInt(id), `Club eliminado ID: ${id}`);
+
     return res.json({ message: 'Club eliminado con éxito.' });
   } catch (error) {
     next(error);
@@ -82,6 +92,9 @@ const createModule = async (req, res, next) => {
         datosExtra: datosExtra || '',
       },
     });
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'CREAR', 'CONTENIDO', created.id, `Módulo creado: ${titulo}`);
+
     return res.status(201).json(created);
   } catch (error) {
     next(error);
@@ -96,6 +109,9 @@ const updateModule = async (req, res, next) => {
       where: { id: parseInt(id) },
       data: { titulo, descripcion, icono, datosExtra },
     });
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'EDITAR', 'CONTENIDO', updated.id, `Módulo actualizado: ${titulo}`);
+
     return res.json(updated);
   } catch (error) {
     next(error);
@@ -106,6 +122,9 @@ const deleteModule = async (req, res, next) => {
   try {
     const { id } = req.params;
     await prisma.moduleData.delete({ where: { id: parseInt(id) } });
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'ELIMINAR', 'CONTENIDO', parseInt(id), `Elemento de módulo eliminado ID: ${id}`);
+
     return res.json({ message: 'Elemento de módulo eliminado.' });
   } catch (error) {
     next(error);

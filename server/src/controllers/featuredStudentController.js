@@ -1,4 +1,5 @@
 const prisma = require('../config/db');
+const { logAction } = require('../utils/auditLogger');
 
 const getFeaturedStudents = async (req, res, next) => {
   try {
@@ -53,6 +54,9 @@ const createFeaturedStudent = async (req, res, next) => {
       },
     });
 
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'CREAR', 'CONTENIDO', created.id, `Alumno destacado agregado: ID ${studentId}`);
+
     return res.status(201).json(created);
   } catch (error) {
     next(error);
@@ -72,6 +76,9 @@ const updateFeaturedStudent = async (req, res, next) => {
       },
     });
 
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'EDITAR', 'CONTENIDO', updated.id, `Alumno destacado actualizado`);
+
     return res.json(updated);
   } catch (error) {
     next(error);
@@ -82,6 +89,9 @@ const deleteFeaturedStudent = async (req, res, next) => {
   try {
     const { id } = req.params;
     await prisma.featuredStudent.delete({ where: { id: parseInt(id) } });
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'ELIMINAR', 'CONTENIDO', parseInt(id), `Alumno destacado eliminado ID: ${id}`);
+
     return res.json({ message: 'Alumno destacado eliminado.' });
   } catch (error) {
     next(error);
@@ -104,6 +114,9 @@ const reorderFeaturedStudents = async (req, res, next) => {
         })
       )
     );
+
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'EDITAR', 'CONTENIDO', null, `Orden de alumnos destacados actualizado`);
 
     return res.json({ message: 'Orden de alumnos destacados actualizado con éxito.' });
   } catch (error) {

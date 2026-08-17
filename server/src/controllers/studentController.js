@@ -126,6 +126,9 @@ const createStudent = async (req, res, next) => {
       include: { club: true },
     });
 
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'CREAR', 'ALUMNO', newStudent.id, `Ficha de alumno creada: ${newStudent.nombres} ${newStudent.apellidos}`);
+
     return res.status(201).json({
       ...newStudent,
       nombreCompleto: `${newStudent.nombres} ${newStudent.apellidos}`,
@@ -197,6 +200,9 @@ const updateStudent = async (req, res, next) => {
       include: { club: true },
     });
 
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'EDITAR', 'ALUMNO', updatedStudent.id, `Ficha de alumno actualizada: ${updatedStudent.nombres} ${updatedStudent.apellidos}`);
+
     return res.json({
       ...updatedStudent,
       nombreCompleto: `${updatedStudent.nombres} ${updatedStudent.apellidos}`,
@@ -267,6 +273,9 @@ const addGalleryPhoto = async (req, res, next) => {
       },
     });
 
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'CREAR', 'CONTENIDO', photo.id, `Foto añadida a galería de alumno ID: ${id}`);
+
     return res.status(201).json(photo);
   } catch (error) {
     next(error);
@@ -279,6 +288,9 @@ const deleteGalleryPhoto = async (req, res, next) => {
     await prisma.studentGallery.delete({
       where: { id: parseInt(photoId) },
     });
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'ELIMINAR', 'CONTENIDO', parseInt(photoId), `Foto eliminada de galería de alumno`);
+
     return res.json({ message: 'Foto eliminada con éxito.' });
   } catch (error) {
     next(error);

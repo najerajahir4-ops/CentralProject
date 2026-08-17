@@ -1,4 +1,5 @@
 const prisma = require('../config/db');
+const { logAction } = require('../utils/auditLogger');
 
 const getAllContent = async (req, res, next) => {
   try {
@@ -66,6 +67,9 @@ const createContent = async (req, res, next) => {
       },
     });
 
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'CREAR', 'CONTENIDO', newContent.id, `Publicación creada: ${titulo}`);
+
     return res.status(201).json(newContent);
   } catch (error) {
     next(error);
@@ -90,6 +94,9 @@ const updateContent = async (req, res, next) => {
       },
     });
 
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'EDITAR', 'CONTENIDO', updated.id, `Publicación actualizada: ${titulo}`);
+
     return res.json(updated);
   } catch (error) {
     next(error);
@@ -100,6 +107,9 @@ const deleteContent = async (req, res, next) => {
   try {
     const { id } = req.params;
     await prisma.content.delete({ where: { id: parseInt(id) } });
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'ELIMINAR', 'CONTENIDO', parseInt(id), `Publicación eliminada ID: ${id}`);
+
     return res.json({ message: 'Publicación eliminada con éxito.' });
   } catch (error) {
     next(error);
@@ -122,6 +132,9 @@ const reorderContents = async (req, res, next) => {
         })
       )
     );
+
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'EDITAR', 'CONTENIDO', null, `Orden de publicaciones actualizado`);
 
     return res.json({ message: 'Orden de publicaciones actualizado con éxito.' });
   } catch (error) {

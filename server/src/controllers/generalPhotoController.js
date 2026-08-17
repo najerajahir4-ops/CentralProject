@@ -1,4 +1,5 @@
 const prisma = require('../config/db');
+const { logAction } = require('../utils/auditLogger');
 
 const getGeneralPhotos = async (req, res, next) => {
   try {
@@ -26,6 +27,9 @@ const addGeneralPhoto = async (req, res, next) => {
       },
     });
 
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'CREAR', 'CONTENIDO', photo.id, `Foto general añadida a la galería`);
+
     return res.status(201).json(photo);
   } catch (error) {
     next(error);
@@ -38,6 +42,9 @@ const deleteGeneralPhoto = async (req, res, next) => {
     await prisma.generalPhoto.delete({
       where: { id: parseInt(id) },
     });
+    const adminId = req.user ? req.user.id : null;
+    await logAction(adminId, 'ELIMINAR', 'CONTENIDO', parseInt(id), `Foto general eliminada ID: ${id}`);
+
     return res.json({ message: 'Foto eliminada con éxito.' });
   } catch (error) {
     next(error);
