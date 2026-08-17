@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
 import API from '../../services/api';
 import Modal from '../../components/Modal';
 import { FileText, Plus, Edit, Trash2, Video, Calendar, Camera, Loader, GripVertical } from 'lucide-react';
@@ -482,7 +486,11 @@ const ContenidoAdmin = () => {
                         </div>
                       ) : (
                         blocks.map((block) => (
-                          <SortableBlock key={block.id} block={block} updateBlock={updateBlock} removeBlock={removeBlock} />
+                          <SortableBlock key={block.id} block={block} updateBlock={updateBlock} removeBlock={removeBlock}>
+                            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw, rehypeSanitize]}>
+                                {block.content}
+                            </ReactMarkdown>
+                          </SortableBlock>
                         ))
                       )}
                     </div>

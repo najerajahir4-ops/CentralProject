@@ -5,6 +5,7 @@ import { Calendar, ArrowLeft } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
 
 const ContenidoDetalle = ({ previewData }) => {
   const { id } = useParams();
@@ -58,7 +59,7 @@ const ContenidoDetalle = ({ previewData }) => {
       // Fallback a Markdown normal
       return (
         <div className="prose prose-carbon prose-lg max-w-none w-full bg-blanco-absoluto py-8">
-          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw, rehypeSanitize]}>
             {content.cuerpo}
           </ReactMarkdown>
         </div>
@@ -72,7 +73,7 @@ const ContenidoDetalle = ({ previewData }) => {
           if (block.type === 'TEXT') {
             return (
               <div key={block.id} className="prose prose-carbon prose-lg max-w-none">
-                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{block.content || ''}</ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw, rehypeSanitize]}>{block.content || ''}</ReactMarkdown>
               </div>
             );
           }
@@ -97,10 +98,10 @@ const ContenidoDetalle = ({ previewData }) => {
             return (
               <div key={block.id} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start my-10">
                 <div className="bg-gris-claro/50 border border-carbon/5 p-6 rounded-xl prose prose-carbon prose-p:my-2">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{block.leftCol || ''}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw, rehypeSanitize]}>{block.leftCol || ''}</ReactMarkdown>
                 </div>
                 <div className="prose prose-carbon prose-p:my-2 p-6">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{block.rightCol || ''}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw, rehypeSanitize]}>{block.rightCol || ''}</ReactMarkdown>
                 </div>
               </div>
             );
