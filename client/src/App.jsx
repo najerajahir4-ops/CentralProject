@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
 import { useAuth } from './context/AuthContext';
 import { useTheme } from './context/ThemeContext';
+import ProfileSettingsModal from './components/admin/ProfileSettingsModal';
 
 // Public Pages
 import Home from './pages/Home';
@@ -40,6 +41,7 @@ const AdminSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   const navLinks = [
     { path: '/admin/estudiantes', label: 'Fichas & Pagos', icon: Users },
@@ -134,10 +136,14 @@ const AdminSidebar = () => {
           </button>
 
           <div className="flex items-center justify-between bg-gray-50 dark:bg-black/40 p-3 border border-carbon/20 dark:border-white/20 rounded-md">
-            <div className="flex items-center gap-2 text-xs font-body font-medium text-carbon dark:text-white">
+            <button 
+              onClick={() => setIsProfileModalOpen(true)}
+              className="flex items-center gap-2 text-xs font-body font-medium text-carbon dark:text-white hover:text-rojo-impacto transition-colors"
+              title="Editar Perfil"
+            >
               <User size={14} className="text-rojo-impacto" />
               <span className="truncate max-w-[100px]">{user?.usuario}</span>
-            </div>
+            </button>
             <Link 
               to="/" 
               onClick={() => setMobileOpen(false)} 
@@ -156,6 +162,12 @@ const AdminSidebar = () => {
           </button>
         </div>
       </aside>
+
+      {/* Modal de Configuración de Perfil */}
+      <ProfileSettingsModal 
+        isOpen={isProfileModalOpen} 
+        onClose={() => setIsProfileModalOpen(false)} 
+      />
     </>
   );
 };

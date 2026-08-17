@@ -134,6 +134,12 @@ Se ha realizado una revisión integral del sistema empleando **Skills avanzadas 
 - **Motor de Artículos (Markdown):** Se eliminó el antiguo e inflexible *ContentCard*. Ahora la sección de Contenido utiliza `react-markdown` y el plugin oficial de lectura `@tailwindcss/typography` (con un estilo personalizado `prose-dorado`), permitiendo anchos de lectura más generosos y asegurando que ninguna palabra enviada desde el panel se pierda.
 - **Automatización de Contenido (Admin):** Se incluyó un botón de "+ Insertar Plantilla Base" en el creador de publicaciones para facilitar el formateo perfecto vía Markdown de forma automática.
 
+### Nivelación de Blog y Simulador de Contenido
+- **Simulador de Artículos en Vivo (Pantalla Dividida):** Refactorización total del panel de creación de contenido (`ContenidoAdmin.jsx`). Ahora cuenta con una vista dividida lado a lado que renderiza en tiempo real la apariencia pública *exacta* del artículo web mientras se redacta.
+- **Rediseño Editorial del Blog:** En la vista pública (`ContenidoDetalle.jsx`), se aplicaron ajustes premium de legibilidad usando bases súper limpias (`blanco-absoluto`), uso maestro de la tipografía `Inter`, y un nuevo layout que aprovecha el espacio muerto anclando la barra de "Más publicaciones" como un sidebar elegante justo al lado del cuerpo principal.
+- **Autoría Dinámica y Firma:** Expansión del esquema Prisma para rastrear automáticamente qué administrador crea cada publicación. Ahora todos los artículos en la web lucen un toque profesional mostrando discretamente su firma (`👤 Por: [Nombre]`).
+- **Gestión Autónoma de Perfil:** Creación de un portal de "Ajustes de Perfil" interactivo y minimalista en la esquina inferior izquierda del Panel Administrativo. Cada administrador puede editar libremente su "Nombre Visible", impactando inmediatamente en tiempo real tanto su firma de artículos como el Registro de Auditoría de Seguridad.
+
 ### Rediseño Premium Soft UI & Correcciones
 - **Migración Anti-Brutalista:** Eliminación de sombras rígidas, bordes pesados y textos cuadrados; reemplazados por un sistema de sombras suaves (`shadow-sm` a `shadow-xl`), bordes curvos (`rounded-2xl` y `rounded-3xl`) y micro-animaciones (flotación de imágenes y elevación de tarjetas).
 - **Mejora de Legibilidad:** Sustitución global de tipografías pesadas para textos por `font-body`, con mejor contraste cruzado entre modos Claro y Oscuro (ej. botones administrativos adaptativos).

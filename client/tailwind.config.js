@@ -60,21 +60,20 @@ export default {
             
             // Custom sizing and spacing for editorial feel
             'h1, h2': {
-              fontFamily: theme('fontFamily.title').join(', '),
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              fontSize: '2.5rem',
-              lineHeight: '1.2',
-              marginTop: '2.5em',
+              fontFamily: theme('fontFamily.body').join(', '),
+              fontWeight: '800',
+              letterSpacing: '-0.02em',
+              fontSize: '2rem',
+              lineHeight: '1.3',
+              marginTop: '2em',
               marginBottom: '1em',
             },
             'h3, h4': {
-              fontFamily: theme('fontFamily.title').join(', '),
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
+              fontFamily: theme('fontFamily.body').join(', '),
+              fontWeight: '700',
               color: theme('colors.carbon'),
               fontSize: '1.5rem',
-              marginTop: '2em',
+              marginTop: '1.5em',
               marginBottom: '0.5em',
             },
             'a': {
