@@ -6,6 +6,6 @@
     "server"
   ],
   "scripts": {
-    "build": "npm run build -w client"
+    "build": "npm run build -w client && npm run prisma:push -w server"
   }
 }
