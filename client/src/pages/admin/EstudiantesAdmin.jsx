@@ -59,6 +59,7 @@ const EstudiantesAdmin = () => {
   const [isStudentModalOpen, setIsStudentModalOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   // Selected Student for Edit/Payment/History
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -330,18 +331,26 @@ const EstudiantesAdmin = () => {
     }
   };
 
-  // Delete Student
-  const handleDeleteStudent = async (id) => {
-    if (window.confirm('¿Estás seguro de eliminar este estudiante? Esta acción borrará todo su historial.')) {
-      setIsDeleting(true);
-      try {
-        await API.delete(`/students/${id}`);
-        fetchStudents();
-      } catch (err) {
-        alert('Error al eliminar estudiante.');
-      } finally {
-        setIsDeleting(false);
-      }
+  // Open Delete Modal
+  const handleDeleteStudentClick = (student) => {
+    setSelectedStudent(student);
+    setIsDeleteModalOpen(true);
+    setActiveKebabId(null);
+  };
+
+  // Confirm Delete Student
+  const confirmDeleteStudent = async () => {
+    if (!selectedStudent) return;
+    setIsDeleting(true);
+    try {
+      await API.delete(`/students/${selectedStudent.id}`);
+      setIsDeleteModalOpen(false);
+      setSelectedStudent(null);
+      fetchStudents();
+    } catch (err) {
+      alert('Error al eliminar estudiante.');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -1056,7 +1065,7 @@ const EstudiantesAdmin = () => {
                               </button>
                               <div className="border-t border-gray-100 dark:border-gray-800 my-1"></div>
                               <button
-                                onClick={() => handleDeleteStudent(student.id)}
+                                onClick={() => handleDeleteStudentClick(student)}
                                 disabled={isDeleting}
                                 className="w-full px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-3 disabled:opacity-50 transition-colors"
                               >
@@ -1402,6 +1411,37 @@ const EstudiantesAdmin = () => {
               ))}
             </div>
           )}
+        </div>
+      </Modal>
+
+      {/* Modal Confirmar Eliminación */}
+      <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} title="Confirmar Eliminación">
+        <div className="space-y-6">
+          <div className="flex items-center gap-4 text-red-600 dark:text-red-400">
+            <AlertTriangle size={48} className="shrink-0" />
+            <p className="text-sm text-carbon dark:text-white font-body">
+              ¿Estás seguro de eliminar al estudiante <span className="font-bold text-rojo-impacto uppercase">{selectedStudent?.nombres} {selectedStudent?.apellidos}</span>? 
+              <br/><br/>
+              Esta acción borrará todo su historial de pagos, ficha de inscripción y es <strong>irreversible</strong>.
+            </p>
+          </div>
+          
+          <div className="flex gap-3 justify-end mt-4 border-t border-gray-200 dark:border-white/10 pt-4">
+            <button
+              onClick={() => setIsDeleteModalOpen(false)}
+              className="px-4 py-2 text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-white/5 rounded-md transition-colors"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={confirmDeleteStudent}
+              disabled={isDeleting}
+              className="px-4 py-2 text-xs font-bold text-white bg-rojo-impacto hover:bg-red-700 uppercase tracking-widest rounded-md transition-colors shadow-sm disabled:opacity-50 flex items-center gap-2"
+            >
+              <Trash2 size={16} />
+              {isDeleting ? 'Eliminando...' : 'Sí, Eliminar'}
+            </button>
+          </div>
         </div>
       </Modal>
 

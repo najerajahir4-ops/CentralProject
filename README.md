@@ -133,6 +133,13 @@ Se ha realizado una revisión integral del sistema empleando **Skills avanzadas 
 - **Etiquetas Editoriales:** Se reemplazaron los "badges" genéricos encajonados (ej. en la sección de Contactos) por subtítulos de lujo con líneas finas, aportando un look de revista.
 - **Motor de Artículos (Markdown):** Se eliminó el antiguo e inflexible *ContentCard*. Ahora la sección de Contenido utiliza `react-markdown` y el plugin oficial de lectura `@tailwindcss/typography` (con un estilo personalizado `prose-dorado`), permitiendo anchos de lectura más generosos y asegurando que ninguna palabra enviada desde el panel se pierda.
 - **Automatización de Contenido (Admin):** Se incluyó un botón de "+ Insertar Plantilla Base" en el creador de publicaciones para facilitar el formateo perfecto vía Markdown de forma automática.
+
+### Rediseño Premium Soft UI & Correcciones
+- **Migración Anti-Brutalista:** Eliminación de sombras rígidas, bordes pesados y textos cuadrados; reemplazados por un sistema de sombras suaves (`shadow-sm` a `shadow-xl`), bordes curvos (`rounded-2xl` y `rounded-3xl`) y micro-animaciones (flotación de imágenes y elevación de tarjetas).
+- **Mejora de Legibilidad:** Sustitución global de tipografías pesadas para textos por `font-body`, con mejor contraste cruzado entre modos Claro y Oscuro (ej. botones administrativos adaptativos).
+- **Fijación de Interfaces:** Resolución de errores de "clipping" (cortes) en los menús desplegables de las tablas de gestión de estudiantes, asegurando acceso 100% visible a historiales y fichas.
+- **Protocolos Legales de Galerías:** Integración técnica y administrativa para la subida segura de fotos con autorización legal de tratamiento de imagen de menores.
+
 ### Auditoría de Seguridad
 - Se verificó la robustez de la arquitectura backend: el uso correcto de `bcryptjs` para contraseñas, la inyección SQL prevenida gracias a `Prisma`, y la sesión asegurada vía `JWT` con cookies `httpOnly`.
 - Se parcharon de forma segura vulnerabilidades en dependencias NPM de terceros tanto en el frontend (`nanoid`, `react-router`, `postcss`) como en el backend (`ip-address`), manteniendo la estabilidad del código.
