@@ -13,18 +13,18 @@ const {
 } = require('../controllers/studentController');
 const authMiddleware = require('../middleware/authMiddleware');
 
-// Rutas protegidas para administración
+// Rutas protegidas para administración de estudiantes
 router.get('/stats', authMiddleware, getDashboardStats);
-router.get('/', getStudents); // Público / Admin con filtros
-router.get('/:id', getStudentById);
+router.get('/', authMiddleware, getStudents);
+router.get('/:id', authMiddleware, getStudentById);
 router.post('/', authMiddleware, createStudent);
 router.put('/:id', authMiddleware, updateStudent);
 router.delete('/:id', authMiddleware, deleteStudent);
 
-// Rutas para galería del perfil (Público)
+// Rutas para galería del perfil (Pública para visualización de fotos aprobadas)
 router.get('/gallery/all', getAllGalleryPhotos);
 
-// Rutas para galería del perfil (Protegido)
+// Rutas para galería del perfil (Protegidas)
 router.post('/:id/gallery', authMiddleware, addGalleryPhoto);
 router.delete('/gallery/:photoId', authMiddleware, deleteGalleryPhoto);
 

@@ -7,6 +7,32 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 
+const ALLOWED_VIDEO_HOSTS = [
+  'www.youtube.com',
+  'youtube.com',
+  'www.youtube-nocookie.com',
+  'player.vimeo.com',
+  'vimeo.com'
+];
+
+const validateSafeVideoUrl = (url) => {
+  if (!url || typeof url !== 'string') return null;
+  try {
+    const trimmed = url.trim();
+    if (!trimmed.startsWith('https://')) return null;
+    const parsed = new URL(trimmed);
+    if (parsed.protocol !== 'https:') return null;
+    
+    const host = parsed.hostname.toLowerCase();
+    const isAllowed = ALLOWED_VIDEO_HOSTS.some(
+      allowed => host === allowed || host.endsWith('.' + allowed)
+    );
+    return isAllowed ? parsed.href : null;
+  } catch (e) {
+    return null;
+  }
+};
+
 const ContenidoDetalle = ({ previewData }) => {
   const { id } = useParams();
   const [content, setContent] = useState(previewData || null);
@@ -207,15 +233,22 @@ const ContenidoDetalle = ({ previewData }) => {
                 <h3 className="text-xl font-bold text-carbon border-l-4 border-rojo-impacto pl-3">
                   Material Audiovisual
                 </h3>
-                <div className="aspect-video overflow-hidden rounded-2xl shadow-sm bg-black">
-                  <iframe
-                    src={content.videoUrl}
-                    title={content.titulo}
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                </div>
+                {validateSafeVideoUrl(content.videoUrl) ? (
+                  <div className="aspect-video overflow-hidden rounded-2xl shadow-sm bg-black">
+                    <iframe
+                      src={validateSafeVideoUrl(content.videoUrl)}
+                      title={content.titulo}
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      sandbox="allow-scripts allow-same-origin allow-presentation"
+                    ></iframe>
+                  </div>
+                ) : (
+                  <div className="p-6 rounded-2xl bg-gray-100 dark:bg-carbon border border-carbon/10 text-center text-sm text-carbon/60 dark:text-white/60">
+                    ⚠️ Video no disponible o enlace no permitido por políticas de seguridad.
+                  </div>
+                )}
               </div>
             )}
 

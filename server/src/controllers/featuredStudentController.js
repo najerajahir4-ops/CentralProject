@@ -11,9 +11,28 @@ const getFeaturedStudents = async (req, res, next) => {
 
     const list = await prisma.featuredStudent.findMany({
       where,
-      include: {
+      select: {
+        id: true,
+        studentId: true,
+        logros: true,
+        categoria: true,
+        disciplina: true,
+        orden: true,
+        imagenUrl: true,
         student: {
-          include: { club: true },
+          select: {
+            id: true,
+            nombres: true,
+            apellidos: true,
+            grado: true,
+            foto: true,
+            club: {
+              select: {
+                id: true,
+                nombre: true,
+              },
+            },
+          },
         },
       },
       orderBy: { orden: 'asc' },
@@ -49,8 +68,29 @@ const createFeaturedStudent = async (req, res, next) => {
         orden: nextOrder,
         imagenUrl: imagenUrl || null,
       },
-      include: {
-        student: { include: { club: true } },
+      select: {
+        id: true,
+        studentId: true,
+        logros: true,
+        categoria: true,
+        disciplina: true,
+        orden: true,
+        imagenUrl: true,
+        student: {
+          select: {
+            id: true,
+            nombres: true,
+            apellidos: true,
+            grado: true,
+            foto: true,
+            club: {
+              select: {
+                id: true,
+                nombre: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -71,8 +111,29 @@ const updateFeaturedStudent = async (req, res, next) => {
     const updated = await prisma.featuredStudent.update({
       where: { id: parseInt(id) },
       data: { logros, categoria, disciplina, imagenUrl: imagenUrl || null },
-      include: {
-        student: { include: { club: true } },
+      select: {
+        id: true,
+        studentId: true,
+        logros: true,
+        categoria: true,
+        disciplina: true,
+        orden: true,
+        imagenUrl: true,
+        student: {
+          select: {
+            id: true,
+            nombres: true,
+            apellidos: true,
+            grado: true,
+            foto: true,
+            club: {
+              select: {
+                id: true,
+                nombre: true,
+              },
+            },
+          },
+        },
       },
     });
 

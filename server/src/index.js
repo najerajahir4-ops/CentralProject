@@ -19,6 +19,9 @@ const errorHandler = require('./middleware/errorHandler');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Configurar confianza en el proxy de Vercel/reverse proxy para rate-limiting y cookies precisas
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
@@ -32,28 +35,33 @@ const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
   max: 200, // Límite de 200 peticiones por IP cada 15 minutos
-  message: { error: 'Demasiadas peticiones desde esta IP, por favor intenta de nuevo después de 15 minutos.' }
+  message: { error: 'Demasiadas peticiones desde esta IP, por favor intenta de nuevo después de 15 minutos.' },
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 app.use('/api', limiter);
 
-// CORS configuration
+// Whitelist explícita de dominios autorizados para CORS
 const allowedOrigins = [
   'http://localhost:5173', 
   'http://127.0.0.1:5173',
   'https://paginabryan-db.vercel.app'
 ];
 if (process.env.FRONTEND_URL) {
-  allowedOrigins.push(process.env.FRONTEND_URL);
+  const envUrl = process.env.FRONTEND_URL.trim().replace(/\/$/, '');
+  if (envUrl && !allowedOrigins.includes(envUrl)) {
+    allowedOrigins.push(envUrl);
+  }
 }
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Permitir peticiones sin origen, de la lista de permitidos, o desde dominios de Vercel
-      if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      // Permitir peticiones sin origen (ej. server-to-server / apps móviles) o dentro de la whitelist exacta
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error('Bloqueado por políticas de CORS'));
+        callback(new Error('Bloqueado por políticas de CORS: Origen no autorizado.'));
       }
     },
     credentials: true,
