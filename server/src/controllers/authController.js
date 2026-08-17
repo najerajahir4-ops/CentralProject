@@ -23,7 +23,7 @@ const login = async (req, res, next) => {
     }
 
     const token = jwt.sign(
-      { id: admin.id, usuario: admin.usuario, rol: admin.rol },
+      { id: admin.id, usuario: admin.usuario, nombreVisible: admin.nombreVisible, rol: admin.rol },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
@@ -43,7 +43,7 @@ const login = async (req, res, next) => {
 
     return res.json({
       message: 'Inicio de sesión exitoso',
-      user: { id: admin.id, usuario: admin.usuario, rol: admin.rol },
+      user: { id: admin.id, usuario: admin.usuario, nombreVisible: admin.nombreVisible, rol: admin.rol },
     });
   } catch (error) {
     next(error);
@@ -68,30 +68,18 @@ const updateProfile = async (req, res, next) => {
       return res.status(400).json({ error: 'El nombre de usuario no puede estar vacío.' });
     }
 
-    // Comprobar si ya existe otro admin con ese usuario (case insensitive)
-    const existing = await prisma.adminUser.findFirst({
-      where: {
-        usuario: { equals: nuevoUsuario.toLowerCase(), mode: 'insensitive' },
-        NOT: { id: adminId }
-      }
-    });
-
-    if (existing) {
-      return res.status(400).json({ error: 'Ese nombre de usuario ya está en uso.' });
-    }
-
     const updated = await prisma.adminUser.update({
       where: { id: adminId },
-      data: { usuario: nuevoUsuario }
+      data: { nombreVisible: nuevoUsuario }
     });
 
     // Registrar en auditoría
     const { logAction } = require('../utils/auditLogger');
-    await logAction(adminId, 'EDITAR', 'ADMIN', adminId, `Cambió su nombre a: ${nuevoUsuario}`);
+    await logAction(adminId, 'EDITAR', 'ADMIN', adminId, `Actualizó su nombre visible a: ${nuevoUsuario}`);
 
     // Regenerar token con el nuevo nombre
     const token = jwt.sign(
-      { id: updated.id, usuario: updated.usuario, rol: updated.rol },
+      { id: updated.id, usuario: updated.usuario, nombreVisible: updated.nombreVisible, rol: updated.rol },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
@@ -106,7 +94,7 @@ const updateProfile = async (req, res, next) => {
 
     return res.json({
       message: 'Perfil actualizado correctamente.',
-      user: { id: updated.id, usuario: updated.usuario, rol: updated.rol },
+      user: { id: updated.id, usuario: updated.usuario, nombreVisible: updated.nombreVisible, rol: updated.rol },
     });
   } catch (error) {
     next(error);

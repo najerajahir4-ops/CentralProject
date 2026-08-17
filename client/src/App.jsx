@@ -142,7 +142,7 @@ const AdminSidebar = () => {
               title="Editar Perfil"
             >
               <User size={14} className="text-rojo-impacto" />
-              <span className="truncate max-w-[100px]">{user?.usuario}</span>
+              <span className="truncate max-w-[100px]">{user?.nombreVisible || user?.usuario}</span>
             </button>
             <Link 
               to="/" 

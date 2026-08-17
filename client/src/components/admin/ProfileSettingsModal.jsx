@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const ProfileSettingsModal = ({ isOpen, onClose }) => {
   const { user, updateProfile } = useAuth();
-  const [nuevoUsuario, setNuevoUsuario] = useState(user?.usuario || '');
+  const [nuevoUsuario, setNuevoUsuario] = useState(user?.nombreVisible || user?.usuario || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -81,7 +81,7 @@ const ProfileSettingsModal = ({ isOpen, onClose }) => {
 
           <button
             type="submit"
-            disabled={loading || nuevoUsuario === user?.usuario}
+            disabled={loading || nuevoUsuario === (user?.nombreVisible || user?.usuario)}
             className="w-full mt-4 py-2 bg-rojo-impacto hover:bg-carbon text-white text-xs font-bold uppercase tracking-widest rounded transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
