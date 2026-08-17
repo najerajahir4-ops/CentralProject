@@ -2,8 +2,11 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-  const logs = await prisma.auditLog.findMany({ take: 20, orderBy: { id: 'desc' } });
-  console.log(logs);
+  await prisma.adminUser.update({
+    where: { id: 6 },
+    data: { usuario: 'diego', nombreVisible: 'Diego ssa' }
+  });
+  console.log("Usuario 6 actualizado a diego");
 }
 
 main().finally(() => prisma.$disconnect());
