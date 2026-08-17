@@ -10,12 +10,12 @@ const errorHandler = (err, req, res, next) => {
   }
 
   const isProd = process.env.NODE_ENV === 'production';
-  const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
+  const statusCode = err.status || err.statusCode || (res.statusCode !== 200 ? res.statusCode : 500);
 
-  // En producción no exponer mensajes internos para errores 500
+  // En producción solo enmascarar errores 500 (internos del servidor), permitir mensajes informativos en 4xx
   const message = isProd && statusCode === 500
     ? 'Error interno del servidor. Por favor, intente más tarde.'
-    : err.message || 'Error interno del servidor';
+    : err.message || 'Error en la solicitud';
 
   return res.status(statusCode).json({
     error: message,

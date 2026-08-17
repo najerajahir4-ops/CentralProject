@@ -45,8 +45,12 @@ app.use('/api', limiter);
 const allowedOrigins = [
   'http://localhost:5173', 
   'http://127.0.0.1:5173',
+  'http://localhost:3000',
+  'https://central-project-xi.vercel.app',
+  'https://central-project.vercel.app',
   'https://paginabryan-db.vercel.app'
 ];
+
 if (process.env.FRONTEND_URL) {
   const envUrl = process.env.FRONTEND_URL.trim().replace(/\/$/, '');
   if (envUrl && !allowedOrigins.includes(envUrl)) {
@@ -54,15 +58,41 @@ if (process.env.FRONTEND_URL) {
   }
 }
 
+if (process.env.VERCEL_URL) {
+  const vercelUrl = `https://${process.env.VERCEL_URL.trim().replace(/\/$/, '')}`;
+  if (!allowedOrigins.includes(vercelUrl)) {
+    allowedOrigins.push(vercelUrl);
+  }
+}
+
+if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+  const prodUrl = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL.trim().replace(/\/$/, '')}`;
+  if (!allowedOrigins.includes(prodUrl)) {
+    allowedOrigins.push(prodUrl);
+  }
+}
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Permitir peticiones sin origen (ej. server-to-server / apps móviles) o dentro de la whitelist exacta
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Bloqueado por políticas de CORS: Origen no autorizado.'));
+      // Permitir peticiones sin cabecera origin (server-to-server / curl)
+      if (!origin) {
+        return callback(null, true);
       }
+
+      // Validar contra lista blanca estricta
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      // Permitir subdominios de preview específicos de este proyecto en Vercel
+      if (/^https:\/\/(central-project|paginabryan)[a-z0-9-]*\.vercel\.app$/i.test(origin)) {
+        return callback(null, true);
+      }
+
+      const corsErr = new Error(`Bloqueado por políticas de CORS: Origen '${origin}' no autorizado.`);
+      corsErr.status = 403;
+      return callback(corsErr);
     },
     credentials: true,
   })
