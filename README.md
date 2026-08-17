@@ -1,159 +1,83 @@
-# Academia de Taekwondo & Kickboxing - Proyecto Full-Stack
+# Academia de Taekwondo & Kickboxing - Sistema de Gestión y Web Oficial
 
-Aplicación web completa construida desde cero con arquitectura desacoplada en `/client` y `/server`. Cuenta con un portal público informativo y un panel de administración privado con autenticación JWT y gestión de cobros automatizada, control de grados de Taekwondo y Kickboxing, y un sistema integrado para gestionar contenido web, alumnos destacados, imágenes y asitencia.
-
----
-
-## 🛠️ Stack Tecnológico
-
-- **Frontend (`/client`)**: React 18, Vite, TailwindCSS, Lucide-React, React Router DOM v6, Recharts, Axios.
-- **Backend (`/server`)**: Node.js, Express.js, Prisma ORM, JWT (JSON Web Tokens), Bcrypt.js, CORS, Cookie Parser.
-- **Base de Datos**: PostgreSQL / SQLite (configurado por defecto con SQLite para pruebas locales inmediatas de cero configuración).
-- **Despliegue**: Preparado y configurado en Vercel (monorepo usando `vercel.json`).
+Plataforma Web Full-Stack integral construida desde cero. Consta de una **Landing Page interactiva pública** para atraer nuevos clientes y un **Sistema de Gestión (CRM/ERP) privado** diseñado a medida para optimizar el control de estudiantes, pagos, asistencia, eventos y blog de contenido.
 
 ---
 
-## 📁 Estructura del Proyecto
+## 🏗️ Arquitectura y Tecnologías (Stack MERN/Prisma)
 
-```
-PAGINABRYAN/
-├── client/                 # Aplicación Frontend React + Vite + Tailwind
-│   ├── src/
-│   │   ├── components/     # Navbar, Footer, StatusBadge, Modal, ProtectedRoute
-│   │   ├── context/        # AuthContext (Estado de autenticación JWT)
-│   │   ├── pages/          # Home, QuienesSomos, Campeonatos, AlumnosDestacados, Contenido, etc.
-│   │   │   └── admin/      # Dashboard, EstudiantesAdmin, ContenidoAdmin, ModulosAdmin
-│   │   ├── services/       # Instancia de API Axios
-│   │   ├── App.jsx         # Enrutador principal
-│   │   └── main.jsx
-│   ├── tailwind.config.js
-│   └── package.json
-├── server/                 # Servidor Backend Node.js + Express + Prisma
-│   ├── prisma/
-│   │   ├── schema.prisma   # Modelo de datos Prisma (Student, Payment, Club, etc.)
-│   │   └── seed.js         # Script de siembra de datos de prueba
-│   ├── src/
-│   │   ├── controllers/    # Controladores de lógica de negocio y cálculo de pagos
-│   │   ├── middleware/     # Autenticación JWT y manejador de errores
-│   │   ├── routes/         # Rutas de la API (/api/auth, /api/students, etc.)
-│   │   └── index.js        # Punto de entrada Express
-│   ├── .env.example
-│   └── package.json
-├── vercel.json             # Configuración de despliegue para Vercel
-└── README.md
-```
+El proyecto utiliza una arquitectura desacoplada moderna:
+
+### **Frontend (Cliente Web) - `/client`**
+* **Librería Core:** React 18
+* **Herramienta de Construcción:** Vite (Ultra rápido, con Hot Module Replacement)
+* **Estilizado (UI/UX):** TailwindCSS (Diseño Utility-First, Modo Oscuro nativo, animaciones customizadas).
+* **Enrutamiento:** React Router DOM v6 (Protección de rutas privadas, navegación SPA).
+* **Gráficos e Iconos:** Recharts (para los gráficos del Dashboard) y Lucide-React.
+* **Procesamiento de Texto:** `react-markdown` y `rehype-sanitize` para renderizado seguro de artículos del blog en pantalla dividida.
+
+### **Backend (Servidor API) - `/server`**
+* **Motor:** Node.js con Express.js
+* **Base de Datos ORM:** Prisma (Tipado estricto, migraciones automáticas).
+* **Autenticación:** JSON Web Tokens (JWT) encriptados y almacenados en Cookies `httpOnly` de máxima seguridad.
+* **Almacenamiento Cloud:** Integración con **Cloudinary** vía `multer` para guardar fotos de alumnos y portadas de blogs en la nube sin saturar el servidor.
 
 ---
 
-## 🚀 Instrucciones de Instalación y Ejecución
+## 🗄️ Estructura de la Base de Datos (Prisma ORM)
 
-### 1. Servidor Backend (`/server`)
+La base de datos (PostgreSQL/SQLite) no es plana, sino un **modelo relacional estrictamente estandarizado** que garantiza la integridad referencial (no deja datos huérfanos) mediante eliminaciones en cascada (`onDelete: Cascade`).
 
+### **Modelos Principales:**
+1. **`AdminUser` & `AuditLog`**:
+   * Los administradores poseen su usuario y contraseña encriptada (con Bcrypt). Tienen control sobre su "Nombre Visible".
+   * El `AuditLog` rastrea cada acción sensible (crear, editar, eliminar) vinculándola al Administrador específico. Si hay un cambio extraño, se sabe quién lo hizo.
+2. **`Student` (Estudiante Central)**:
+   * Almacena datos personales, médicos (tipos de sangre, alergias), información de contacto de emergencia, cédulas únicas (`@unique`) y grados en artes marciales (Cinturones de TKD o Kickboxing).
+   * **Relaciones 1 a Muchos**: Un `Student` tiene muchos `Payment` (Pagos), muchos `Attendance` (Asistencias) y múltiples `StudentGallery` (Fotos de progreso).
+3. **`Payment` (Gestión Financiera Automática)**:
+   * Calcula automáticamente el estado financiero de cada alumno. Determina visualmente mediante un sistema semáforo (Verde, Amarillo, Rojo) el nivel de deuda del estudiante basándose en su última fecha de pago y su periodicidad (Mensual, Trimestral o Anual).
+4. **`Content` (Motor de Blog/Noticias)**:
+   * Un CMS (Sistema de Gestión de Contenidos) interno que almacena el formato Markdown, títulos, etiquetas, resúmenes e imágenes de portada en Cloudinary para alimentar la pantalla de novedades.
+5. **`GeneralPhoto` (Legalidad de Imágenes)**:
+   * Galería pública con un campo estricto `tieneAutorizacionLegal`. No se publica ninguna foto sin la confirmación legal del representante (Especialmente importante para menores de edad).
+
+---
+
+## 🛡️ Seguridad y Hardening Nivel Empresarial
+
+El sistema ha pasado por múltiples capas de fortificación técnica para proteger los datos financieros y personales:
+
+* **Inyección de Código (XSS) Prevenida:** El editor de artículos (Markdown) bloquea agresivamente cualquier script malicioso a través de `rehype-sanitize`. Es imposible que un atacante inyecte un `<script>` oculto que afecte a los visitantes públicos.
+* **Autenticación Inquebrantable (JWT & Cookies):** A diferencia de aplicaciones amateurs que guardan los tokens de sesión a plena vista (`localStorage`), tu sistema inyecta el Token directamente en el flujo HTTP (`httpOnly` cookies). Esto hace que sea técnicamente invisible e inaccesible para ataques de robo de sesión por inyección de JavaScript.
+* **Protección Anti Fuerza Bruta (Rate Limiting):** El servidor Express está blindado contra ataques masivos. Las rutas generales están limitadas a 200 peticiones por IP, pero **la ruta de Login es estricta:** permite un máximo de 5 intentos fallidos antes de bloquear temporalmente la IP del atacante.
+* **Cabeceras HTTP Seguras (Helmet):** Se inyectan políticas de seguridad avanzadas en el flujo del servidor (`helmet()`), permitiendo conexiones a orígenes de confianza de manera estructurada (Cross-Origin Resource Policy) para proteger contra ataques de Clickjacking.
+
+---
+
+## 🚀 Configuración Local y Despliegue (Vercel)
+
+### Levantar el Proyecto Localmente:
+1. Asegúrate de tener Node.js instalado.
+2. Abre una terminal en `/server` y corre `npm install`. Luego genera la base de datos con `npx prisma db push` y arranca con `npm run dev`.
+3. Abre otra terminal en `/client`, corre `npm install` y arranca el frontend con `npm run dev`.
+
+### Despliegue Continuo (CI/CD) en Vercel:
+Este repositorio está diseñado como un **Monorepo** y conectado a Vercel. 
+Cada cambio que guardas dispara un *Build* automático en la nube. 
+Para actualizar la página en producción, simplemente ejecuta:
 ```bash
-# Navegar a la carpeta del servidor
-cd server
-
-# Instalar dependencias
-npm install
-
-# Generar cliente de Prisma y crear la base de datos local
-npm run prisma:push
-
-# Sembrar datos de prueba (Crea usuario admin y estudiantes de ejemplo)
-npm run seed
-
-# Iniciar servidor de desarrollo (Puerto 5000)
-npm run dev
-```
-
-### 2. Cliente Frontend (`/client`)
-
-Abrir una nueva terminal:
-
-```bash
-# Navegar a la carpeta del cliente
-cd client
-
-# Instalar dependencias
-npm install
-
-# Iniciar servidor de desarrollo Vite (Puerto 5173)
-npm run dev
-```
-
-Abrir la aplicación en el navegador: **`http://localhost:5173`**
-
----
-
-## 💡 Funcionalidades Clave
-
-1. **Indicadores de Pago Automáticos (Colores)**:
-   - 🟢 **VERDE (Al Día)**: Próxima fecha de pago a más de 7 días.
-   - 🟡 **AMARILLO (Próximo a Vencer)**: Quedan 7 días o menos para el vencimiento.
-   - 🔴 **ROJO (Pago Vencido)**: La fecha de pago ha expirado.
-2. **Recálculo Automático**: Al registrar un nuevo pago en el modal del estudiante, el sistema calcula automáticamente la nueva fecha de pago según su periodicidad (Mensual, Trimestral o Anual).
-3. **Filtros Avanzados y Exportación**: Filtrado por estado de cobranza y búsqueda por nombre/cédula + exportación instantánea a CSV.
-4. **Gestión de Grados**: Soporte nativo y diferenciado para cinturones en modalidades de **Taekwondo** y **Kickboxing**.
-5. **Sección de Contenido y Reproductor**: Soporte para insertar artículos técnicos con video embebido de YouTube.
-
----
-
-## 🌐 Subir Cambios a Vercel (Despliegue)
-
-Este proyecto está sincronizado con **Vercel** a través de Git. Esto significa que Vercel se encarga automáticamente de compilar y actualizar la página web en vivo cada vez que subes un nuevo cambio al repositorio.
-
-**Cada vez que hagas un cambio en el código, debes seguir estos 3 comandos en tu terminal (en la raíz del proyecto) para que se reflejen en la web:**
-
-```bash
-# 1. Agrega todos los archivos modificados
 git add .
-
-# 2. Guarda los cambios con un mensaje descriptivo (puedes cambiar el texto entre comillas)
-git commit -m "Descripción de los cambios realizados"
-
-# 3. Sube los cambios al repositorio (esto dispara automáticamente la actualización en Vercel)
+git commit -m "Mi actualización genial"
 git push
 ```
 
-Una vez ejecutado el `git push`, solo debes esperar un par de minutos y recargar tu página web pública para ver los cambios aplicados exitosamente.
-
 ---
 
-## 📅 Registro de Mejoras (Actualización Reciente)
+## 📅 Historial Reciente de Mejoras y Refactorizaciones Avanzadas
 
-Se ha realizado una revisión integral del sistema empleando **Skills avanzadas de IA** para pulir la interfaz, la legibilidad y asegurar el proyecto.
-
-### Mejoras de Interfaz (UI/UX) y Responsive Design
-- **Rediseño Mobile-First (Reglas `/impeccable`):** Implementación de "Safe Areas" (notch de iOS) globales en `index.css` y ajuste masivo de espaciados para garantizar legibilidad en teléfonos sin desbordamiento horizontal.
-- **Zonas Táctiles (Touch Targets):** Rediseño del menú móvil (hamburguesa y dropdowns) y del Footer para garantizar que todos los iconos y enlaces cumplan con el estándar mínimo de 44x44px para dedos.
-- **Refinamiento del Hero Section:** Reestructuración de la página de inicio para móviles. Ahora el texto y el logo (a todo color con animación `animate-float`) se apilan jerárquicamente para evitar choques visuales, conservando el diseño premium en computadoras.
-- **Pulido del Footer:** Reducción sistemática de espaciados (paddings) y tamaños tipográficos en escritorio para que el pie de página se sienta elegante, compacto y menos invasivo.
-- **Galería de Alumnos Destacados:** Restauración del esquema de colores élite (`dorado-campeon` y `tatami-blanco`) en el sistema central, adaptación del color de texto para asegurar contraste total sobre fondos blancos, y apilamiento inteligente de los filtros de búsqueda en móviles.
-- **Panel Administrativo (Fichas & Pagos):** Refinamiento tipográfico eliminando la pesada fuente *Anton* para datos crudos, reemplazándola por tipografías más legibles, y adición de *scroll horizontal* en todas las tablas para permitir la gestión desde el celular.
-- **Etiquetas Editoriales:** Se reemplazaron los "badges" genéricos encajonados (ej. en la sección de Contactos) por subtítulos de lujo con líneas finas, aportando un look de revista.
-- **Motor de Artículos (Markdown):** Se eliminó el antiguo e inflexible *ContentCard*. Ahora la sección de Contenido utiliza `react-markdown` y el plugin oficial de lectura `@tailwindcss/typography` (con un estilo personalizado `prose-dorado`), permitiendo anchos de lectura más generosos y asegurando que ninguna palabra enviada desde el panel se pierda.
-- **Automatización de Contenido (Admin):** Se incluyó un botón de "+ Insertar Plantilla Base" en el creador de publicaciones para facilitar el formateo perfecto vía Markdown de forma automática.
-
-### Nivelación de Blog y Simulador de Contenido
-- **Simulador de Artículos en Vivo (Pantalla Dividida):** Refactorización total del panel de creación de contenido (`ContenidoAdmin.jsx`). Ahora cuenta con una vista dividida lado a lado que renderiza en tiempo real la apariencia pública *exacta* del artículo web mientras se redacta.
-- **Rediseño Editorial del Blog:** En la vista pública (`ContenidoDetalle.jsx`), se aplicaron ajustes premium de legibilidad usando bases súper limpias (`blanco-absoluto`), uso maestro de la tipografía `Inter`, y un nuevo layout que aprovecha el espacio muerto anclando la barra de "Más publicaciones" como un sidebar elegante justo al lado del cuerpo principal.
-- **Autoría Dinámica y Firma:** Expansión del esquema Prisma para rastrear automáticamente qué administrador crea cada publicación. Ahora todos los artículos en la web lucen un toque profesional mostrando discretamente su firma (`👤 Por: [Nombre]`).
-- **Gestión Autónoma de Perfil:** Creación de un portal de "Ajustes de Perfil" interactivo y minimalista en la esquina inferior izquierda del Panel Administrativo. Cada administrador puede editar libremente su "Nombre Visible", impactando inmediatamente en tiempo real tanto su firma de artículos como el Registro de Auditoría de Seguridad.
-
-### Rediseño Premium Soft UI & Correcciones
-- **Migración Anti-Brutalista:** Eliminación de sombras rígidas, bordes pesados y textos cuadrados; reemplazados por un sistema de sombras suaves (`shadow-sm` a `shadow-xl`), bordes curvos (`rounded-2xl` y `rounded-3xl`) y micro-animaciones (flotación de imágenes y elevación de tarjetas).
-- **Mejora de Legibilidad:** Sustitución global de tipografías pesadas para textos por `font-body`, con mejor contraste cruzado entre modos Claro y Oscuro (ej. botones administrativos adaptativos).
-- **Fijación de Interfaces:** Resolución de errores de "clipping" (cortes) en los menús desplegables de las tablas de gestión de estudiantes, asegurando acceso 100% visible a historiales y fichas.
-- **Protocolos Legales de Galerías:** Integración técnica y administrativa para la subida segura de fotos con autorización legal de tratamiento de imagen de menores.
-
-### Auditoría de Seguridad
-- Se verificó la robustez de la arquitectura backend: el uso correcto de `bcryptjs` para contraseñas, la inyección SQL prevenida gracias a `Prisma`, y la sesión asegurada vía `JWT` con cookies `httpOnly`.
-- Se parcharon de forma segura vulnerabilidades en dependencias NPM de terceros tanto en el frontend (`nanoid`, `react-router`, `postcss`) como en el backend (`ip-address`), manteniendo la estabilidad del código.
-
-### 🤖 Skills de IA Integradas en el Proyecto (`.agents/skills`)
-El agente ha sido potenciado con las siguientes habilidades instaladas localmente en el repositorio:
-1. **`interface-design`**: Empleada para elevar el estándar visual del diseño, aplicar jerarquía y ritmo espacial en las vistas principales.
-2. **`impeccable`**: Utilizada para pulir detalles de legibilidad, tipografía y experiencia de usuario en las tablas de datos.
-3. **`security-and-hardening`**: Aplicada para auditar y aplicar prácticas de endurecimiento de código, rate limits, y auditoría de vulnerabilidades NPM.
-4. **`find-skills`**: Usada como motor de descubrimiento para instalar las herramientas anteriores de manera autónoma.
-5. **`vercel-react-best-practices`**: Para asegurar lineamientos de rendimiento y optimización.
+- **Auditoría de Seguridad y Limpieza:** Se removieron librerías front-end inactivas (`framer-motion`, `prop-types`), se purgó código de testeo obsoleto y se implementó `rehype-sanitize`.
+- **Nivelación del Motor de Blog:** Se construyó un panel de redacción de doble pantalla (Live Preview) para que el administrador previsualice exactamente cómo se verá la noticia en los dispositivos de sus clientes antes de publicar.
+- **Auditoría de Acciones y Autoría Dinámica:** Se implementó una lógica de rastreo de firmas (`👤 Por: NombreVisible`) que cruza a los administradores activos con el contenido publicado.
+- **Rediseño Premium Soft UI:** Reestructuración de zonas táctiles para móviles (Touch Targets de 44px), márgenes anti-notch para iPhone, sombras suaves, y una arquitectura CSS "Anti-Brutalista" que da a la aplicación un aspecto lujoso y liviano digno de una plataforma élite.
+- **Zonas Administrativas Responsivas:** Conversión de tablas estáticas pesadas en contenedores dinámicos con "Scroll Horizontal" en móviles, permitiendo al administrador registrar pagos y asistencias fluidamente desde su celular en el Dojang sin usar computadora.
