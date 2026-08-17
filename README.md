@@ -44,40 +44,103 @@ La base de datos (PostgreSQL/SQLite) no es plana, sino un **modelo relacional es
 
 ---
 
-## 🛡️ Seguridad y Hardening Nivel Empresarial
+## 🛡️ Seguridad y Hardening Nivel Empresarial (OWASP Top 10 & API Security)
 
-El sistema ha pasado por múltiples capas de fortificación técnica para proteger los datos financieros y personales:
+El sistema cuenta con una arquitectura de seguridad por capas auditada bajo los estándares **OWASP Web Top 10** y **OWASP API Security Top 10**:
 
-* **Inyección de Código (XSS) Prevenida:** El editor de artículos (Markdown) bloquea agresivamente cualquier script malicioso a través de `rehype-sanitize`. Es imposible que un atacante inyecte un `<script>` oculto que afecte a los visitantes públicos.
-* **Autenticación Inquebrantable (JWT & Cookies):** A diferencia de aplicaciones amateurs que guardan los tokens de sesión a plena vista (`localStorage`), tu sistema inyecta el Token directamente en el flujo HTTP (`httpOnly` cookies). Esto hace que sea técnicamente invisible e inaccesible para ataques de robo de sesión por inyección de JavaScript.
-* **Protección Anti Fuerza Bruta (Rate Limiting):** El servidor Express está blindado contra ataques masivos. Las rutas generales están limitadas a 200 peticiones por IP, pero **la ruta de Login es estricta:** permite un máximo de 5 intentos fallidos antes de bloquear temporalmente la IP del atacante.
-* **Cabeceras HTTP Seguras (Helmet):** Se inyectan políticas de seguridad avanzadas en el flujo del servidor (`helmet()`), permitiendo conexiones a orígenes de confianza de manera estructurada (Cross-Origin Resource Policy) para proteger contra ataques de Clickjacking.
+* **Control de Acceso Estricto (BOLA / OWASP API1):** Todas las rutas CRUD de estudiantes (`/api/students`) y pagos (`/api/payments`) están completamente protegidas mediante `authMiddleware`. Las galerías públicas solo exponen recursos multimedia explícitamente autorizados.
+* **Prevención de Exposición Excesiva de Datos (Overfetching / OWASP API3):** Las consultas públicas (como `/api/featured-students`) utilizan proyecciones `select` estrictas en Prisma, impidiendo que datos sensibles como cédulas, historiales de pago o fichas médicas se transmitan al cliente.
+* **Política CORS con Whitelist Estricta:** Se eliminaron comodines permisivos. Solo se aceptan peticiones con credenciales desde orígenes autorizados exactos (`http://localhost:5173`, `http://127.0.0.1:5173`, `https://paginabryan-db.vercel.app` y `FRONTEND_URL`).
+* **Soporte Proxy Inverso (`trust proxy`):** Express está configurado con `app.set('trust proxy', 1)`, permitiendo que los limitadores de tasa identifiquen con precisión las IPs de los clientes detrás de los balanceadores de carga de Vercel.
+* **Subida Segura de Archivos (Multer + Cloudinary):**
+  * Límite estricto de tamaño de archivo (máx. **5 MB**).
+  * Validación de tipo MIME real (`image/jpeg`, `image/png`, `image/webp`).
+  * Rate limiting dedicado para uploads (máx. 10 subidas por IP cada 15 minutos).
+* **Protección contra Inyección en `<iframe>` y XSS (OWASP A03):** 
+  * El visor de artículos sanitiza Markdown con `rehype-sanitize`.
+  * Los videos embebidos (`iframe`) validan esquema `https://` y pertenencia a dominios autorizados (YouTube, Vimeo), aplicando además aislamiento `sandbox="allow-scripts allow-same-origin allow-presentation"`.
+* **Manejo Seguro de Errores en Producción:** En entornos productivos (`NODE_ENV=production`), los errores 500 emiten mensajes genéricos al cliente para no filtrar esquemas de base de datos ni rutas de archivos del servidor, mientras que el stack trace se preserva en los logs internos.
+* **Protección Anti Fuerza Bruta (Rate Limiting):**
+  * Límite global de API: 200 peticiones / 15 min.
+  * Límite de Login: 5 intentos fallidos / 15 min por IP.
+* **Autenticación Robusta (JWT & Cookies `httpOnly`):** Tokens JWT firmados, expiración controlada y almacenamiento en cookies con directivas `httpOnly`, `secure` y `sameSite`.
+
+---
+
+## ⚙️ Variables de Entorno Requeridas
+
+Crea un archivo `.env` en `/server` con los siguientes valores:
+
+```env
+# Puerto del servidor Express (opcional en Vercel)
+PORT=5000
+
+# Entorno: development | production
+NODE_ENV=development
+
+# Clave secreta para firma de JSON Web Tokens
+JWT_SECRET=tu_clave_secreta_larga_y_aleatoria
+
+# URL de conexión a la base de datos PostgreSQL
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?sslmode=require"
+DIRECT_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
+
+# URL de tu frontend en producción (para CORS)
+FRONTEND_URL=https://paginabryan-db.vercel.app
+
+# Credenciales de Cloudinary (para subida de imágenes)
+CLOUDINARY_CLOUD_NAME=tu_cloud_name
+CLOUDINARY_API_KEY=tu_api_key
+CLOUDINARY_API_SECRET=tu_api_secret
+
+# Sembrado y administración (opcional para scripts de inicialización)
+ADMIN_USER=admin
+ADMIN_SEED_PASSWORD=tu_contraseña_segura_de_admin
+```
 
 ---
 
 ## 🚀 Configuración Local y Despliegue (Vercel)
 
 ### Levantar el Proyecto Localmente:
-1. Asegúrate de tener Node.js instalado.
-2. Abre una terminal en `/server` y corre `npm install`. Luego genera la base de datos con `npx prisma db push` y arranca con `npm run dev`.
-3. Abre otra terminal en `/client`, corre `npm install` y arranca el frontend con `npm run dev`.
+1. Asegúrate de tener Node.js instalado (v18+ recomendado).
+2. En la raíz del proyecto instala dependencias:
+   ```bash
+   npm install
+   ```
+3. Inicia el servidor backend (`/server`):
+   ```bash
+   cd server
+   npx prisma generate
+   npx prisma db push
+   npm run dev
+   ```
+4. Inicia el cliente frontend (`/client`):
+   ```bash
+   cd ../client
+   npm run dev
+   ```
 
 ### Despliegue Continuo (CI/CD) en Vercel:
-Este repositorio está diseñado como un **Monorepo** y conectado a Vercel. 
-Cada cambio que guardas dispara un *Build* automático en la nube. 
-Para actualizar la página en producción, simplemente ejecuta:
+Este repositorio está estructurado como un **Monorepo** y conectado a Vercel:
+- **Build Command:** `npm run build -w client && npm run prisma:push -w server`
+- **Output Directory:** `client/dist`
+- **Serverless API:** Las peticiones a `/api/*` se canalizan automáticamente hacia [api/index.js](file:///c:/Users/najer/OneDrive/Desktop/NUEVA_ACADEMIA_BASE/api/index.js).
+
+Para desplegar cambios a producción:
 ```bash
 git add .
-git commit -m "Mi actualización genial"
-git push
+git commit -m "feat: actualizar características y seguridad"
+git push origin master
 ```
 
 ---
 
-## 📅 Historial Reciente de Mejoras y Refactorizaciones Avanzadas
+## 📅 Historial Reciente de Mejoras y Hardening
 
-- **Auditoría de Seguridad y Limpieza:** Se removieron librerías front-end inactivas (`framer-motion`, `prop-types`), se purgó código de testeo obsoleto y se implementó `rehype-sanitize`.
-- **Nivelación del Motor de Blog:** Se construyó un panel de redacción de doble pantalla (Live Preview) para que el administrador previsualice exactamente cómo se verá la noticia en los dispositivos de sus clientes antes de publicar.
-- **Auditoría de Acciones y Autoría Dinámica:** Se implementó una lógica de rastreo de firmas (`👤 Por: NombreVisible`) que cruza a los administradores activos con el contenido publicado.
-- **Rediseño Premium Soft UI:** Reestructuración de zonas táctiles para móviles (Touch Targets de 44px), márgenes anti-notch para iPhone, sombras suaves, y una arquitectura CSS "Anti-Brutalista" que da a la aplicación un aspecto lujoso y liviano digno de una plataforma élite.
-- **Zonas Administrativas Responsivas:** Conversión de tablas estáticas pesadas en contenedores dinámicos con "Scroll Horizontal" en móviles, permitiendo al administrador registrar pagos y asistencias fluidamente desde su celular en el Dojang sin usar computadora.
+- **Auditoría de Seguridad Integral (OWASP):** Implementación de control de acceso RBAC en todas las rutas de estudiantes, prevención de BOLA/Overfetching, CORS restringido a dominios explícitos y protección de subida de archivos (límite 5MB + MIME check + rate limiting).
+- **Protección de Componentes Multimedia:** Validación estricta de URLs de video (`https://` + whitelist) con atributo `sandbox` en reproductores `<iframe>`.
+- **Compatibilidad de Runtimes Vercel:** Soporte para múltiples motores de OpenSSL (`rhel-openssl-1.0.x` y `rhel-openssl-3.0.x`) en Prisma Client.
+- **Limpieza de Secretos y Hardcoded Credentials:** Migración de scripts de inicialización (`update_admin.js`, `seed.js`) a variables de entorno con hash seguro `bcryptjs`.
+- **Panel CMS con Live Preview:** Editor de contenidos de doble pantalla para visualización en tiempo real de artículos y comunicados del Dojang.
+- **Diseño Móvil y Accesibilidad:** Optimización táctil de 44px, soporte nativo para Modo Oscuro/Claro y visualización responsiva para gestión desde smartphones.
