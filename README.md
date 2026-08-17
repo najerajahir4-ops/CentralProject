@@ -136,6 +136,46 @@ git push origin master
 
 ---
 
+## 🌐 Guía: Cómo Vincular un Dominio Personalizado de Hostinger con Vercel
+
+Cuando compres tu dominio en **Hostinger** (ejemplo: `clubcentraltkd.com`), sigue estos sencillos pasos para enlazarlo con tu proyecto en Vercel en menos de 5 minutos:
+
+### 1. Agregar el Dominio en Vercel:
+1. Ingresa a tu panel en [Vercel Dashboard](https://vercel.com/dashboard).
+2. Selecciona tu proyecto (`central-project`).
+3. Ve a **Settings** (pestaña superior) ➡️ **Domains** (menú lateral izquierdo).
+4. Escribe tu dominio (ej. `tudominio.com`) y presiona **Add**.
+5. Vercel te solicitará configurar dos registros DNS:
+   - **Registro A** para el dominio raíz (`tudominio.com`).
+   - **Registro CNAME** para el subdominio `www` (`www.tudominio.com`).
+
+### 2. Configurar los Registros DNS en Hostinger (hPanel):
+1. Inicia sesión en **Hostinger** y ve a la sección **Dominios**.
+2. Haz clic en **Administrar** sobre tu dominio recién adquirido.
+3. En el menú lateral, abre **DNS / Servidores de nombres (Zona DNS)**.
+4. Agrega o edita los siguientes registros:
+
+| Tipo | Nombre / Host | Valor / Destino | TTL |
+| :--- | :---: | :---: | :---: |
+| **A** | `@` | `76.76.21.21` | `300` (o automático) |
+| **CNAME** | `www` | `cname.vercel-dns.com` | `300` (o automático) |
+
+5. Guarda los cambios.
+
+### 3. Verificación y Certificado SSL:
+- En unos **5 a 15 minutos**, Vercel detectará la propagación DNS y mostrará el estado en verde ✅ **Valid Configuration**.
+- Vercel generará e instalará automáticamente el certificado **SSL / HTTPS (candado de seguridad 🔒)** sin costo alguno.
+
+### 4. Actualizar Variables de Entorno en Vercel:
+Para que las políticas de CORS y seguridad reconozcan tu nuevo dominio oficial:
+1. En Vercel: **Settings** ➡️ **Environment Variables**.
+2. Modifica o crea la variable:
+   - **Nombre:** `FRONTEND_URL`
+   - **Valor:** `https://tudominio.com` (reemplaza por tu dominio real).
+3. Realiza un *Redeploy* (o haz un nuevo push a GitHub) para aplicar los cambios.
+
+---
+
 ## 📅 Historial Reciente de Mejoras y Hardening
 
 - **Auditoría de Seguridad Integral (OWASP):** Implementación de control de acceso RBAC en todas las rutas de estudiantes, prevención de BOLA/Overfetching, CORS restringido a dominios explícitos y protección de subida de archivos (límite 5MB + MIME check + rate limiting).
