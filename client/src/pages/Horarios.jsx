@@ -7,7 +7,7 @@ const Horarios = () => {
   const schedules = [
     {
       title: 'Turno Mañana',
-      days: 'Martes a Jueves',
+      days: 'Martes a Viernes',
       time: '8:30 a.m. - 10:00 a.m.',
       target: 'Todas las edades',
       icon: GiSunrise,
@@ -15,8 +15,8 @@ const Horarios = () => {
       bg: 'bg-amber-50'
     },
     {
-      title: 'Turno Tarde (4 a 6 años)',
-      days: 'Lunes a Viernes',
+      title: 'Turno Tarde LMV (4 a 6 años)',
+      days: 'Lunes, Miércoles y Viernes',
       time: '3:00 p.m. - 4:00 p.m.',
       target: 'Niños y niñas',
       icon: FaChildReaching,
@@ -24,8 +24,8 @@ const Horarios = () => {
       bg: 'bg-blue-50'
     },
     {
-      title: 'Turno Tarde (7 a 10 años)',
-      days: 'Lunes a Viernes',
+      title: 'Turno Tarde LMV (7 a 10 años)',
+      days: 'Lunes, Miércoles y Viernes',
       time: '4:00 p.m. - 5:00 p.m.',
       target: 'Niños y niñas',
       icon: GiHighKick,
@@ -33,13 +33,31 @@ const Horarios = () => {
       bg: 'bg-emerald-50'
     },
     {
-      title: 'Turno Tarde (11+ años)',
-      days: 'Lunes a Viernes',
+      title: 'Turno Tarde LMV (11+ años)',
+      days: 'Lunes, Miércoles y Viernes',
       time: '5:00 p.m. - 6:20 p.m.',
       target: 'Mayores de 11 años',
       icon: FaDumbbell,
       color: 'text-purple-500',
       bg: 'bg-purple-50'
+    },
+    {
+      title: 'Turno Tarde Mar/Jue (6 a 10 años)',
+      days: 'Martes y Jueves',
+      time: '3:30 p.m. - 4:30 p.m.',
+      target: 'Niños y niñas',
+      icon: FaChildReaching,
+      color: 'text-indigo-500',
+      bg: 'bg-indigo-50'
+    },
+    {
+      title: 'Turno Tarde Mar/Jue (11+ años)',
+      days: 'Martes y Jueves',
+      time: '4:30 p.m. - 6:00 p.m.',
+      target: 'Mayores de 11 años',
+      icon: FaDumbbell,
+      color: 'text-pink-500',
+      bg: 'bg-pink-50'
     },
     {
       title: 'Sábado Intensivo',

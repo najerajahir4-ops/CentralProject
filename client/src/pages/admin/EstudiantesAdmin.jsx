@@ -1148,20 +1148,28 @@ const EstudiantesAdmin = () => {
               <label class="block text-[10px] text-gray-600 dark:text-gray-400 uppercase mb-1">Horario Elegido (Marque uno):</label>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-carbon dark:text-white mt-2">
                 <label class="flex items-center gap-2 cursor-pointer border border-carbon/20 dark:border-white/10 p-2 rounded-sm hover:border-carbon dark:border-white/20 transition-colors">
-                  <input type="radio" name="horarioElegido" value="Mañana (8:30 - 10:00)" checked={studentForm.horarioElegido === 'Mañana (8:30 - 10:00)'} onChange={handleChange} class="accent-rojo-impacto" />
-                  Mañana (8:30am - 10:00am)
+                  <input type="radio" name="horarioElegido" value="Mañana Mar-Vie (8:30 - 10:00)" checked={studentForm.horarioElegido === 'Mañana Mar-Vie (8:30 - 10:00)'} onChange={handleChange} class="accent-rojo-impacto" />
+                  Mañana Mar-Vie (8:30am - 10:00am)
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer border border-carbon/20 dark:border-white/10 p-2 rounded-sm hover:border-carbon dark:border-white/20 transition-colors">
-                  <input type="radio" name="horarioElegido" value="Tarde 4-6 años (15:00 - 16:00)" checked={studentForm.horarioElegido === 'Tarde 4-6 años (15:00 - 16:00)'} onChange={handleChange} class="accent-rojo-impacto" />
-                  Tarde 4-6 años (3:00pm - 4:00pm)
+                  <input type="radio" name="horarioElegido" value="Tarde LMV 4-6 años (15:00 - 16:00)" checked={studentForm.horarioElegido === 'Tarde LMV 4-6 años (15:00 - 16:00)'} onChange={handleChange} class="accent-rojo-impacto" />
+                  Tarde LMV 4-6 años (3:00pm - 4:00pm)
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer border border-carbon/20 dark:border-white/10 p-2 rounded-sm hover:border-carbon dark:border-white/20 transition-colors">
-                  <input type="radio" name="horarioElegido" value="Tarde 7-10 años (16:00 - 17:00)" checked={studentForm.horarioElegido === 'Tarde 7-10 años (16:00 - 17:00)'} onChange={handleChange} class="accent-rojo-impacto" />
-                  Tarde 7-10 años (4:00pm - 5:00pm)
+                  <input type="radio" name="horarioElegido" value="Tarde LMV 7-10 años (16:00 - 17:00)" checked={studentForm.horarioElegido === 'Tarde LMV 7-10 años (16:00 - 17:00)'} onChange={handleChange} class="accent-rojo-impacto" />
+                  Tarde LMV 7-10 años (4:00pm - 5:00pm)
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer border border-carbon/20 dark:border-white/10 p-2 rounded-sm hover:border-carbon dark:border-white/20 transition-colors">
-                  <input type="radio" name="horarioElegido" value="Tarde 11+ años (17:00 - 18:20)" checked={studentForm.horarioElegido === 'Tarde 11+ años (17:00 - 18:20)'} onChange={handleChange} class="accent-rojo-impacto" />
-                  Tarde 11+ años (5:00pm - 6:20pm)
+                  <input type="radio" name="horarioElegido" value="Tarde LMV 11+ años (17:00 - 18:20)" checked={studentForm.horarioElegido === 'Tarde LMV 11+ años (17:00 - 18:20)'} onChange={handleChange} class="accent-rojo-impacto" />
+                  Tarde LMV 11+ años (5:00pm - 6:20pm)
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer border border-carbon/20 dark:border-white/10 p-2 rounded-sm hover:border-carbon dark:border-white/20 transition-colors">
+                  <input type="radio" name="horarioElegido" value="Tarde Mar/Jue 6-10 años (15:30 - 16:30)" checked={studentForm.horarioElegido === 'Tarde Mar/Jue 6-10 años (15:30 - 16:30)'} onChange={handleChange} class="accent-rojo-impacto" />
+                  Tarde Mar/Jue 6-10 años (3:30pm - 4:30pm)
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer border border-carbon/20 dark:border-white/10 p-2 rounded-sm hover:border-carbon dark:border-white/20 transition-colors">
+                  <input type="radio" name="horarioElegido" value="Tarde Mar/Jue 11+ años (16:30 - 18:00)" checked={studentForm.horarioElegido === 'Tarde Mar/Jue 11+ años (16:30 - 18:00)'} onChange={handleChange} class="accent-rojo-impacto" />
+                  Tarde Mar/Jue 11+ años (4:30pm - 6:00pm)
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer border border-carbon/20 dark:border-white/10 p-2 rounded-sm hover:border-carbon dark:border-white/20 transition-colors">
                   <input type="radio" name="horarioElegido" value="Sábado Intensivo (10:30 - 12:30)" checked={studentForm.horarioElegido === 'Sábado Intensivo (10:30 - 12:30)'} onChange={handleChange} class="accent-rojo-impacto" />

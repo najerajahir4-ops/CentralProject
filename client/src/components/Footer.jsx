@@ -46,15 +46,22 @@ const Footer = () => {
           
           <div className="space-y-4 font-body text-sm">
             <div>
-              <p className="font-semibold text-rojo-impacto mb-0.5">Mañana (Mar - Jue)</p>
+              <p className="font-semibold text-rojo-impacto mb-0.5">Mañana (Mar - Vie)</p>
               <p className="font-light text-blanco-absoluto/70">8:30 a.m. - 10:00 a.m. <span className="block sm:inline text-xs mt-1 sm:mt-0 opacity-80">(Todas las edades)</span></p>
             </div>
             <div>
-              <p className="font-semibold text-rojo-impacto mb-0.5">Tarde (Lun - Vie)</p>
+              <p className="font-semibold text-rojo-impacto mb-0.5">Tarde (Lun, Mié, Vie)</p>
               <ul className="font-light text-blanco-absoluto/70 space-y-1">
                 <li>3:00 p.m. - 4:00 p.m. <span className="block sm:inline text-xs mt-1 sm:mt-0 opacity-80">(4 a 6 años)</span></li>
                 <li>4:00 p.m. - 5:00 p.m. <span className="block sm:inline text-xs mt-1 sm:mt-0 opacity-80">(7 a 10 años)</span></li>
                 <li>5:00 p.m. - 6:20 p.m. <span className="block sm:inline text-xs mt-1 sm:mt-0 opacity-80">(11+ años)</span></li>
+              </ul>
+            </div>
+            <div>
+              <p className="font-semibold text-rojo-impacto mb-0.5">Tarde (Mar y Jue)</p>
+              <ul className="font-light text-blanco-absoluto/70 space-y-1">
+                <li>3:30 p.m. - 4:30 p.m. <span className="block sm:inline text-xs mt-1 sm:mt-0 opacity-80">(6 a 10 años)</span></li>
+                <li>4:30 p.m. - 6:00 p.m. <span className="block sm:inline text-xs mt-1 sm:mt-0 opacity-80">(11+ años)</span></li>
               </ul>
             </div>
             <div>
