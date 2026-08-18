@@ -838,6 +838,7 @@ const AsistenciaAdmin = () => {
         }}
         title="Asistencia Masiva"
         message={`¿Deseas marcar a los ${students.length} estudiantes listados como PRESENTES para el día ${fecha}?`}
+        confirmText="Sí, Confirmar"
       />
     </div>
   );

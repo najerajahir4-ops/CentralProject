@@ -23,7 +23,7 @@ const Toast = ({ id, message, type, onClose }) => {
 
   return (
     <div 
-      className={`flex items-center gap-3 px-4 py-3 mb-3 rounded-xl shadow-lg border backdrop-blur-sm pointer-events-auto transition-all duration-300 transform ${bgColor} ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}
+      className={`flex items-center gap-3 px-4 py-3 mb-3 rounded-xl shadow-lg border backdrop-blur-sm pointer-events-auto transition-all duration-300 transform w-full sm:w-auto sm:max-w-md ${bgColor} ${isVisible ? 'translate-y-0 sm:translate-x-0 opacity-100' : 'translate-y-full sm:translate-y-0 sm:translate-x-full opacity-0'}`}
       role="alert"
     >
       <Icon className={`w-5 h-5 flex-shrink-0 ${iconColor}`} />
