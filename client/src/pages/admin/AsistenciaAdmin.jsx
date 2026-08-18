@@ -709,7 +709,7 @@ const AsistenciaAdmin = () => {
                         <td class="py-4 px-6">
                           <button
                             onClick={() => loadDateFromHistory(h.fecha)}
-                            class="px-3 py-1 bg-carbon dark:bg-white hover:bg-carbon dark:hover:bg-white/70 text-[#111114] text-[10px] font-extrabold rounded uppercase tracking-widest transition-colors"
+                            class="px-3 py-1 bg-carbon dark:bg-white hover:bg-carbon/80 dark:hover:bg-white/70 text-white dark:text-[#111114] text-[10px] font-extrabold rounded uppercase tracking-widest transition-colors"
                           >
                             Ver / Editar
                           </button>
