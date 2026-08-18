@@ -43,11 +43,11 @@ const Contactos = () => {
       
       {/* HEADER NORMALIZADO */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-8 mb-12 border-b border-gray-200">
-        <h1 className="font-title text-4xl sm:text-5xl uppercase leading-none text-carbon m-0 p-0 break-words mix-blend-multiply">
-          Comunícate <br/>
-          con <span className="text-rojo-impacto">nosotros</span>
+        <h1 className="font-title text-[clamp(3.5rem,10vw,7.5rem)] uppercase leading-[0.85] tracking-tight text-carbon m-0 p-0 mix-blend-multiply">
+          COMUNÍCATE <br/>
+          CON <span className="text-rojo-impacto">NOSOTROS</span>
         </h1>
-        <p className="font-body text-lg text-gray-600 mt-4 max-w-2xl leading-relaxed">
+        <p className="font-body text-lg text-gray-600 mt-6 max-w-2xl leading-relaxed">
           Atención directa con los Profesores Diego Pérez y Mauricio Almeida.
         </p>
       </div>

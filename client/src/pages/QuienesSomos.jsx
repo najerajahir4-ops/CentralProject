@@ -65,12 +65,14 @@ const QuienesSomos = () => {
     <div className="bg-blanco-absoluto w-full overflow-hidden pb-24">
       
       {/* HEADER GIGANTE -> NORMALIZADO */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-12 border-b-4 border-carbon mb-12">
-        <h1 className="font-title text-4xl sm:text-5xl uppercase leading-none text-carbon m-0 p-0 break-words mix-blend-multiply">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-12 border-b-4 border-carbon mb-12 flex justify-center">
+        <h1 className="font-title text-[clamp(4rem,12vw,9rem)] uppercase leading-[0.85] tracking-tight text-carbon m-0 p-0 text-center mix-blend-multiply">
           NUESTRA <br/>
           <span className="text-rojo-impacto">HISTORIA</span>
         </h1>
-        <p className="font-body text-lg font-bold mt-4 max-w-4xl text-carbon leading-snug">
+      </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 mb-12">
+        <p className="font-body text-lg font-bold max-w-4xl text-carbon leading-snug">
           "Formando campeones en el tatami con disciplina, fuerza y humildad"
         </p>
       </div>
