@@ -63,7 +63,7 @@ const Contactos = () => {
             <div className="space-y-4 font-body text-sm text-gray-600">
               <div className="flex items-start gap-3">
                 <MapPin size={18} className="text-rojo-impacto flex-shrink-0 mt-0.5" />
-                <span>Sector Bombolí, Santo Domingo, Ecuador<br/><span className="text-gray-400 text-xs mt-1 block">Plus Code: QR27+62H</span></span>
+                <span>Federico Páez y Av. Jacinto Cortez<br/><span className="text-gray-400 text-xs mt-1 block">Santo Domingo, Ecuador</span></span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone size={18} className="text-rojo-impacto flex-shrink-0" />

@@ -88,7 +88,7 @@ const Footer = () => {
           <ul className="space-y-3 font-body text-sm font-light text-blanco-absoluto/70">
             <li className="flex items-start gap-3">
               <MapPin size={18} className="text-rojo-impacto flex-shrink-0 mt-0.5" />
-              <span>Santo Domingo, Ecuador<br/><span className="block text-xs mt-1 opacity-80">Sector Bombolí</span></span>
+              <span>Santo Domingo, Ecuador<br/><span className="block text-xs mt-1 opacity-80">Federico Páez y Av. Jacinto Cortez</span></span>
             </li>
             <li className="flex items-center gap-3 py-1">
               <Phone size={18} className="text-rojo-impacto flex-shrink-0" />
