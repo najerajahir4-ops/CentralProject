@@ -11,7 +11,7 @@ const getPublicStudents = async (req, res, next) => {
         nombres: true,
         apellidos: true,
         grado: true,
-        fotoPerfilUrl: true,
+        foto: true,
       },
       orderBy: { nombres: 'asc' },
     });
