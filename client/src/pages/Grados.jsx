@@ -77,7 +77,7 @@ const Grados = () => {
   const fetchStudents = async () => {
     try {
       setLoading(true);
-      const res = await API.get('/students');
+      const res = await API.get('/students/public');
       // Filtramos únicamente los estudiantes activos para el cuadro de grados público
       const activeStudents = res.data.filter(s => s.estado === 'ACTIVO');
       setStudents(activeStudents);

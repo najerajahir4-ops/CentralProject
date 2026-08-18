@@ -6,12 +6,15 @@ const { studentCreateSchema, studentUpdateSchema } = require('../utils/validator
 const getPublicStudents = async (req, res, next) => {
   try {
     const students = await prisma.student.findMany({
+      where: { estado: 'ACTIVO' },
       select: {
         id: true,
         nombres: true,
         apellidos: true,
         grado: true,
         foto: true,
+        modalidad: true,
+        estado: true,
       },
       orderBy: { nombres: 'asc' },
     });
