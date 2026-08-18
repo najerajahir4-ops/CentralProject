@@ -19,6 +19,8 @@ import {
   MessageCircle
 } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
+import imageCompression from 'browser-image-compression';
+import { getErrorMessage } from '../../utils/errorHandler';
 
 const TAEKWONDO_BELTS = [
   "Cinturón Blanco",
@@ -263,7 +265,8 @@ const EstudiantesAdmin = () => {
       fetchStudents();
       showToast('Estudiante guardado exitosamente', 'success');
     } catch (err) {
-      showToast(err.response?.data?.error || 'Error al guardar estudiante', 'error');
+      const errorMessage = getErrorMessage(err, 'Error al guardar estudiante');
+      showToast(errorMessage, 'error');
     } finally {
       setIsSavingStudent(false);
     }
@@ -273,19 +276,34 @@ const EstudiantesAdmin = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append('image', file);
-
     try {
       setUploadingImage(true);
+
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+      
+      let compressedFile = file;
+      try {
+        compressedFile = await imageCompression(file, options);
+      } catch (compressionError) {
+        console.warn('No se pudo comprimir la imagen', compressionError);
+      }
+
+      const formData = new FormData();
+      formData.append('image', compressedFile);
+
       const res = await API.post('/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setStudentForm(prev => ({ ...prev, foto: res.data.url }));
       showToast('Foto subida exitosamente', 'success');
     } catch (err) {
-      console.error(err);
-      showToast('Error al subir la foto', 'error');
+      console.error('Error uploading photo:', err);
+      const errorMessage = getErrorMessage(err, 'Error al subir la foto');
+      showToast(`Error: ${errorMessage}`, 'error');
     } finally {
       setUploadingImage(false);
     }
@@ -316,7 +334,8 @@ const EstudiantesAdmin = () => {
       fetchStudents();
       showToast('Pago registrado correctamente', 'success');
     } catch (err) {
-      showToast(err.response?.data?.error || 'Error al registrar pago', 'error');
+      const errorMessage = getErrorMessage(err, 'Error al registrar pago');
+      showToast(errorMessage, 'error');
     } finally {
       setIsSavingPayment(false);
     }

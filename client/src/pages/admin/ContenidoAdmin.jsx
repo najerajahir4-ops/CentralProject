@@ -27,6 +27,8 @@ import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
 import ConfirmModal from '../../components/ConfirmModal';
 import { useToast } from '../../context/ToastContext';
+import imageCompression from 'browser-image-compression';
+import { getErrorMessage } from '../../utils/errorHandler';
 
 const quillModules = {
   toolbar: [
@@ -258,9 +260,19 @@ const ContenidoAdmin = () => {
       setUploading(true);
       let finalImageUrl = form.imagenUrl;
 
+      // Opciones de compresión centralizadas
+      const compressionOptions = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+
       if (coverFile) {
+        let compressedCover = coverFile;
+        try { compressedCover = await imageCompression(coverFile, compressionOptions); } catch (e) {}
+
         const formData = new FormData();
-        formData.append('image', coverFile);
+        formData.append('image', compressedCover);
         const uploadRes = await API.post('/upload', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
@@ -272,8 +284,11 @@ const ContenidoAdmin = () => {
       for (let i = 0; i < blocksToSave.length; i++) {
         const b = blocksToSave[i];
         if (b.type === 'IMAGE' && b.fileObj) {
+          let compressedBlockImage = b.fileObj;
+          try { compressedBlockImage = await imageCompression(b.fileObj, compressionOptions); } catch (e) {}
+
           const blockFormData = new FormData();
-          blockFormData.append('image', b.fileObj);
+          blockFormData.append('image', compressedBlockImage);
           const uploadRes = await API.post('/upload', blockFormData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           });
@@ -295,7 +310,8 @@ const ContenidoAdmin = () => {
       showToast('Publicación guardada exitosamente', 'success');
     } catch (err) {
       console.error(err);
-      showToast('Error al guardar publicación', 'error');
+      const errorMessage = getErrorMessage(err, 'Error al guardar publicación');
+      showToast(errorMessage, 'error');
     } finally {
       setUploading(false);
     }

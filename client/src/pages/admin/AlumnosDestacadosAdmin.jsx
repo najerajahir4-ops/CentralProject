@@ -4,6 +4,8 @@ import Modal from '../../components/Modal';
 import ConfirmModal from '../../components/ConfirmModal';
 import { useToast } from '../../context/ToastContext';
 import { Trophy, Plus, Edit, Trash2, Camera, Loader, Image as ImageIcon } from 'lucide-react';
+import imageCompression from 'browser-image-compression';
+import { getErrorMessage } from '../../utils/errorHandler';
 
 const AlumnosDestacadosAdmin = () => {
   const [featured, setFeatured] = useState([]);
@@ -79,8 +81,22 @@ const AlumnosDestacadosAdmin = () => {
 
     try {
       setUploadingImage(true);
+
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+      
+      let compressedFile = file;
+      try {
+        compressedFile = await imageCompression(file, options);
+      } catch (compressionError) {
+        console.warn('No se pudo comprimir la imagen', compressionError);
+      }
+
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append('image', compressedFile);
 
       const res = await API.post('/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -90,7 +106,8 @@ const AlumnosDestacadosAdmin = () => {
       showToast('Imagen subida correctamente', 'success');
     } catch (err) {
       console.error(err);
-      showToast('Error al subir la imagen', 'error');
+      const errorMessage = getErrorMessage(err, 'Error al subir la imagen');
+      showToast(`Error: ${errorMessage}`, 'error');
     } finally {
       setUploadingImage(false);
     }
@@ -108,7 +125,8 @@ const AlumnosDestacadosAdmin = () => {
       fetchFeatured();
       showToast('Alumno destacado guardado con éxito', 'success');
     } catch (err) {
-      showToast('Error al guardar alumno destacado', 'error');
+      const errorMessage = getErrorMessage(err, 'Error al guardar alumno destacado');
+      showToast(errorMessage, 'error');
     }
   };
 

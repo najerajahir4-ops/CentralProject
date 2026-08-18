@@ -5,6 +5,8 @@ import { User, ArrowLeft, Camera, Image as ImageIcon, Loader, Plus, Trash2, Cale
 import PhotoModal from '../../components/PhotoModal';
 import ConfirmModal from '../../components/ConfirmModal';
 import { useToast } from '../../context/ToastContext';
+import imageCompression from 'browser-image-compression';
+import { getErrorMessage } from '../../utils/errorHandler';
 
 const PerfilDetalleAdmin = () => {
   const { id } = useParams();
@@ -73,9 +75,24 @@ const PerfilDetalleAdmin = () => {
 
     try {
       setUploading(true);
+
+      // Compresión de imagen antes de subirla
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+      
+      let compressedFile = photoFile;
+      try {
+        compressedFile = await imageCompression(photoFile, options);
+      } catch (compressionError) {
+        console.warn('No se pudo comprimir la imagen, procediendo con la original', compressionError);
+      }
+
       // 1. Subir imagen a Cloudinary
       const formData = new FormData();
-      formData.append('image', photoFile);
+      formData.append('image', compressedFile);
       const uploadRes = await API.post('/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
@@ -98,7 +115,7 @@ const PerfilDetalleAdmin = () => {
       
     } catch (error) {
       console.error('Error uploading photo:', error);
-      const errorMessage = error.response?.data?.error || 'Ocurrió un error al subir la foto.';
+      const errorMessage = getErrorMessage(error, 'Ocurrió un error al subir la foto.');
       showToast(`Error: ${errorMessage}`, 'error');
     } finally {
       setUploading(false);
