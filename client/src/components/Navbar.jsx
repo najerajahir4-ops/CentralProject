@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [expandedMobile, setExpandedMobile] = useState({});
   const location = useLocation();
   const { isAuthenticated, logout } = useAuth();
 
@@ -159,25 +160,34 @@ const Navbar = () => {
             <React.Fragment key={item.name}>
               {item.subItems ? (
                 <div className="flex flex-col">
-                  <div className="flex items-center gap-3 py-4 text-sm font-semibold border-b border-carbon/10 text-carbon/60">
-                    <span className="text-carbon/40">{item.icon}</span>
-                    {item.name}
-                  </div>
-                  <div className="flex flex-col pl-6 border-b border-carbon/10 bg-gris-claro/30">
-                    {item.subItems.map(sub => (
-                      <Link
-                        key={sub.path}
-                        to={sub.path}
-                        onClick={() => setMobileOpen(false)}
-                        className={`flex items-center gap-3 py-3 text-sm font-medium border-b border-carbon/5 last:border-0 ${
-                          isActive(sub.path) ? 'text-rojo-impacto' : 'text-carbon/80'
-                        }`}
-                      >
-                        <span className={isActive(sub.path) ? 'text-rojo-impacto' : 'text-carbon/40'}>{sub.icon}</span>
-                        {sub.name}
-                      </Link>
-                    ))}
-                  </div>
+                  <button 
+                    onClick={() => setExpandedMobile(prev => ({ ...prev, [item.name]: !prev[item.name] }))}
+                    className="flex items-center justify-between w-full py-4 text-sm font-semibold border-b border-carbon/10 text-carbon/80 hover:text-rojo-impacto transition-colors text-left"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-carbon/40">{item.icon}</span>
+                      {item.name}
+                    </div>
+                    <ChevronDown size={18} className={`text-carbon/60 transition-transform duration-300 ${expandedMobile[item.name] ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {expandedMobile[item.name] && (
+                    <div className="flex flex-col pl-6 border-b border-carbon/10 bg-gris-claro/30 animate-fade-in py-1">
+                      {item.subItems.map(sub => (
+                        <Link
+                          key={sub.path}
+                          to={sub.path}
+                          onClick={() => setMobileOpen(false)}
+                          className={`flex items-center gap-3 py-3 text-sm font-medium border-b border-carbon/5 last:border-0 ${
+                            isActive(sub.path) ? 'text-rojo-impacto' : 'text-carbon/80'
+                          }`}
+                        >
+                          <span className={isActive(sub.path) ? 'text-rojo-impacto' : 'text-carbon/40'}>{sub.icon}</span>
+                          {sub.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ) : (
                 <Link
