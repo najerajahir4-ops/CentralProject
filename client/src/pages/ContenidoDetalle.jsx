@@ -83,6 +83,9 @@ const ContenidoDetalle = ({ previewData }) => {
 
     if (!isBlocksFormat) {
       // Fallback a Markdown normal
+      // SECURITY NOTE: El HTML enriquecido (incluyendo el generado por react-quill) 
+      // pasa estrictamente por ReactMarkdown con rehypeRaw y rehypeSanitize.
+      // Nunca se usa dangerouslySetInnerHTML, protegiendo contra ataques XSS.
       return (
         <div className="prose prose-carbon prose-lg max-w-none w-full bg-blanco-absoluto py-8">
           <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw, rehypeSanitize]}>

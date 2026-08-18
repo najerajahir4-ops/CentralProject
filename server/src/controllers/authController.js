@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const prisma = require('../config/db');
 const { authLoginSchema } = require('../utils/validators');
 
@@ -38,6 +39,15 @@ const login = async (req, res, next) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
+    // Generar y guardar token CSRF (No httpOnly, para que Axios lo pueda leer)
+    const csrfToken = crypto.randomBytes(32).toString('hex');
+    res.cookie('csrfToken', csrfToken, {
+      httpOnly: false,
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
     const { logAction } = require('../utils/auditLogger');
     await logAction(admin.id, 'LOGIN', 'AUTH', null, `Sesión iniciada por ${admin.usuario}`);
 
@@ -56,6 +66,7 @@ const verifyToken = async (req, res) => {
 
 const logout = (req, res) => {
   res.clearCookie('token');
+  res.clearCookie('csrfToken');
   return res.json({ message: 'Sesión cerrada correctamente.' });
 };
 
@@ -87,6 +98,15 @@ const updateProfile = async (req, res, next) => {
     const isProd = process.env.NODE_ENV === 'production';
     res.cookie('token', token, {
       httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    // Renovar también el CSRF token
+    const csrfToken = crypto.randomBytes(32).toString('hex');
+    res.cookie('csrfToken', csrfToken, {
+      httpOnly: false,
       secure: isProd,
       sameSite: isProd ? 'none' : 'lax',
       maxAge: 24 * 60 * 60 * 1000,

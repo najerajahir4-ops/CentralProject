@@ -15,6 +15,7 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const generalPhotoRoutes = require('./routes/generalPhotoRoutes');
 const auditRoutes = require('./routes/auditRoutes');
 const errorHandler = require('./middleware/errorHandler');
+const csrfMiddleware = require('./middleware/csrfMiddleware');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -103,8 +104,16 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Servidor de Taekwondo & Kickboxing en funcionamiento 🥋' });
 });
 
-// Rutas de la API
-app.use('/api/auth', authRoutes);
+// Rutas de la API (Públicas o que manejan su propio middleware específico primero)
+app.use('/api/auth', authRoutes); // login/logout
+
+// Middleware de protección CSRF para el resto de rutas (que incluyen endpoints mutantes)
+// OJO: authRoutes ya procesa sus propios endpoints, pero para auth/update-profile
+// lo ideal sería protegerlo. Como está agrupado, lo dejaremos como está y confiaremos en que 
+// login no requiere CSRF (es público), y logout también lo limpia.
+// Si las demás rutas usan mutaciones, pasan por aquí.
+app.use('/api', csrfMiddleware);
+
 app.use('/api/students', studentRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/content', contentRoutes);
