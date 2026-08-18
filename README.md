@@ -184,3 +184,7 @@ Para que las políticas de CORS y seguridad reconozcan tu nuevo dominio oficial:
 - **Limpieza de Secretos y Hardcoded Credentials:** Migración de scripts de inicialización (`update_admin.js`, `seed.js`) a variables de entorno con hash seguro `bcryptjs`.
 - **Panel CMS con Live Preview:** Editor de contenidos de doble pantalla para visualización en tiempo real de artículos y comunicados del Dojang.
 - **Diseño Móvil y Accesibilidad:** Optimización táctil de 44px, soporte nativo para Modo Oscuro/Claro y visualización responsiva para gestión desde smartphones.
+- **Actualización de Información Pública:** Corrección de horarios segmentados (mañana/tarde/sábados), actualización de correo institucional, teléfono, y refactorización de coordenadas de Google Maps para mayor precisión.
+- **Interfaz y UI Dinámica:** Integración de menú tipo acordeón animado en la sección Quiénes Somos para mejorar la experiencia en móviles.
+- **Optimización de Rutas Públicas (Overfetching):** Creación de endpoints públicos segmentados para Galería (Salón de Campeones), Perfiles Individuales y Grados, garantizando la privacidad de los datos internos al no requerir autenticación para datos inocuos.
+- **UX/UI Administrativo:** Habilitación de modal interactivo a pantalla completa para previsualización de la Galería de Progreso del estudiante, optimización de contrastes para legibilidad de textos sobre fotos, y contención con "custom scroll" en la Línea de Tiempo de Auditoría.
