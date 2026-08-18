@@ -178,7 +178,11 @@ Para que las políticas de CORS y seguridad reconozcan tu nuevo dominio oficial:
 
 ## 📅 Historial Reciente de Mejoras y Hardening
 
-- **Auditoría de Seguridad Integral (OWASP):** Implementación de control de acceso RBAC en todas las rutas de estudiantes, prevención de BOLA/Overfetching, CORS restringido a dominios explícitos y protección de subida de archivos (límite 5MB + MIME check + rate limiting).
+- **Auditoría de Seguridad Integral y Remediación (OWASP):** 
+  - Protección CSRF (*Double Submit Cookie*) global en endpoints de escritura.
+  - Implementación de cabeceras estrictas de Content-Security-Policy (CSP) estáticas en `vercel.json` y protección dinámica con Helmet.
+  - Actualización de dependencias críticas y revisión manual de mitigación XSS en renderizado Markdown (`rehype-sanitize`).
+  - Implementación de control de acceso RBAC en todas las rutas de estudiantes, prevención de BOLA/Overfetching, CORS restringido a dominios explícitos y protección de subida de archivos (límite 5MB + MIME check + rate limiting).
 - **Protección de Componentes Multimedia:** Validación estricta de URLs de video (`https://` + whitelist) con atributo `sandbox` en reproductores `<iframe>`.
 - **Compatibilidad de Runtimes Vercel:** Soporte para múltiples motores de OpenSSL (`rhel-openssl-1.0.x` y `rhel-openssl-3.0.x`) en Prisma Client.
 - **Limpieza de Secretos y Hardcoded Credentials:** Migración de scripts de inicialización (`update_admin.js`, `seed.js`) a variables de entorno con hash seguro `bcryptjs`.
