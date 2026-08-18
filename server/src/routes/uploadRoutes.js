@@ -13,6 +13,13 @@ const uploadLimiter = rateLimit({
   message: { error: 'Límite de subidas alcanzado. Por favor, intente de nuevo en 15 minutos.' },
   standardHeaders: true,
   legacyHeaders: false,
+  skip: (req, res) => {
+    // Si el usuario es ADMIN, se salta la restricción
+    if (req.user && req.user.rol === 'ADMIN') {
+      return true;
+    }
+    return false;
+  }
 });
 
 const storage = new CloudinaryStorage({

@@ -74,7 +74,8 @@ const PerfilDetalleAdmin = () => {
       
     } catch (error) {
       console.error('Error uploading photo:', error);
-      alert('Ocurrió un error al subir la foto.');
+      const errorMessage = error.response?.data?.error || 'Ocurrió un error al subir la foto.';
+      alert(`Error: ${errorMessage}`);
     } finally {
       setUploading(false);
     }

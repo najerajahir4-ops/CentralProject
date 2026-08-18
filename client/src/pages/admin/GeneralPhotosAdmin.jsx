@@ -71,8 +71,9 @@ const GeneralPhotosAdmin = () => {
       fetchPhotos();
       
     } catch (error) {
-      console.error('Error uploading photo:', error);
-      alert('Ocurrió un error al subir la foto.');
+      console.error('Error uploading general photo:', error);
+      const errorMessage = error.response?.data?.error || 'Ocurrió un error al subir la foto.';
+      alert(`Error: ${errorMessage}`);
     } finally {
       setUploading(false);
     }
