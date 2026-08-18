@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import Modal from '../components/Modal';
 import { Award, ShieldAlert, Edit2, Search, Trophy } from 'lucide-react';
 import { getBeltStyle } from '../utils/belt-colors';
+import { useToast } from '../context/ToastContext';
 
 const TAEKWONDO_BELTS = [
   "Cinturón Blanco",
@@ -41,6 +42,7 @@ const Grados = () => {
 
   // Modal states for Admin fast edit
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { showToast } = useToast();
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [formFoto, setFormFoto] = useState('');
   const [formGrado, setFormGrado] = useState('');
@@ -62,9 +64,10 @@ const Grados = () => {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setFormFoto(res.data.url);
+      showToast('Foto subida exitosamente', 'success');
     } catch (err) {
       console.error(err);
-      alert('Error al subir la foto');
+      showToast('Error al subir la foto', 'error');
     } finally {
       setUploadingImage(false);
     }
@@ -134,10 +137,10 @@ const Grados = () => {
       }));
 
       setIsModalOpen(false);
-      alert('Grado y foto del alumno actualizados correctamente.');
+      showToast('Grado y foto del alumno actualizados correctamente', 'success');
     } catch (err) {
       console.error('Error al guardar grado:', err);
-      alert('Error al guardar cambios.');
+      showToast('Error al guardar cambios', 'error');
     } finally {
       setSaving(false);
     }

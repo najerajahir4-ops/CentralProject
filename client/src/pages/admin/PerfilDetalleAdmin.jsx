@@ -3,12 +3,15 @@ import { useParams, Link } from 'react-router-dom';
 import API from '../../services/api';
 import { User, ArrowLeft, Camera, Image as ImageIcon, Loader, Plus, Trash2, Calendar } from 'lucide-react';
 import PhotoModal from '../../components/PhotoModal';
+import ConfirmModal from '../../components/ConfirmModal';
+import { useToast } from '../../context/ToastContext';
 
 const PerfilDetalleAdmin = () => {
   const { id } = useParams();
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const { showToast } = useToast();
   
   // Gallery states
   const [showAddForm, setShowAddForm] = useState(false);
@@ -18,6 +21,7 @@ const PerfilDetalleAdmin = () => {
   
   // Modal states
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
 
   const openModal = (index) => setSelectedPhotoIndex(index);
   const closeModal = () => setSelectedPhotoIndex(null);
@@ -41,7 +45,7 @@ const PerfilDetalleAdmin = () => {
       setStudent(data);
     } catch (error) {
       console.error('Error fetching student profile:', error);
-      alert('Error al cargar el perfil del estudiante.');
+      showToast('Error al cargar el perfil del estudiante', 'error');
     } finally {
       setLoading(false);
     }
@@ -90,25 +94,26 @@ const PerfilDetalleAdmin = () => {
       setPhotoPreview('');
       setPhotoDescription('');
       fetchStudent();
+      showToast('Foto subida a la galería con éxito', 'success');
       
     } catch (error) {
       console.error('Error uploading photo:', error);
       const errorMessage = error.response?.data?.error || 'Ocurrió un error al subir la foto.';
-      alert(`Error: ${errorMessage}`);
+      showToast(`Error: ${errorMessage}`, 'error');
     } finally {
       setUploading(false);
     }
   };
 
-  const handleDeletePhoto = async (photoId) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar esta foto de la galería?')) {
-      try {
-        await API.delete(`/students/gallery/${photoId}`);
-        fetchStudent();
-      } catch (error) {
-        console.error('Error deleting photo:', error);
-        alert('Ocurrió un error al eliminar la foto.');
-      }
+  const executeDeletePhoto = async () => {
+    if (!deleteConfirm.id) return;
+    try {
+      await API.delete(`/students/gallery/${deleteConfirm.id}`);
+      fetchStudent();
+      showToast('Foto eliminada correctamente', 'success');
+    } catch (error) {
+      console.error('Error deleting photo:', error);
+      showToast('Ocurrió un error al eliminar la foto', 'error');
     }
   };
 
@@ -308,7 +313,7 @@ const PerfilDetalleAdmin = () => {
                       
                       {/* Botón borrar */}
                       <button 
-                        onClick={(e) => { e.stopPropagation(); handleDeletePhoto(photo.id); }}
+                        onClick={(e) => { e.stopPropagation(); setDeleteConfirm({ isOpen: true, id: photo.id }); }}
                         class="absolute top-3 right-3 p-2 bg-red-500/80 hover:bg-red-600 text-carbon dark:text-white rounded-full transition-colors opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0"
                         title="Eliminar foto"
                       >
@@ -341,6 +346,14 @@ const PerfilDetalleAdmin = () => {
         onNext={nextPhoto}
         onPrev={prevPhoto}
         hasMultiple={student?.gallery?.length > 1}
+      />
+
+      <ConfirmModal 
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+        onConfirm={executeDeletePhoto}
+        title="Eliminar Foto"
+        message="¿Estás seguro de que deseas eliminar esta foto de la galería? Esta acción no se puede deshacer."
       />
     </div>
   );

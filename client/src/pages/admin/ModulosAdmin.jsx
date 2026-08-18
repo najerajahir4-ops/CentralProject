@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import API from '../../services/api';
 import Modal from '../../components/Modal';
+import ConfirmModal from '../../components/ConfirmModal';
+import { useToast } from '../../context/ToastContext';
 import { Layers, Plus, Edit, Trash2, Users, Award, History, GitMerge, CreditCard, FileCheck } from 'lucide-react';
 
 const ModulosAdmin = () => {
   const [clubs, setClubs] = useState([]);
   const [modules, setModules] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { showToast } = useToast();
 
   // Modal States
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null, type: null });
   const [isClubModalOpen, setIsClubModalOpen] = useState(false);
   const [selectedClub, setSelectedClub] = useState(null);
   const [clubForm, setClubForm] = useState({ nombre: '', descripcion: '' });
@@ -63,19 +67,24 @@ const ModulosAdmin = () => {
       }
       setIsClubModalOpen(false);
       fetchData();
+      showToast('Club guardado con éxito', 'success');
     } catch (err) {
-      alert('Error al guardar club.');
+      showToast('Error al guardar club', 'error');
     }
   };
 
-  const handleDeleteClub = async (id) => {
-    if (window.confirm('¿Eliminar este club?')) {
-      try {
-        await API.delete(`/clubs/${id}`);
-        fetchData();
-      } catch (err) {
-        alert('Error al eliminar club.');
+  const executeDelete = async () => {
+    try {
+      if (deleteConfirm.type === 'CLUB') {
+        await API.delete(`/clubs/${deleteConfirm.id}`);
+        showToast('Club eliminado con éxito', 'success');
+      } else if (deleteConfirm.type === 'MODULE') {
+        await API.delete(`/clubs/modules/${deleteConfirm.id}`);
+        showToast('Elemento eliminado con éxito', 'success');
       }
+      fetchData();
+    } catch (err) {
+      showToast('Error al eliminar', 'error');
     }
   };
 
@@ -109,19 +118,9 @@ const ModulosAdmin = () => {
       }
       setIsModuleModalOpen(false);
       fetchData();
+      showToast('Elemento del módulo guardado', 'success');
     } catch (err) {
-      alert('Error al guardar elemento del módulo.');
-    }
-  };
-
-  const handleDeleteModule = async (id) => {
-    if (window.confirm('¿Eliminar elemento?')) {
-      try {
-        await API.delete(`/clubs/modules/${id}`);
-        fetchData();
-      } catch (err) {
-        alert('Error al eliminar.');
-      }
+      showToast('Error al guardar elemento del módulo', 'error');
     }
   };
 
@@ -154,7 +153,7 @@ const ModulosAdmin = () => {
                 <span class="text-carbon dark:text-white font-bold">{c._count?.students || 0} Alumnos Inscritos</span>
                 <div class="flex gap-2">
                   <button onClick={() => handleOpenClubModal(c)} class="p-1.5 bg-amber-500/20 text-amber-400 rounded-lg"><Edit size={14} /></button>
-                  <button onClick={() => handleDeleteClub(c.id)} class="p-1.5 bg-rose-500/20 text-rose-400 rounded-lg"><Trash2 size={14} /></button>
+                  <button onClick={() => setDeleteConfirm({ isOpen: true, id: c.id, type: 'CLUB' })} class="p-1.5 bg-rose-500/20 text-rose-400 rounded-lg"><Trash2 size={14} /></button>
                 </div>
               </div>
             </div>
@@ -201,7 +200,7 @@ const ModulosAdmin = () => {
                   <td class="p-4 text-gray-700 dark:text-gray-300">{m.descripcion}</td>
                   <td class="p-4 text-center space-x-2">
                     <button onClick={() => handleOpenModuleModal(m)} class="p-2 bg-amber-500/20 text-amber-400 rounded-lg"><Edit size={14} /></button>
-                    <button onClick={() => handleDeleteModule(m.id)} class="p-2 bg-rose-500/20 text-rose-400 rounded-lg"><Trash2 size={14} /></button>
+                    <button onClick={() => setDeleteConfirm({ isOpen: true, id: m.id, type: 'MODULE' })} class="p-2 bg-rose-500/20 text-rose-400 rounded-lg"><Trash2 size={14} /></button>
                   </td>
                 </tr>
               ))}
@@ -281,6 +280,13 @@ const ModulosAdmin = () => {
         </form>
       </Modal>
 
+      <ConfirmModal 
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null, type: null })}
+        onConfirm={executeDelete}
+        title="Confirmar Eliminación"
+        message={`¿Estás seguro de eliminar este ${deleteConfirm.type === 'CLUB' ? 'club' : 'elemento'}? Esta acción no se puede deshacer.`}
+      />
     </div>
   );
 };

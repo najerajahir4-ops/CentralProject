@@ -26,6 +26,7 @@ import ContenidoDetalle from '../ContenidoDetalle';
 import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
 import ConfirmModal from '../../components/ConfirmModal';
+import { useToast } from '../../context/ToastContext';
 
 const quillModules = {
   toolbar: [
@@ -155,6 +156,7 @@ const ContenidoAdmin = () => {
   const [coverFile, setCoverFile] = useState(null);
   const [coverPreview, setCoverPreview] = useState('');
   const [uploading, setUploading] = useState(false);
+  const { showToast } = useToast();
 
   const [blocks, setBlocks] = useState([]);
   const [isLivePreview, setIsLivePreview] = useState(false);
@@ -290,16 +292,18 @@ const ContenidoAdmin = () => {
       }
       setIsModalOpen(false);
       fetchContents();
+      showToast('Publicación guardada exitosamente', 'success');
     } catch (err) {
       console.error(err);
-      alert('Error al guardar publicación.');
+      showToast('Error al guardar publicación', 'error');
     } finally {
       setUploading(false);
     }
   };
 
   const handleAddBlock = (type) => {
-    const newBlock = { id: Date.now().toString(), type };
+    const uniqueId = Date.now().toString() + '-' + Math.random().toString(36).substr(2, 9);
+    const newBlock = { id: uniqueId, type };
     if (type === 'TEXT') newBlock.content = '';
     if (type === 'EVENT_INFO') {
       newBlock.lugar = ''; newBlock.fecha = ''; newBlock.requisito = ''; newBlock.costo = ''; newBlock.description = '';
@@ -340,8 +344,10 @@ const ContenidoAdmin = () => {
     try {
       await API.delete(`/content/${id}`);
       fetchContents();
+      showToast('Publicación eliminada correctamente', 'success');
+      setDeleteConfirm({ isOpen: false, id: null });
     } catch (err) {
-      alert('Error al eliminar publicación.');
+      showToast('Error al eliminar publicación', 'error');
     }
   };
 

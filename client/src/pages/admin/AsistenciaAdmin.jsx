@@ -18,6 +18,8 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react';
+import ConfirmModal from '../../components/ConfirmModal';
+import { useToast } from '../../context/ToastContext';
 
 const AsistenciaAdmin = () => {
   // Obtener fecha actual en formato local YYYY-MM-DD
@@ -28,6 +30,8 @@ const AsistenciaAdmin = () => {
   };
 
   const [activeTab, setActiveTab] = useState('tomar'); // 'tomar', 'historial', 'reporte'
+  const { showToast } = useToast();
+  const [markAllConfirm, setMarkAllConfirm] = useState({ isOpen: false });
   
   // States para Tab 1: Registrar Asistencia
   const [fecha, setFecha] = useState(getLocalToday());
@@ -199,11 +203,12 @@ const AsistenciaAdmin = () => {
         fecha,
         estado: estadoNuevo
       });
+      showToast(`Asistencia guardada: ${estadoNuevo}`, 'success');
     } catch (err) {
       console.error('Error al guardar asistencia:', err);
       // Revertir en caso de fallo
       setStudents(originalStudents);
-      alert('Error al guardar la asistencia. Intenta nuevamente.');
+      showToast('Error al guardar la asistencia', 'error');
     } finally {
       setUpdatingId(null);
     }
@@ -228,24 +233,17 @@ const AsistenciaAdmin = () => {
       await API.delete(`/attendance`, {
         params: { studentId, fecha }
       });
+      showToast('Registro de asistencia eliminado', 'success');
     } catch (err) {
       console.error('Error al eliminar asistencia:', err);
       setStudents(originalStudents);
-      alert('Error al eliminar el registro. Intenta nuevamente.');
+      showToast('Error al eliminar el registro', 'error');
     } finally {
       setUpdatingId(null);
     }
   };
 
-  // Marcar a todos los estudiantes listados como PRESENTE
-  const handleMarkAllPresent = async () => {
-    if (students.length === 0) return;
-    
-    const confirmAction = window.confirm(
-      `¿Deseas marcar a los ${students.length} estudiantes listados como PRESENTES para el día ${fecha}?`
-    );
-    if (!confirmAction) return;
-
+  const executeMarkAllPresent = async () => {
     try {
       setLoading(true);
       const records = students.map(s => ({
@@ -259,9 +257,10 @@ const AsistenciaAdmin = () => {
       });
 
       await fetchAttendance();
+      showToast('Asistencia masiva registrada con éxito', 'success');
     } catch (err) {
       console.error('Error al registrar asistencias masivas:', err);
-      alert('Error al registrar asistencias masivas.');
+      showToast('Error al registrar asistencias masivas', 'error');
       setLoading(false);
     }
   };
@@ -314,7 +313,7 @@ const AsistenciaAdmin = () => {
             </div>
 
             <button
-              onClick={handleMarkAllPresent}
+              onClick={() => { if (students.length > 0) setMarkAllConfirm({ isOpen: true }); }}
               disabled={students.length === 0 || loading}
               class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-carbon dark:text-white text-xs font-bold rounded-lg transition-all shadow-lg shadow-emerald-900/20 flex items-center gap-2"
             >
@@ -830,6 +829,16 @@ const AsistenciaAdmin = () => {
         </div>
       )}
 
+      <ConfirmModal 
+        isOpen={markAllConfirm.isOpen}
+        onClose={() => setMarkAllConfirm({ isOpen: false })}
+        onConfirm={() => {
+          setMarkAllConfirm({ isOpen: false });
+          executeMarkAllPresent();
+        }}
+        title="Asistencia Masiva"
+        message={`¿Deseas marcar a los ${students.length} estudiantes listados como PRESENTES para el día ${fecha}?`}
+      />
     </div>
   );
 };

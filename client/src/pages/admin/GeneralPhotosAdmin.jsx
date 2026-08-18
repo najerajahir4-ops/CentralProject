@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../../services/api';
 import { ArrowLeft, Camera, Image as ImageIcon, Loader, Plus, Trash2, Calendar } from 'lucide-react';
+import ConfirmModal from '../../components/ConfirmModal';
+import { useToast } from '../../context/ToastContext';
 
 const GeneralPhotosAdmin = () => {
   const [photos, setPhotos] = useState([]);
@@ -12,6 +14,8 @@ const GeneralPhotosAdmin = () => {
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState('');
   const [photoDescription, setPhotoDescription] = useState('');
+  const { showToast } = useToast();
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
 
   const fetchPhotos = async () => {
     try {
@@ -20,7 +24,7 @@ const GeneralPhotosAdmin = () => {
       setPhotos(data);
     } catch (error) {
       console.error('Error fetching general photos:', error);
-      alert('Error al cargar las fotos generales.');
+      showToast('Error al cargar las fotos generales', 'error');
     } finally {
       setLoading(false);
     }
@@ -69,25 +73,26 @@ const GeneralPhotosAdmin = () => {
       setPhotoPreview('');
       setPhotoDescription('');
       fetchPhotos();
+      showToast('Foto subida exitosamente', 'success');
       
     } catch (error) {
       console.error('Error uploading general photo:', error);
       const errorMessage = error.response?.data?.error || 'Ocurrió un error al subir la foto.';
-      alert(`Error: ${errorMessage}`);
+      showToast(`Error: ${errorMessage}`, 'error');
     } finally {
       setUploading(false);
     }
   };
 
-  const handleDeletePhoto = async (photoId) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar esta foto de la galería general?')) {
-      try {
-        await API.delete(`/general-photos/${photoId}`);
-        fetchPhotos();
-      } catch (error) {
-        console.error('Error deleting photo:', error);
-        alert('Ocurrió un error al eliminar la foto.');
-      }
+  const executeDeletePhoto = async () => {
+    if (!deleteConfirm.id) return;
+    try {
+      await API.delete(`/general-photos/${deleteConfirm.id}`);
+      fetchPhotos();
+      showToast('Foto eliminada correctamente', 'success');
+    } catch (error) {
+      console.error('Error deleting photo:', error);
+      showToast('Ocurrió un error al eliminar la foto', 'error');
     }
   };
 
@@ -207,7 +212,7 @@ const GeneralPhotosAdmin = () => {
                   
                   {/* Botón borrar */}
                   <button 
-                    onClick={() => handleDeletePhoto(photo.id)}
+                    onClick={() => setDeleteConfirm({ isOpen: true, id: photo.id })}
                     class="absolute top-3 right-3 p-2 bg-red-500/80 hover:bg-red-600 text-carbon dark:text-white rounded-full transition-colors opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0"
                     title="Eliminar foto"
                   >
@@ -231,6 +236,13 @@ const GeneralPhotosAdmin = () => {
         )}
       </div>
 
+      <ConfirmModal 
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+        onConfirm={executeDeletePhoto}
+        title="Eliminar Foto"
+        message="¿Estás seguro de que deseas eliminar esta foto de la galería general? Esta acción no se puede deshacer."
+      />
     </div>
   );
 };

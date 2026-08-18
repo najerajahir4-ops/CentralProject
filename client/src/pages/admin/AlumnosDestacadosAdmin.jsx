@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import API from '../../services/api';
 import Modal from '../../components/Modal';
+import ConfirmModal from '../../components/ConfirmModal';
+import { useToast } from '../../context/ToastContext';
 import { Trophy, Plus, Edit, Trash2, Camera, Loader, Image as ImageIcon } from 'lucide-react';
 
 const AlumnosDestacadosAdmin = () => {
@@ -9,6 +11,8 @@ const AlumnosDestacadosAdmin = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const { showToast } = useToast();
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
 
   const [form, setForm] = useState({
     studentId: '',
@@ -83,9 +87,10 @@ const AlumnosDestacadosAdmin = () => {
       });
 
       setForm({ ...form, imagenUrl: res.data.url });
+      showToast('Imagen subida correctamente', 'success');
     } catch (err) {
       console.error(err);
-      alert('Error al subir la imagen');
+      showToast('Error al subir la imagen', 'error');
     } finally {
       setUploadingImage(false);
     }
@@ -101,19 +106,20 @@ const AlumnosDestacadosAdmin = () => {
       }
       setIsModalOpen(false);
       fetchFeatured();
+      showToast('Alumno destacado guardado con éxito', 'success');
     } catch (err) {
-      alert('Error al guardar alumno destacado.');
+      showToast('Error al guardar alumno destacado', 'error');
     }
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('¿Eliminar alumno del cuadro de honor?')) {
-      try {
-        await API.delete(`/featured-students/${id}`);
-        fetchFeatured();
-      } catch (err) {
-        alert('Error al eliminar.');
-      }
+  const executeDelete = async () => {
+    if (!deleteConfirm.id) return;
+    try {
+      await API.delete(`/featured-students/${deleteConfirm.id}`);
+      fetchFeatured();
+      showToast('Eliminado correctamente', 'success');
+    } catch (err) {
+      showToast('Error al eliminar', 'error');
     }
   };
 
@@ -178,7 +184,7 @@ const AlumnosDestacadosAdmin = () => {
                   <td class="p-4 italic">"{item.logros}"</td>
                   <td class="p-4 text-center space-x-2">
                     <button onClick={() => handleOpenModal(item)} class="p-2 bg-amber-500/20 text-amber-400 rounded-lg"><Edit size={14} /></button>
-                    <button onClick={() => handleDelete(item.id)} class="p-2 bg-rose-500/20 text-rose-400 rounded-lg"><Trash2 size={14} /></button>
+                    <button onClick={() => setDeleteConfirm({ isOpen: true, id: item.id })} class="p-2 bg-rose-500/20 text-rose-400 rounded-lg"><Trash2 size={14} /></button>
                   </td>
                 </tr>
               ))
@@ -279,6 +285,13 @@ const AlumnosDestacadosAdmin = () => {
         </form>
       </Modal>
 
+      <ConfirmModal 
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+        onConfirm={executeDelete}
+        title="Confirmar Eliminación"
+        message="¿Estás seguro de eliminar a este alumno del cuadro de honor?"
+      />
     </div>
   );
 };

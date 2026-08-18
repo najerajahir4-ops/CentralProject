@@ -18,6 +18,7 @@ import {
   MoreVertical,
   MessageCircle
 } from 'lucide-react';
+import { useToast } from '../../context/ToastContext';
 
 const TAEKWONDO_BELTS = [
   "Cinturón Blanco",
@@ -48,6 +49,7 @@ const EstudiantesAdmin = () => {
   const [students, setStudents] = useState([]);
   const [clubs, setClubs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { showToast } = useToast();
 
   // Filter States
   const [search, setSearch] = useState('');
@@ -259,8 +261,9 @@ const EstudiantesAdmin = () => {
       }
       setIsStudentModalOpen(false);
       fetchStudents();
+      showToast('Estudiante guardado exitosamente', 'success');
     } catch (err) {
-      alert(err.response?.data?.error || 'Error al guardar estudiante.');
+      showToast(err.response?.data?.error || 'Error al guardar estudiante', 'error');
     } finally {
       setIsSavingStudent(false);
     }
@@ -279,10 +282,10 @@ const EstudiantesAdmin = () => {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setStudentForm(prev => ({ ...prev, foto: res.data.url }));
-      alert('Foto subida exitosamente');
+      showToast('Foto subida exitosamente', 'success');
     } catch (err) {
       console.error(err);
-      alert('Error al subir la foto');
+      showToast('Error al subir la foto', 'error');
     } finally {
       setUploadingImage(false);
     }
@@ -311,9 +314,9 @@ const EstudiantesAdmin = () => {
       });
       setIsPaymentModalOpen(false);
       fetchStudents();
-      alert('Pago registrado y fecha de próximo pago recalculada correctamente.');
+      showToast('Pago registrado correctamente', 'success');
     } catch (err) {
-      alert(err.response?.data?.error || 'Error al registrar pago.');
+      showToast(err.response?.data?.error || 'Error al registrar pago', 'error');
     } finally {
       setIsSavingPayment(false);
     }
@@ -327,7 +330,7 @@ const EstudiantesAdmin = () => {
       setPaymentHistory(res.data);
       setIsHistoryModalOpen(true);
     } catch (err) {
-      alert('Error al cargar historial de pagos.');
+      showToast('Error al cargar historial de pagos', 'error');
     }
   };
 
@@ -347,8 +350,9 @@ const EstudiantesAdmin = () => {
       setIsDeleteModalOpen(false);
       setSelectedStudent(null);
       fetchStudents();
+      showToast('Estudiante eliminado', 'success');
     } catch (err) {
-      alert('Error al eliminar estudiante.');
+      showToast('Error al eliminar estudiante', 'error');
     } finally {
       setIsDeleting(false);
     }
@@ -363,7 +367,7 @@ const EstudiantesAdmin = () => {
 
     const printWindow = window.open('', '_blank');
     if (!printWindow) {
-      alert('Por favor, permite las ventanas emergentes (popups) para descargar el PDF.');
+      showToast('Por favor, permite las ventanas emergentes (popups) para descargar el PDF', 'error');
       return;
     }
 
@@ -667,7 +671,7 @@ const EstudiantesAdmin = () => {
   // Export Students List to Styled Excel (XLS)
   const handleExportExcel = () => {
     if (filteredStudentsByTab.length === 0) {
-      alert('No hay estudiantes para exportar.');
+      showToast('No hay estudiantes para exportar', 'error');
       return;
     }
 
