@@ -51,14 +51,14 @@ const Galeria = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
         {/* PANEL DE FILTROS */}
         <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-4 mb-10 flex flex-col md:flex-row gap-4 items-center">
-          <div className="flex items-center gap-2 w-full md:w-1/2 relative">
-            <Search className="text-gray-400 absolute left-3" size={18} />
+          <div className="flex-1 relative min-w-[200px]">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-carbon/40" size={16} />
             <input
               type="text"
-              placeholder="Buscar nombre o cédula..."
+              placeholder="Buscar por nombre o apellido..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white border border-gray-300 rounded-md pl-10 pr-4 py-2.5 text-sm text-carbon focus:outline-none focus:ring-2 focus:ring-rojo-impacto/50 focus:border-rojo-impacto transition-colors"
+              className="w-full pl-9 pr-4 py-2 text-sm border border-carbon/20 rounded-md focus:outline-none focus:border-carbon focus:ring-1 focus:ring-carbon transition-colors"
             />
           </div>
           
