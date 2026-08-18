@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import API from '../../services/api';
 import { User, ArrowLeft, Camera, Image as ImageIcon, Loader, Plus, Trash2, Calendar } from 'lucide-react';
+import PhotoModal from '../../components/PhotoModal';
 
 const PerfilDetalleAdmin = () => {
   const { id } = useParams();
@@ -14,6 +15,24 @@ const PerfilDetalleAdmin = () => {
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState('');
   const [photoDescription, setPhotoDescription] = useState('');
+  
+  // Modal states
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
+
+  const openModal = (index) => setSelectedPhotoIndex(index);
+  const closeModal = () => setSelectedPhotoIndex(null);
+  
+  const nextPhoto = () => {
+    if (student?.gallery) {
+      setSelectedPhotoIndex((prev) => (prev === student.gallery.length - 1 ? 0 : prev + 1));
+    }
+  };
+
+  const prevPhoto = () => {
+    if (student?.gallery) {
+      setSelectedPhotoIndex((prev) => (prev === 0 ? student.gallery.length - 1 : prev - 1));
+    }
+  };
 
   const fetchStudent = async () => {
     try {
@@ -271,8 +290,8 @@ const PerfilDetalleAdmin = () => {
             {/* GRID DE GALERÍA */}
             {student.gallery && student.gallery.length > 0 ? (
               <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {student.gallery.map((photo) => (
-                  <div key={photo.id} class="group relative rounded-xl overflow-hidden border border-carbon/20 dark:border-white/10 bg-gray-50 dark:bg-[#1C1C21] aspect-square">
+                {student.gallery.map((photo, index) => (
+                  <div key={photo.id} class="group relative rounded-xl overflow-hidden border border-carbon/20 dark:border-white/10 bg-gray-50 dark:bg-[#1C1C21] aspect-square cursor-pointer" onClick={() => openModal(index)}>
                     <img 
                       src={photo.url} 
                       alt={photo.descripcion || 'Foto del estudiante'} 
@@ -281,7 +300,7 @@ const PerfilDetalleAdmin = () => {
                     
                     {/* Overlay info */}
                     <div class="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                      <p class="text-carbon dark:text-white font-bold text-sm mb-1 line-clamp-2">{photo.descripcion}</p>
+                      <p class="text-white font-bold text-sm mb-1 line-clamp-2">{photo.descripcion}</p>
                       <div class="flex items-center gap-1 text-[10px] text-gray-700 dark:text-gray-300">
                         <Calendar size={10} />
                         {new Date(photo.createdAt).toLocaleDateString()}
@@ -289,7 +308,7 @@ const PerfilDetalleAdmin = () => {
                       
                       {/* Botón borrar */}
                       <button 
-                        onClick={() => handleDeletePhoto(photo.id)}
+                        onClick={(e) => { e.stopPropagation(); handleDeletePhoto(photo.id); }}
                         class="absolute top-3 right-3 p-2 bg-red-500/80 hover:bg-red-600 text-carbon dark:text-white rounded-full transition-colors opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0"
                         title="Eliminar foto"
                       >
@@ -314,6 +333,15 @@ const PerfilDetalleAdmin = () => {
           </div>
         </div>
       </div>
+
+      <PhotoModal 
+        photo={selectedPhotoIndex !== null ? student?.gallery?.[selectedPhotoIndex] : null}
+        isOpen={selectedPhotoIndex !== null}
+        onClose={closeModal}
+        onNext={nextPhoto}
+        onPrev={prevPhoto}
+        hasMultiple={student?.gallery?.length > 1}
+      />
     </div>
   );
 };
