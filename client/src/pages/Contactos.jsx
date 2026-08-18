@@ -32,7 +32,7 @@ const Contactos = () => {
       `*Mensaje:* ${formData.mensaje}`;
       
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/593983244247?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/593984522651?text=${encodedMessage}`;
     
     window.open(whatsappUrl, '_blank');
     setSubmitted(true);
@@ -67,7 +67,7 @@ const Contactos = () => {
               </div>
               <div className="flex items-center gap-3">
                 <Phone size={18} className="text-rojo-impacto flex-shrink-0" />
-                <span className="font-medium text-carbon text-base">+593 98 324 4247</span>
+                <span className="font-medium text-carbon text-base">+593 98 452 2651</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail size={18} className="text-rojo-impacto flex-shrink-0" />
