@@ -45,7 +45,14 @@ const AsistenciaAdmin = () => {
     justificados: 0,
     sinRegistrar: 0
   });
-  const [showStats, setShowStats] = useState(true);
+  const [showStats, setShowStats] = useState(() => {
+    const saved = localStorage.getItem('asistencia_showStats');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('asistencia_showStats', JSON.stringify(showStats));
+  }, [showStats]);
 
   const [filtersOpen, setFiltersOpen] = useState(false);
 
