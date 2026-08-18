@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import ConfirmModal from '../../components/ConfirmModal';
 import { useToast } from '../../context/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 
 const AsistenciaAdmin = () => {
   // Obtener fecha actual en formato local YYYY-MM-DD
@@ -45,14 +46,16 @@ const AsistenciaAdmin = () => {
     justificados: 0,
     sinRegistrar: 0
   });
+  const { user } = useAuth();
+  
   const [showStats, setShowStats] = useState(() => {
-    const saved = localStorage.getItem('asistencia_showStats');
+    const saved = localStorage.getItem(`asistencia_showStats_${user?.id || 'default'}`);
     return saved !== null ? JSON.parse(saved) : true;
   });
 
   useEffect(() => {
-    localStorage.setItem('asistencia_showStats', JSON.stringify(showStats));
-  }, [showStats]);
+    localStorage.setItem(`asistencia_showStats_${user?.id || 'default'}`, JSON.stringify(showStats));
+  }, [showStats, user]);
 
   const [filtersOpen, setFiltersOpen] = useState(false);
 
