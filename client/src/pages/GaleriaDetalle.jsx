@@ -28,7 +28,7 @@ const GaleriaDetalle = () => {
   useEffect(() => {
     const fetchStudent = async () => {
       try {
-        const { data } = await API.get(`/students/${id}`);
+        const { data } = await API.get(`/students/public/${id}`);
         setStudent(data);
       } catch (error) {
         console.error('Error fetching student details:', error);

@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   getStudents,
   getPublicStudents,
+  getPublicStudentById,
   getStudentById,
   createStudent,
   updateStudent,
@@ -14,8 +15,9 @@ const {
 } = require('../controllers/studentController');
 const authMiddleware = require('../middleware/authMiddleware');
 
-// Ruta pública para listar estudiantes en la vista pública (Salón de Campeones)
+// Rutas públicas para listar estudiantes en la vista pública (Salón de Campeones)
 router.get('/public', getPublicStudents);
+router.get('/public/:id', getPublicStudentById);
 
 // Rutas protegidas para administración de estudiantes
 router.get('/stats', authMiddleware, getDashboardStats);

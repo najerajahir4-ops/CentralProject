@@ -28,6 +28,43 @@ const getPublicStudents = async (req, res, next) => {
   }
 };
 
+const getPublicStudentById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const student = await prisma.student.findUnique({
+      where: { id: parseInt(id) },
+      select: {
+        id: true,
+        nombres: true,
+        apellidos: true,
+        grado: true,
+        foto: true,
+        modalidad: true,
+        club: {
+          select: { nombre: true }
+        },
+        gallery: {
+          orderBy: { createdAt: 'desc' }
+        }
+      },
+    });
+
+    if (!student) {
+      return res.status(404).json({ error: 'Estudiante no encontrado' });
+    }
+
+    // Compatibilidad frontend
+    const processedStudent = {
+      ...student,
+      nombreCompleto: `${student.nombres} ${student.apellidos}`
+    };
+
+    return res.json(processedStudent);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getStudents = async (req, res, next) => {
   try {
     const { search, clubId, estadoPago } = req.query;
@@ -345,6 +382,7 @@ const getAllGalleryPhotos = async (req, res, next) => {
 module.exports = {
   getStudents,
   getPublicStudents,
+  getPublicStudentById,
   getStudentById,
   createStudent,
   updateStudent,
