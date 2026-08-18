@@ -14,7 +14,7 @@ const Galeria = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const { data } = await API.get('/students');
+        const { data } = await API.get('/students/public');
         setStudents(data);
       } catch (error) {
         console.error('Error fetching students:', error);
@@ -27,8 +27,7 @@ const Galeria = () => {
 
   const filteredStudents = students.filter(s => {
     const matchesSearch = s.nombres.toLowerCase().includes(search.toLowerCase()) ||
-                          s.apellidos.toLowerCase().includes(search.toLowerCase()) ||
-                          s.cedula.includes(search);
+                          s.apellidos.toLowerCase().includes(search.toLowerCase());
     const matchesRank = rankFilter === '' || (s.grado && s.grado.toLowerCase().includes(rankFilter.toLowerCase()));
     
     return matchesSearch && matchesRank;

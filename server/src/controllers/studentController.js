@@ -3,6 +3,31 @@ const { logAction } = require('../utils/auditLogger');
 const { calculatePaymentStatus, calculateNextPaymentDate } = require('../utils/dateUtils');
 const { studentCreateSchema, studentUpdateSchema } = require('../utils/validators');
 
+const getPublicStudents = async (req, res, next) => {
+  try {
+    const students = await prisma.student.findMany({
+      select: {
+        id: true,
+        nombres: true,
+        apellidos: true,
+        grado: true,
+        fotoPerfilUrl: true,
+      },
+      orderBy: { nombres: 'asc' },
+    });
+    
+    // Mapear nombreCompleto para compatibilidad con frontend
+    const processed = students.map(s => ({
+      ...s,
+      nombreCompleto: `${s.nombres} ${s.apellidos}`
+    }));
+    
+    return res.json(processed);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getStudents = async (req, res, next) => {
   try {
     const { search, clubId, estadoPago } = req.query;
@@ -319,6 +344,7 @@ const getAllGalleryPhotos = async (req, res, next) => {
 
 module.exports = {
   getStudents,
+  getPublicStudents,
   getStudentById,
   createStudent,
   updateStudent,

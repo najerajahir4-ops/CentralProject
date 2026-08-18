@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {
   getStudents,
+  getPublicStudents,
   getStudentById,
   createStudent,
   updateStudent,
@@ -12,6 +13,9 @@ const {
   getAllGalleryPhotos,
 } = require('../controllers/studentController');
 const authMiddleware = require('../middleware/authMiddleware');
+
+// Ruta pública para listar estudiantes en la vista pública (Salón de Campeones)
+router.get('/public', getPublicStudents);
 
 // Rutas protegidas para administración de estudiantes
 router.get('/stats', authMiddleware, getDashboardStats);
