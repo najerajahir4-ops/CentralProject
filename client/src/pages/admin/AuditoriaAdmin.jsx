@@ -64,55 +64,57 @@ const AuditoriaAdmin = () => {
             <Activity size={120} />
           </div>
           
-          <div className="relative z-10 border-l-2 border-gray-100 dark:border-white/5 ml-4 space-y-8 pb-4">
-            {logs.length === 0 ? (
-              <p className="pl-6 text-sm text-gray-500 dark:text-gray-400 font-body normal-case tracking-normal">No hay registros de actividad aún.</p>
-            ) : (
-              logs.map((log) => (
-                <div key={log.id} className="relative pl-8 group">
-                  {/* Timeline Dot */}
-                  <div className={`absolute -left-[17px] top-1 p-1.5 bg-white dark:bg-[#0A0B0E] border-2 rounded-full transition-transform group-hover:scale-110 ${getActionColor(log.accion).split(' ')[2]}`}>
-                    <div className={getActionColor(log.accion).split(' ')[0]}>
-                      {getActionIcon(log.accion)}
+          <div className="relative z-10 ml-2 sm:ml-4 max-h-[600px] overflow-y-auto pr-2 sm:pr-4 custom-scrollbar">
+            <div className="border-l-2 border-gray-100 dark:border-white/5 ml-2 space-y-8 pb-4">
+              {logs.length === 0 ? (
+                <p className="pl-6 text-sm text-gray-500 dark:text-gray-400 font-body normal-case tracking-normal">No hay registros de actividad aún.</p>
+              ) : (
+                logs.map((log) => (
+                  <div key={log.id} className="relative pl-8 group">
+                    {/* Timeline Dot */}
+                    <div className={`absolute -left-[17px] top-1 p-1.5 bg-white dark:bg-[#0A0B0E] border-2 rounded-full transition-transform group-hover:scale-110 ${getActionColor(log.accion).split(' ')[2]}`}>
+                      <div className={getActionColor(log.accion).split(' ')[0]}>
+                        {getActionIcon(log.accion)}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Content Card */}
-                  <div className="bg-white dark:bg-[#1C1C21] border border-gray-100 dark:border-white/10 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
-                    <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-                      <div className="flex items-center gap-2">
-                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${getActionColor(log.accion)}`}>
-                          {log.accion}
-                        </span>
-                        <span className="text-xs font-medium text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-white/5 px-2.5 py-1 rounded-full border border-gray-200 dark:border-white/10">
-                          {log.entidad}
-                        </span>
-                        {log.entidadId && (
-                          <span className="text-xs font-mono text-gray-400 dark:text-gray-500">
-                            ID: {log.entidadId}
+                    {/* Content Card */}
+                    <div className="bg-white dark:bg-[#1C1C21] border border-gray-100 dark:border-white/10 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+                        <div className="flex items-center gap-2">
+                          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${getActionColor(log.accion)}`}>
+                            {log.accion}
                           </span>
-                        )}
+                          <span className="text-xs font-medium text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-white/5 px-2.5 py-1 rounded-full border border-gray-200 dark:border-white/10">
+                            {log.entidad}
+                          </span>
+                          {log.entidadId && (
+                            <span className="text-xs font-mono text-gray-400 dark:text-gray-500">
+                              ID: {log.entidadId}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 font-medium">
+                          <Clock size={14} />
+                          {new Date(log.createdAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 font-medium">
-                        <Clock size={14} />
-                        {new Date(log.createdAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
+                      
+                      <p className="text-sm text-carbon dark:text-white mb-4 font-medium leading-relaxed">
+                        {log.detalles || 'Acción registrada sin detalles adicionales.'}
+                      </p>
+                      
+                      <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 font-medium">
+                        <div className="w-5 h-5 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center">
+                          <User size={12} className="text-gray-600 dark:text-gray-300" />
+                        </div>
+                        <span>Por: <span className="font-semibold text-carbon dark:text-gray-300">{log.admin ? log.admin.usuario : 'Sistema / Desconocido'}</span></span>
                       </div>
-                    </div>
-                    
-                    <p className="text-sm text-carbon dark:text-white mb-4 font-medium leading-relaxed">
-                      {log.detalles || 'Acción registrada sin detalles adicionales.'}
-                    </p>
-                    
-                    <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 font-medium">
-                      <div className="w-5 h-5 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center">
-                        <User size={12} className="text-gray-600 dark:text-gray-300" />
-                      </div>
-                      <span>Por: <span className="font-semibold text-carbon dark:text-gray-300">{log.admin ? log.admin.usuario : 'Sistema / Desconocido'}</span></span>
                     </div>
                   </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
+            </div>
           </div>
         </div>
       )}
