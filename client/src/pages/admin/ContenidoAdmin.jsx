@@ -25,6 +25,7 @@ import 'react-quill/dist/quill.snow.css';
 import ContenidoDetalle from '../ContenidoDetalle';
 import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
+import ConfirmModal from '../../components/ConfirmModal';
 
 const quillModules = {
   toolbar: [
@@ -158,6 +159,7 @@ const ContenidoAdmin = () => {
   const [blocks, setBlocks] = useState([]);
   const [isLivePreview, setIsLivePreview] = useState(false);
   const [isPreviewFullscreen, setIsPreviewFullscreen] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
   
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -327,14 +329,19 @@ const ContenidoAdmin = () => {
     setBlocks(arrayMove(blocks, oldIndex, newIndex));
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('¿Estás seguro de eliminar esta publicación?')) {
-      try {
-        await API.delete(`/content/${id}`);
-        fetchContents();
-      } catch (err) {
-        alert('Error al eliminar publicación.');
-      }
+  const confirmDelete = (id) => {
+    setDeleteConfirm({ isOpen: true, id });
+  };
+
+  const executeDelete = async () => {
+    const id = deleteConfirm.id;
+    if (!id) return;
+    
+    try {
+      await API.delete(`/content/${id}`);
+      fetchContents();
+    } catch (err) {
+      alert('Error al eliminar publicación.');
     }
   };
 
@@ -394,7 +401,7 @@ const ContenidoAdmin = () => {
                     <Edit size={14} />
                   </button>
                   <button
-                    onClick={() => handleDelete(item.id)}
+                    onClick={() => confirmDelete(item.id)}
                     class="p-2 rounded-lg bg-rose-500/20 text-rose-400 hover:bg-rose-500/30"
                   >
                     <Trash2 size={14} />
@@ -590,6 +597,13 @@ const ContenidoAdmin = () => {
         </div>
       </Modal>
 
+      <ConfirmModal 
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+        onConfirm={executeDelete}
+        title="Eliminar Publicación"
+        message="¿Estás seguro de eliminar esta publicación? Esta acción no se puede deshacer."
+      />
     </div>
   );
 };
