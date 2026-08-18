@@ -6,8 +6,8 @@ import { FaChildReaching, FaDumbbell } from 'react-icons/fa6';
 const Horarios = () => {
   const schedules = [
     {
-      title: 'Mañana',
-      days: 'Martes y Jueves',
+      title: 'Turno Mañana',
+      days: 'Martes a Jueves',
       time: '8:30 a.m. - 10:00 a.m.',
       target: 'Todas las edades',
       icon: GiSunrise,
@@ -15,37 +15,37 @@ const Horarios = () => {
       bg: 'bg-amber-50'
     },
     {
-      title: 'Infantil',
-      days: 'Lunes, Miércoles y Viernes',
-      time: '4:00 p.m. - 5:00 p.m.',
-      target: 'Niños principiantes e intermedios',
+      title: 'Turno Tarde (4 a 6 años)',
+      days: 'Lunes a Viernes',
+      time: '3:00 p.m. - 4:00 p.m.',
+      target: 'Niños y niñas',
       icon: FaChildReaching,
       color: 'text-blue-500',
       bg: 'bg-blue-50'
     },
     {
-      title: 'Juvenil',
-      days: 'Lunes, Miércoles y Viernes',
-      time: '5:00 p.m. - 6:00 p.m.',
-      target: 'Adolescentes',
+      title: 'Turno Tarde (7 a 10 años)',
+      days: 'Lunes a Viernes',
+      time: '4:00 p.m. - 5:00 p.m.',
+      target: 'Niños y niñas',
       icon: GiHighKick,
       color: 'text-emerald-500',
       bg: 'bg-emerald-50'
     },
     {
-      title: 'Adultos',
-      days: 'Lunes, Miércoles y Viernes',
-      time: '6:00 p.m. - 7:00 p.m.',
-      target: 'Adultos en general',
+      title: 'Turno Tarde (11+ años)',
+      days: 'Lunes a Viernes',
+      time: '5:00 p.m. - 6:20 p.m.',
+      target: 'Mayores de 11 años',
       icon: FaDumbbell,
       color: 'text-purple-500',
       bg: 'bg-purple-50'
     },
     {
-      title: 'Selección',
-      days: 'Lunes, Miércoles y Viernes',
-      time: '7:00 p.m. - 8:30 p.m.',
-      target: 'Equipo de élite',
+      title: 'Sábado Intensivo',
+      days: 'Sábados',
+      time: '10:30 a.m. - 12:30 p.m.',
+      target: 'Desde los 7 años en adelante',
       icon: GiTrophyCup,
       color: 'text-rojo-impacto',
       bg: 'bg-red-50'

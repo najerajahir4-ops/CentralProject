@@ -71,7 +71,7 @@ const Contactos = () => {
               </div>
               <div className="flex items-center gap-3">
                 <Mail size={18} className="text-rojo-impacto flex-shrink-0" />
-                <span>contacto@clubcentral.com</span>
+                <span>clubsociedaddeportivacentralwt@gmail.com</span>
               </div>
             </div>
           </div>
