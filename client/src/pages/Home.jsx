@@ -38,8 +38,7 @@ const Home = () => {
           
           {/* Text Content */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left gap-6 w-full md:w-1/2 shrink-0 z-20">
-            
-            <h1 className="font-body font-black text-4xl sm:text-5xl lg:text-6xl text-carbon leading-[1.1] tracking-tight">
+            <h1 className="font-oswald uppercase font-bold text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-carbon leading-[1.15] tracking-[4px]">
               Club Formativo<br/>
               <span className="text-rojo-impacto">Especializado Central</span>
             </h1>
@@ -65,16 +64,29 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Hero Visual Area */}
+          {/* Hero Visual Area with Authentic Martial Brush Texture */}
           <div className="w-full md:w-1/2 flex justify-center lg:justify-end relative mt-10 md:mt-0">
-            {/* A decorative shape behind */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] aspect-square bg-rojo-impacto/5 rounded-full blur-3xl -z-10"></div>
-            
-            <img
-              src="/logo.png"
-              alt="Logo Club Central"
-              className="w-full max-w-none lg:w-[125%] object-contain drop-shadow-2xl z-10 animate-fade-in transform md:translate-x-8 lg:translate-x-16"
-            />
+            {/* Unified Shield & Brush Container (Guarantees perfect center alignment) */}
+            <div className="relative w-full max-w-none md:w-[115%] lg:w-[140%] xl:w-[152%] flex items-center justify-center transform md:translate-x-8 lg:translate-x-14">
+              
+              {/* Soft Ambient Red Glow */}
+              <div className="absolute inset-0 bg-rojo-impacto/10 rounded-full blur-3xl -z-20 scale-125"></div>
+
+              {/* Authentic Martial Brush Stroke (Centered directly behind the shield) */}
+              <img
+                src="/martial-brush.webp"
+                alt=""
+                aria-hidden="true"
+                className="absolute w-[142%] sm:w-[145%] lg:w-[148%] max-w-none object-contain pointer-events-none -z-10 select-none opacity-95 animate-fade-in"
+              />
+              
+              {/* Club Central Shield Emblem */}
+              <img
+                src="/logo.png"
+                alt="Logo Club Central"
+                className="w-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.22)] z-10 animate-fade-in"
+              />
+            </div>
           </div>
 
         </div>

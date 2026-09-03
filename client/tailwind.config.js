@@ -18,6 +18,11 @@ export default {
       fontFamily: {
         title: ['Anton', 'sans-serif'], // Tipografía gigante y brutalista
         body: ['Inter', 'sans-serif'], // Tipografía limpia
+        taekwondo: ['"Black Han Sans"', 'sans-serif'], // Tipografía coreana marcial sólida
+        korean: ['"Do Hyeon"', 'sans-serif'], // Tipografía coreana tradicional
+        combat: ['"Teko"', 'sans-serif'], // Tipografía angular deportiva de combate
+        shojumaru: ['"Shojumaru"', 'serif'], // Tipografía estilo oriental marcial tradicional
+        oswald: ['"Oswald"', 'sans-serif'], // Tipografía deportiva y atlética
       },
       keyframes: {
         hit: {

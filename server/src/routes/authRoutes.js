@@ -13,9 +13,11 @@ const loginLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+const csrfMiddleware = require('../middleware/csrfMiddleware');
+
 router.post('/login', loginLimiter, login);
 router.get('/verify', authMiddleware, verifyToken);
 router.post('/logout', logout);
-router.put('/profile', authMiddleware, updateProfile);
+router.put('/profile', authMiddleware, csrfMiddleware, updateProfile);
 
 module.exports = router;

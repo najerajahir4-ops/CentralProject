@@ -25,7 +25,7 @@ const uploadLimiter = rateLimit({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'paginabryan_students',
+    folder: 'clubcentral_uploads',
     allowed_formats: ['jpg', 'png', 'jpeg', 'webp']
   },
 });

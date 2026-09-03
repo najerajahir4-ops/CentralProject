@@ -82,6 +82,7 @@ const Footer = () => {
             <li><Link to="/quienes-somos" className="block py-1 hover:text-rojo-impacto transition-colors">Historia</Link></li>
             <li><Link to="/alumnos-destacados" className="block py-1 hover:text-rojo-impacto transition-colors">Atletas</Link></li>
             <li><Link to="/contactos" className="block py-1 hover:text-rojo-impacto transition-colors">Contacto</Link></li>
+            <li><Link to="/legal" className="block py-1 hover:text-rojo-impacto transition-colors">Centro Legal & LOPDP</Link></li>
             <li><Link to="/admin/login" className="block py-1 mt-2 hover:text-rojo-impacto transition-colors">Área Técnica</Link></li>
           </ul>
         </div>
@@ -110,9 +111,23 @@ const Footer = () => {
 
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 mt-12 pt-6 border-t-2 border-blanco-absoluto/10 flex flex-col md:flex-row items-center justify-between gap-4 font-title text-xs md:text-sm text-blanco-absoluto/50 uppercase text-center md:text-left">
-        <p>&copy; {new Date().getFullYear()} CLUB CENTRAL.</p>
-        <p>SISTEMA DE GESTIÓN MARCIAL</p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 mt-12 pt-6 border-t-2 border-blanco-absoluto/10 flex flex-col lg:flex-row items-center justify-between gap-6 font-title text-xs md:text-sm text-blanco-absoluto/50 uppercase text-center lg:text-left">
+        <div>
+          <p>&copy; {new Date().getFullYear()} CLUB CENTRAL • SISTEMA DE GESTIÓN MARCIAL</p>
+        </div>
+        
+        {/* Barra de Enlaces Legales */}
+        <div className="flex flex-wrap items-center justify-center lg:justify-end gap-x-4 gap-y-2 text-xs normal-case font-body tracking-normal text-blanco-absoluto/60">
+          <Link to="/legal?tab=privacidad" className="hover:text-rojo-impacto transition-colors">Privacidad (LOPDP)</Link>
+          <span className="text-blanco-absoluto/20 hidden sm:inline">•</span>
+          <Link to="/legal?tab=terminos" className="hover:text-rojo-impacto transition-colors">Términos del Dojang</Link>
+          <span className="text-blanco-absoluto/20 hidden sm:inline">•</span>
+          <Link to="/legal?tab=descargo" className="hover:text-rojo-impacto transition-colors">Descargo Deportivo (Waiver)</Link>
+          <span className="text-blanco-absoluto/20 hidden sm:inline">•</span>
+          <Link to="/legal?tab=imagen" className="hover:text-rojo-impacto transition-colors">Uso de Imagen</Link>
+          <span className="text-blanco-absoluto/20 hidden sm:inline">•</span>
+          <Link to="/legal?tab=cookies" className="hover:text-rojo-impacto transition-colors">Cookies & Seguridad</Link>
+        </div>
       </div>
     </footer>
   );

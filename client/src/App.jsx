@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { Menu, X, User, Moon, Sun, Users, Settings, ShieldCheck, FileText, Star, CalendarDays, LogOut } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -22,6 +22,7 @@ import Contactos from './pages/Contactos';
 import AdminLogin from './pages/AdminLogin';
 import Horarios from './pages/Horarios';
 import Grados from './pages/Grados';
+import LegalHub from './pages/LegalHub';
 
 // Admin Pages
 import EstudiantesAdmin from './pages/admin/EstudiantesAdmin';
@@ -217,6 +218,12 @@ function App() {
       <Route path="/galeria/generales" element={<PublicLayout><GeneralGallery /></PublicLayout>} />
       <Route path="/galeria/:id" element={<PublicLayout><GaleriaDetalle /></PublicLayout>} />
       <Route path="/contactos" element={<PublicLayout><Contactos /></PublicLayout>} />
+      <Route path="/legal" element={<PublicLayout><LegalHub /></PublicLayout>} />
+      <Route path="/privacidad" element={<Navigate to="/legal?tab=privacidad" replace />} />
+      <Route path="/terminos" element={<Navigate to="/legal?tab=terminos" replace />} />
+      <Route path="/terminos-y-condiciones" element={<Navigate to="/legal?tab=terminos" replace />} />
+      <Route path="/descargo" element={<Navigate to="/legal?tab=descargo" replace />} />
+      <Route path="/politica-de-seguridad" element={<Navigate to="/legal?tab=cookies" replace />} />
       <Route path="/admin/login" element={<AdminLogin />} />
 
       {/* Rutas de Administración Protegidas */}

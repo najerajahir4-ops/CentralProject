@@ -23,9 +23,17 @@ const PORT = process.env.PORT || 5000;
 // Configurar confianza en el proxy de Vercel/reverse proxy para rate-limiting y cookies precisas
 app.set('trust proxy', 1);
 
-// Middleware
+// Deshabilitar cabecera X-Powered-By
+app.disable('x-powered-by');
+
+// Middleware de seguridad de cabeceras HTTP
 app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  hidePoweredBy: true,
+  referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+  xssFilter: true,
+  noSniff: true,
+  frameguard: { action: "deny" }
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

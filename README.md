@@ -4,6 +4,14 @@ Plataforma Web Full-Stack integral construida desde cero. Consta de una **Landin
 
 ---
 
+## 🎨 Reglas Estrictas de Diseño Visual (UI/UX Branding)
+
+* **PROHIBICIÓN TOTAL DE BADGES / PÍLDORAS FLOTANTES ("tarjets"):** Queda estrictamente prohibido volver a usar etiquetas redondeadas, píldoras decorativas o tags flotantes encima de los títulos principales o encabezados (ejemplos eliminados: `DOJANG OFICIAL • SANTO DOMINGO`, `CENTRO LEGAL & TRANSPARENCIA`). Los títulos deben arrancar de forma directa, limpia, imponente y sin adornos de tipo "chip" o píldora arriba.
+* **Tipografía del Título Principal (Hero):** `Oswald` (peso 700 bold, en mayúsculas sostenidas), con `letter-spacing: 4px` (`tracking-[4px]`) dividido en dos líneas lógicas (`CLUB FORMATIVO` / `ESPECIALIZADO CENTRAL`).
+* **Fondo:** Blanco institucional enriquecido con trazos marciales (*brush strokes*) dinámicos y marca de agua sutil, evitando tanto el fondo plano estéril como el fondo negro saturado.
+
+---
+
 ## 🏗️ Arquitectura y Tecnologías (Stack MERN/Prisma)
 
 El proyecto utiliza una arquitectura desacoplada moderna:

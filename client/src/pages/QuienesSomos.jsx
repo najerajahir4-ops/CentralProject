@@ -49,7 +49,7 @@ const QuienesSomos = () => {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     );
 
     if (logoRef.current) observer.observe(logoRef.current);
@@ -64,9 +64,9 @@ const QuienesSomos = () => {
   return (
     <div className="bg-blanco-absoluto w-full overflow-hidden pb-24">
       
-      {/* HEADER GIGANTE -> NORMALIZADO */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-12 border-b-4 border-carbon mb-12 flex justify-center">
-        <h1 className="font-title text-[clamp(4rem,12vw,9rem)] uppercase leading-[0.85] tracking-tight text-carbon m-0 p-0 text-center mix-blend-multiply">
+      {/* HEADER NORMALIZADO */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-14 pb-8 border-b-4 border-carbon mb-10 flex justify-center">
+        <h1 className="font-body font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase leading-[1.05] tracking-tight text-carbon m-0 p-0 text-center">
           NUESTRA <br/>
           <span className="text-rojo-impacto">HISTORIA</span>
         </h1>
@@ -130,15 +130,20 @@ const QuienesSomos = () => {
             {pilares.map((p, idx) => (
               <div 
                 key={idx} 
-                className={`bg-white p-8 rounded-xl border border-gray-200 shadow-sm transition-all duration-700 ease-out transform hover:shadow-md ${
-                  pilaresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                className={`relative overflow-hidden bg-white p-8 rounded-xl border border-gray-200 shadow-sm group hover:-translate-y-2 hover:shadow-xl hover:border-rojo-impacto/40 transition-all duration-500 ease-out transform ${
+                  pilaresVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'
                 }`}
-                style={{ transitionDelay: `${idx * 150}ms` }}
+                style={{ transitionDelay: `${idx * 120}ms` }}
               >
-                <div className="w-10 h-10 rounded-full bg-red-50 text-rojo-impacto font-body font-bold flex items-center justify-center mb-6">
+                {/* Accent line on top on hover */}
+                <div className="absolute top-0 left-0 w-full h-[3px] bg-rojo-impacto scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+
+                <div className="w-10 h-10 rounded-full bg-red-50 text-rojo-impacto font-body font-bold flex items-center justify-center mb-6 group-hover:bg-rojo-impacto group-hover:text-white group-hover:scale-110 transition-all duration-300 shadow-xs">
                   {idx + 1}
                 </div>
-                <h4 className="text-xl font-bold font-body normal-case tracking-normal text-carbon mb-3">{p.titulo}</h4>
+                <h4 className="text-xl font-bold font-body normal-case tracking-normal text-carbon group-hover:text-rojo-impacto transition-colors duration-300 mb-3">
+                  {p.titulo}
+                </h4>
                 <p className="text-base text-gray-500 leading-relaxed">{p.desc}</p>
               </div>
             ))}

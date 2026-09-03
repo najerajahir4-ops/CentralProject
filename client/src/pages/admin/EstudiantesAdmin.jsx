@@ -1253,6 +1253,27 @@ const EstudiantesAdmin = () => {
                 <label class="block text-[10px] text-gray-600 dark:text-gray-400 uppercase mb-1">¿Cómo se enteró de nosotros?</label>
                 <input type="text" name="comoSeEntero" value={studentForm.comoSeEntero} onChange={handleChange} class="w-full bg-gray-50 dark:bg-[#1C1C21] border border-carbon/20 dark:border-white/10 rounded-sm px-3 py-1.5 text-xs text-carbon dark:text-white focus:outline-none focus:border-carbon dark:border-white/20" />
               </div>
+
+              {/* Consentimiento Legal de Uso de Imagen */}
+              <div class="sm:col-span-2 pt-2">
+                <label class="flex items-start gap-3 p-3 bg-gray-50 dark:bg-[#1C1C21] border border-gray-200 dark:border-white/10 rounded-sm cursor-pointer hover:border-rojo-impacto transition-colors">
+                  <input
+                    type="checkbox"
+                    name="autorizaImagen"
+                    checked={!!studentForm.autorizaImagen}
+                    onChange={(e) => setStudentForm({ ...studentForm, autorizaImagen: e.target.checked })}
+                    class="mt-0.5 accent-rojo-impacto w-4 h-4 rounded"
+                  />
+                  <div>
+                    <span class="text-xs font-bold text-carbon dark:text-white uppercase tracking-wider block">
+                      Autorización de Uso de Imagen y Redes Oficiales
+                    </span>
+                    <span class="text-[11px] text-gray-500 dark:text-gray-400 block mt-0.5">
+                      El estudiante o su representante autoriza la toma y difusión de fotografías/videos con fines deportivos (ascensos, galerías web y redes oficiales de Club Central).
+                    </span>
+                  </div>
+                </label>
+              </div>
             </div>
           </div>
 

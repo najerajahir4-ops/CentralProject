@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Send, CheckCircle2 } from 'lucide-react';
 
 const Contactos = () => {
@@ -43,7 +43,7 @@ const Contactos = () => {
       
       {/* HEADER NORMALIZADO */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 pb-8 mb-12 border-b border-gray-200">
-        <h1 className="font-title text-[clamp(3.5rem,10vw,7.5rem)] uppercase leading-[0.85] tracking-tight text-carbon m-0 p-0 mix-blend-multiply">
+        <h1 className="font-body font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase leading-[1.05] tracking-tight text-carbon m-0 p-0">
           COMUNÍCATE <br/>
           CON <span className="text-rojo-impacto">NOSOTROS</span>
         </h1>
@@ -154,6 +154,13 @@ const Contactos = () => {
                 Enviar Mensaje
                 <Send size={16} className="group-hover:translate-x-1 transition-transform" />
               </button>
+
+              <p className="mt-4 text-[11px] text-gray-500 text-center leading-relaxed">
+                Al enviar tu mensaje aceptas el tratamiento de tus datos conforme a nuestra{' '}
+                <Link to="/legal?tab=privacidad" className="text-rojo-impacto underline hover:text-carbon transition-colors font-medium">
+                  Política de Privacidad y LOPDP
+                </Link>.
+              </p>
             </form>
           )}
         </div>

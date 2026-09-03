@@ -24,5 +24,6 @@ Frontend en React/Vite, Backend en Express/Prisma, Base de Datos en Supabase Pos
 ## Brand Commitments
 - Nombre Oficial: Club Central
 - Profesores: Diego Pérez y Mauricio Almeida
-- Identidad Visual: Escudo con colores blanco, rojo vibrante y negro. Se debe evitar un diseño genérico basado en contenedores. El fondo principal debe ser blanco para representar mejor la identidad del escudo, alejándose del tema negro anterior.
+- Identidad Visual: Escudo con colores blanco, rojo vibrante y negro. Se debe evitar un diseño genérico basado en contenedores. El fondo principal debe ser blanco para representar mejor la identidad del escudo, enriquecido con trazo marcial dinámico.
+- Regla de Diseño Estricta: PROHIBIDO USAR BADGES / PÍLDORAS FLOTANTES ("tarjets"). Jamás colocar etiquetas o píldoras redondeadas decorativas encima de los títulos principales. Los títulos deben ir directos, limpios y contundentes.
 - Logo en formato SVG (`/logo.svg`).
