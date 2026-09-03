@@ -8,7 +8,21 @@ Plataforma Web Full-Stack integral construida desde cero. Consta de una **Landin
 
 * **PROHIBICIÓN TOTAL DE BADGES / PÍLDORAS FLOTANTES ("tarjets"):** Queda estrictamente prohibido volver a usar etiquetas redondeadas, píldoras decorativas o tags flotantes encima de los títulos principales o encabezados (ejemplos eliminados: `DOJANG OFICIAL • SANTO DOMINGO`, `CENTRO LEGAL & TRANSPARENCIA`). Los títulos deben arrancar de forma directa, limpia, imponente y sin adornos de tipo "chip" o píldora arriba.
 * **Tipografía del Título Principal (Hero):** `Oswald` (peso 700 bold, en mayúsculas sostenidas), con `letter-spacing: 4px` (`tracking-[4px]`) dividido en dos líneas lógicas (`CLUB FORMATIVO` / `ESPECIALIZADO CENTRAL`).
-* **Fondo:** Blanco institucional enriquecido con trazos marciales (*brush strokes*) dinámicos y marca de agua sutil, evitando tanto el fondo plano estéril como el fondo negro saturado.
+* **Pincelada Marcial Heroica:** Se diseñó e integró un trazo marcial texturizado dinámico con transparencia alfa (`/martial-brush.webp`), alojado en un contenedor unificado de alineación flex (`flex items-center justify-center`) junto al escudo oficial (`/logo.png`) para garantizar centrado matemático y escalado perfecto en todos los viewports.
+* **Tipografía Formal Institucional en Centro Legal:** En la sección `/legal`, se utiliza rigurosamente `font-body` (Inter) con pesos ejecutivos (`font-bold`, `font-semibold`) y capitalización formal (*Title Case*), erradicando el uso de fuentes de póster deportivo (`Anton`) en documentos de validez legal.
+* **Garantía de Animaciones Web:** Se eliminaron las reglas que anulaban transiciones CSS ante preferencias del sistema operativo (`prefers-reduced-motion`), asegurando que las entradas escalonadas y micro-interacciones hover de tarjetas se ejecuten con total fluidez.
+* **Fondo:** Blanco institucional enriquecido con trazos marciales dinámicos y marca de agua sutil, evitando tanto el fondo plano estéril como el fondo negro saturado.
+
+---
+
+## ⚖️ Centro Legal y Protección de Datos Personales (LOPDP Ecuador)
+
+Ubicado en la ruta pública `/legal` y enlazado desde el pie de página global, provee acceso a los 5 pilares normativos de la academia:
+1. **Política de Privacidad y Protección de Datos Personales:** Conforme a la Ley Orgánica de Protección de Datos Personales (LOPDP) de la República del Ecuador, con tratamiento especial de fichas médicas deportivas (Art. 25 LOPDP) y derechos ARCO.
+2. **Términos & Condiciones del Dojang:** Reglamento interno, código de conducta marcial, políticas de asistencia y administración del semáforo de mensualidades.
+3. **Descargo Deportivo & Médico (Waiver):** Asunción informada de riesgos inherentes al combate y declaración jurada de aptitud física.
+4. **Uso de Imagen & Menores de Edad:** Conforme al Código de la Niñez y Adolescencia del Ecuador, con autorización voluntaria y derecho a revocatoria en 48 horas.
+5. **Política de Cookies & Seguridad Digital:** Explicación formal y comprensible sobre el uso exclusivo de cookies técnicas esenciales, garantía explícita de **Cero Rastreo Publicitario** y directrices de ciberseguridad HTTPS/SSL.
 
 ---
 

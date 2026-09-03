@@ -26,13 +26,14 @@ Este documento recopila la **auditoría integral de seguridad**, el **historial 
 | **8** | **Renderizado Seguro contra XSS** | ✅ Conforme | Confirmada la ausencia de `dangerouslySetInnerHTML` y uso de `rehype-sanitize` + `rehype-raw`. | ✅ **Verificado** |
 | **9** | **Aislamiento de Puertos y Servicios** | ✅ Conforme | Sin puertos de bases de datos expuestos en interfaces públicas (`0.0.0.0`). Acceso exclusivo vía TLS. | ✅ **Verificado** |
 | **10** | **Filtrado y Rate Limiting** | ✅ Conforme | Límites activos: 200 req/15min en API global, 5 intentos/15min en login y 10 uploads/15min. | ✅ **Activo** |
+| **11** | **Cumplimiento Legal y Privacidad (LOPDP Ecuador)** | ❌ Inexistente | Desplegado Centro Legal público (`/legal`) con LOPDP, Waiver, consentimiento de imagen y política de cookies con garantía de Cero Rastreo Publicitario. | ✅ **Conforme** |
 
 ---
 
 ## 3. Detalle de Cambios Técnicos Realizados
 
 ### A. Cabeceras de Seguridad en Edge (`vercel.json`)
-Se reforzó el archivo [vercel.json](file:///c:/Users/najer/OneDrive/Desktop/NUEVA_ACADEMIA_BASE/vercel.json) con cabeceras que se aplican automáticamente en la red perimetral de Vercel:
+Se reforzó el archivo [vercel.json](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/vercel.json) con cabeceras que se aplican automáticamente en la red perimetral de Vercel:
 
 ```json
 {
@@ -103,7 +104,7 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE, SELECT ON SEQUENCES TO ap
 ---
 
 ### F. Divulgación Responsable de Seguridad (`client/public/.well-known/security.txt`)
-Se añadió el estándar internacional **RFC 9116** en [client/public/.well-known/security.txt](file:///c:/Users/najer/OneDrive/Desktop/NUEVA_ACADEMIA_BASE/client/public/.well-known/security.txt) para que investigadores de seguridad ética puedan contactar al equipo técnico antes de reportar cualquier hallazgo públicamente:
+Se añadió el estándar internacional **RFC 9116** en [client/public/.well-known/security.txt](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/public/.well-known/security.txt) para que investigadores de seguridad ética puedan contactar al equipo técnico antes de reportar cualquier hallazgo públicamente:
 ```text
 Contact: mailto:seguridad@clubcentraltkd.com
 Expires: 2027-12-31T23:59:59.000Z
@@ -111,6 +112,12 @@ Preferred-Languages: es, en
 Canonical: https://clubcentraltkd.com/.well-known/security.txt
 Policy: https://clubcentraltkd.com/politica-de-seguridad
 ```
+
+---
+
+### G. Centro Legal & Política de Cookies sin Rastreo (`client/src/pages/LegalHub.jsx`)
+* **Conformidad con la LOPDP de Ecuador:** Se diseñó el portal legal en `/legal` que norma el tratamiento responsable de datos personales y sensibles (como fichas médicas de deportistas, alergias y contactos de emergencia según el Art. 25 LOPDP), incorporando el procedimiento formal para el ejercicio de derechos ARCO.
+* **Transparencia y Cero Rastreo Publicitario:** Se sustituyó la jerga cruda de programación por una política de cookies comprensible y formal. Se garantiza explícitamente la ausencia de cookies de remarketing, píxeles de terceros o venta de perfiles digitales, limitando el almacenamiento a cookies técnicas y de sesión estrictamente necesarias.
 
 ---
 

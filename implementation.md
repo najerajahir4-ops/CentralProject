@@ -270,3 +270,49 @@ Se implementó el soporte para editar de forma manual la fecha del último pago 
   * [EstudiantesAdmin.jsx](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PAGINABRYAN/client/src/pages/admin/EstudiantesAdmin.jsx) (Adición del input "Último Pago" y ajuste de columnas en la cuadrícula de la ficha).
   * [studentController.js](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PAGINABRYAN/server/src/controllers/studentController.js) (Estructuración de recepción de `fechaUltimoPago` y lógica de recálculo/actualización de `fechaProximoPago`).
 
+---
+
+## 18. Centro Legal & Protección de Datos LOPDP Ecuador (LegalHub.jsx)
+
+Se implementó el portal integral de cumplimiento normativo y transparencia institucional para Club Central:
+* **Módulo Autónomo y Enrutamiento:** Se creó [LegalHub.jsx](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/src/pages/LegalHub.jsx) asociado a la ruta pública `/legal` y sincronizado mediante parámetros de búsqueda URL (`?tab=...`).
+* **5 Documentos Jurídicos Integrados:**
+  1. *Política de Privacidad y Protección de Datos Personales:* Conforme a la Ley Orgánica de Protección de Datos Personales (LOPDP) de Ecuador, contemplando principios rectores, derechos ARCO y régimen especial de datos de salud física/médica (Art. 25 LOPDP).
+  2. *Términos & Condiciones del Dojang:* Reglamento disciplinario, política de pagos y corte mensual con semáforo financiero, indumentaria reglamentaria y causales de separación.
+  3. *Descargo de Responsabilidad Deportiva & Médica (Waiver):* Asunción de riesgos inherentes al combate y declaración jurada de aptitud física.
+  4. *Política de Uso de Imagen & Protección de Menores:* Sujeto al Código de la Niñez y Adolescencia del Ecuador, con autorización voluntaria revocable en 48 horas.
+  5. *Política de Cookies & Seguridad Digital:* Explicación formal y comprensible orientada a padres de familia sobre cookies técnicas esenciales, garantía de cero rastreo publicitario y directivas de cifrado SSL/HTTPS.
+* **Tipografía Formal Institucional:** Se erradicó el uso de fuentes display deportivas (`Anton` / `font-title`), adoptando la familia `font-body` (Inter) con pesos 600 y 700 en capitalización natural (*Title Case*) para proyectar máxima seriedad y prestigio legal.
+* **Funcionalidad de Impresión / Guardado en PDF:** Botón con `window.print()` y estilos `@media print` para generar copias físicas o archivables de los contratos.
+* **Archivos Creados/Modificados:**
+  * [LegalHub.jsx](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/src/pages/LegalHub.jsx) (Página completa del Centro Legal).
+  * [Footer.jsx](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/src/components/Footer.jsx) (Enlaces de navegación directa al pie de página a cada tab legal).
+  * [App.jsx](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/src/App.jsx) (Registro de la ruta `/legal`).
+
+---
+
+## 19. Rediseño del Hero: Pincelada Marcial y Escudo Centralizado
+
+Se modernizó la sección principal de la página de inicio para alcanzar un nivel visual de élite con estética marcial:
+* **Pincelada Marcial Texturizada (`/martial-brush.webp`):** Generación y optimización de un trazo dinámico con canal alfa (transparencia limpia) que enmarca el escudo oficial.
+* **Contenedor Unificado Flex:** Se reemplazaron desfases y colisiones de transformadas CSS por un único contenedor padre (`flex items-center justify-center`) que centra de manera matemática el escudo y la pincelada, escalando armónicamente en dispositivos móviles, tablets y monitores ultrawide.
+* **Tipografía Oswald 700 con Espaciado de 4px:** Título institucional en dos líneas (`CLUB FORMATIVO` / `ESPECIALIZADO CENTRAL`) con tracking de 4px, transmitiendo fuerza marcial sin recargar la interfaz.
+* **Eliminación de Badges / Píldoras ("tarjets"):** Supresión total de etiquetas flotantes sobre los títulos para mantener una cabecera limpia, institucional y contundente.
+* **Archivos Modificados:**
+  * [Home.jsx](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/src/pages/Home.jsx) (Estructuración del contenedor flex y tipografía).
+  * [martial-brush.webp](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/public/martial-brush.webp) (Activo gráfico optimizado).
+  * [tailwind.config.js](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/tailwind.config.js) (Registro de la familia tipográfica `oswald`).
+  * [index.html](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/index.html) (Carga de fuentes de Google Fonts).
+
+---
+
+## 20. Solución al Bloqueo de Animaciones y Cascada en los 6 Pilares
+
+Se corrigió la invisibilidad de animaciones causada por configuraciones de rendimiento en el sistema operativo y se potenció la interactividad en la página institucional:
+* **Diagnóstico de Reducción de Movimiento:** Se detectó que las optimizaciones del sistema operativo Windows (`VisualFXSetting: 2`) activaban la bandera `prefers-reduced-motion: reduce` en los navegadores, la cual activaba una regla en `index.css` que forzaba la duración de todas las animaciones y transiciones a `0.01ms !important`.
+* **Reactivación y Desbloqueo:** Se eliminó la regla agresiva en [index.css](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/src/index.css), garantizando que las animaciones web se ejecuten siempre.
+* **Entrada Escalonada (Staggered Scroll) y Micro-interacciones Hover:** En [QuienesSomos.jsx](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/src/pages/QuienesSomos.jsx), las tarjetas de los "6 Pilares" ahora emergen progresivamente con desfase secuencial (`idx * 120ms`) y responden al cursor con elevación tridimensional (`-translate-y-2`), sombra expandida, resalte superior y número iluminado en rojo impacto.
+* **Archivos Modificados:**
+  * [QuienesSomos.jsx](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/src/pages/QuienesSomos.jsx) (Ajuste del `IntersectionObserver` y clases hover/transform).
+  * [index.css](file:///c:/Users/najer/OneDrive/Desktop/PROYECTOS_FAMILIA/PROYECTOS/CLUB_CENTRAL/client/src/index.css) (Remoción del bloqueo de animaciones).
+
