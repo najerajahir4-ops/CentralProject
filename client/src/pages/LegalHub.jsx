@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Printer } from 'lucide-react';
 
 const LegalHub = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,10 +22,6 @@ const LegalHub = () => {
     { id: 'cookies', label: 'Cookies y Seguridad' },
   ];
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
     <div className="bg-blanco-absoluto min-h-screen text-carbon pb-24 font-body">
       {/* HEADER PRINCIPAL */}
@@ -39,19 +34,6 @@ const LegalHub = () => {
             <p className="text-sm text-gray-500 mt-1 font-body">
               Términos institucionales, políticas de privacidad y normativas de Club Central.
             </p>
-          </div>
-
-          <div className="flex items-center gap-4 text-xs text-gray-500 font-body">
-            <span>Última revisión: Septiembre 2026</span>
-            <span>•</span>
-            <button
-              onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 text-gray-600 hover:text-carbon transition-colors underline-offset-4 hover:underline print:hidden"
-              title="Imprimir documento"
-            >
-              <Printer size={13} />
-              Imprimir
-            </button>
           </div>
         </div>
       </div>
