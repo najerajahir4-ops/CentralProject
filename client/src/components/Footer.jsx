@@ -82,7 +82,8 @@ const Footer = () => {
             <li><Link to="/quienes-somos" className="block py-1 hover:text-rojo-impacto transition-colors">Historia</Link></li>
             <li><Link to="/alumnos-destacados" className="block py-1 hover:text-rojo-impacto transition-colors">Atletas</Link></li>
             <li><Link to="/contactos" className="block py-1 hover:text-rojo-impacto transition-colors">Contacto</Link></li>
-            <li><Link to="/legal" className="block py-1 hover:text-rojo-impacto transition-colors">Centro Legal & LOPDP</Link></li>
+            <li><Link to="/legal?tab=privacidad" className="block py-1 hover:text-rojo-impacto transition-colors">Política de Privacidad</Link></li>
+            <li><Link to="/legal?tab=terminos" className="block py-1 hover:text-rojo-impacto transition-colors">Términos y Condiciones</Link></li>
             <li><Link to="/admin/login" className="block py-1 mt-2 hover:text-rojo-impacto transition-colors">Área Técnica</Link></li>
           </ul>
         </div>
@@ -118,15 +119,15 @@ const Footer = () => {
         
         {/* Barra de Enlaces Legales */}
         <div className="flex flex-wrap items-center justify-center lg:justify-end gap-x-4 gap-y-2 text-xs normal-case font-body tracking-normal text-blanco-absoluto/60">
-          <Link to="/legal?tab=privacidad" className="hover:text-rojo-impacto transition-colors">Privacidad (LOPDP)</Link>
+          <Link to="/legal?tab=privacidad" className="hover:text-rojo-impacto transition-colors">Política de Privacidad</Link>
           <span className="text-blanco-absoluto/20 hidden sm:inline">•</span>
-          <Link to="/legal?tab=terminos" className="hover:text-rojo-impacto transition-colors">Términos del Dojang</Link>
+          <Link to="/legal?tab=terminos" className="hover:text-rojo-impacto transition-colors">Términos y Condiciones</Link>
           <span className="text-blanco-absoluto/20 hidden sm:inline">•</span>
           <Link to="/legal?tab=descargo" className="hover:text-rojo-impacto transition-colors">Descargo Deportivo (Waiver)</Link>
           <span className="text-blanco-absoluto/20 hidden sm:inline">•</span>
           <Link to="/legal?tab=imagen" className="hover:text-rojo-impacto transition-colors">Uso de Imagen</Link>
           <span className="text-blanco-absoluto/20 hidden sm:inline">•</span>
-          <Link to="/legal?tab=cookies" className="hover:text-rojo-impacto transition-colors">Cookies & Seguridad</Link>
+          <Link to="/legal?tab=cookies" className="hover:text-rojo-impacto transition-colors">Cookies</Link>
         </div>
       </div>
     </footer>

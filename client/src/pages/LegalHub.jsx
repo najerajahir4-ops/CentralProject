@@ -29,8 +29,8 @@ const LegalHub = () => {
   }, [activeTab]);
 
   const tabs = [
-    { id: 'privacidad', label: 'Política de Privacidad (LOPDP)', icon: ShieldCheck, badge: 'Ecuador' },
-    { id: 'terminos', label: 'Términos & Normativa del Dojang', icon: FileText, badge: 'Reglamento' },
+    { id: 'privacidad', label: 'Política de Privacidad', icon: ShieldCheck, badge: 'LOPDP Ecuador' },
+    { id: 'terminos', label: 'Términos y Condiciones', icon: FileText, badge: 'Reglamento' },
     { id: 'descargo', label: 'Descargo Deportivo & Médico (Waiver)', icon: Activity, badge: 'Obligatorio' },
     { id: 'imagen', label: 'Uso de Imagen & Menores de Edad', icon: Camera, badge: 'Consentimiento' },
     { id: 'cookies', label: 'Seguridad & Cookies Técnicas', icon: Lock, badge: 'RFC 9116' },
