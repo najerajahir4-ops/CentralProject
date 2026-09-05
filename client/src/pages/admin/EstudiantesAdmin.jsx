@@ -550,7 +550,7 @@ const EstudiantesAdmin = () => {
 <body>
   <div class="header">
     <div class="logo-container">
-      <img src="/logo.png" alt="Club Central Logo" class="logo-img" onerror="this.src='https://via.placeholder.com/50'"/>
+      <img src="/logo.webp" alt="Club Central Logo" class="logo-img" onerror="this.src='/logo.png'"/>
       <div class="title-group">
         <h1>Club Central</h1>
         <p>Formativo Especializado • Taekwondo & Kickboxing</p>

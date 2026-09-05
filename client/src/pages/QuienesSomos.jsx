@@ -83,7 +83,7 @@ const QuienesSomos = () => {
         <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
           <div ref={logoRef} className="w-full flex items-center justify-center relative">
             <img 
-              src="/logo.png" 
+              src="/logo.webp" 
               alt="Escudo Oficial Club Central" 
               className={`w-[110%] max-w-none lg:w-[130%] object-contain relative z-10 filter transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] drop-shadow-2xl ${isVisible ? 'scale-100' : 'scale-90'}`} 
             />

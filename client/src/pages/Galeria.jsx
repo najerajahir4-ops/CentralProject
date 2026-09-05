@@ -120,7 +120,7 @@ const Galeria = () => {
                     className="group flex flex-col border border-gray-200 bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
                   >
                     <div className="aspect-[4/5] bg-gray-50 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-                      <div className="absolute inset-0 bg-[url('/logo.png')] bg-center bg-no-repeat opacity-5 scale-150"></div>
+                      <div className="absolute inset-0 bg-[url('/logo.webp')] bg-center bg-no-repeat opacity-5 scale-150"></div>
                       
                       <div className="w-20 h-20 rounded-full border border-gray-200 flex items-center justify-center mb-6 bg-white relative z-10 group-hover:bg-rojo-impacto group-hover:border-rojo-impacto transition-colors shadow-sm">
                         <Camera className="w-8 h-8 text-gray-400 group-hover:text-white transition-colors" strokeWidth={2} />

@@ -77,13 +77,17 @@ const Home = () => {
                 src="/martial-brush.webp"
                 alt=""
                 aria-hidden="true"
+                fetchPriority="high"
+                decoding="async"
                 className="absolute w-[142%] sm:w-[145%] lg:w-[148%] max-w-none object-contain pointer-events-none -z-10 select-none opacity-95 animate-fade-in"
               />
               
               {/* Club Central Shield Emblem */}
               <img
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Logo Club Central"
+                fetchPriority="high"
+                decoding="async"
                 className="w-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.22)] z-10 animate-fade-in"
               />
             </div>

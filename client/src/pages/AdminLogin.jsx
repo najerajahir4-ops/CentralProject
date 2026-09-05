@@ -48,7 +48,7 @@ const AdminLogin = () => {
         
         <div className="text-center space-y-2">
           <div className="w-32 h-32 flex items-center justify-center mx-auto mb-4">
-            <img src="/admin_logo.png" alt="Club Central Admin" className="w-full h-full object-contain" />
+            <img src="/admin_logo.webp" alt="Club Central Admin" width="128" height="128" className="w-full h-full object-contain" />
           </div>
           <h2 className="text-2xl font-bold text-carbon font-body normal-case tracking-normal">
             Panel de Administración

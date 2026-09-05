@@ -12,7 +12,7 @@ const Footer = () => {
         <div className="space-y-4">
           <div className="flex items-center gap-3 group">
             <div className="w-14 h-14">
-              <img src="/logo.png" alt="Club Central Logo" className="w-full h-full object-contain filter grayscale invert opacity-90 group-hover:opacity-100 transition-all" />
+              <img src="/logo.webp" alt="Club Central Logo" width="56" height="56" className="w-full h-full object-contain filter grayscale invert opacity-90 group-hover:opacity-100 transition-all" />
             </div>
             <div className="flex flex-col justify-center">
               <span className="font-title text-xl text-blanco-absoluto uppercase leading-none group-hover:text-rojo-impacto transition-colors">

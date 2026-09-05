@@ -30,4 +30,4 @@ Frontend en React/Vite, Backend en Express/Prisma, Base de Datos en Supabase Pos
 - Tipografía Legal: En el Centro Legal (`/legal`) y documentos formales, se utiliza estrictamente `font-body` (Inter) con pesos ejecutivos (`font-bold` y `font-semibold`) y capitalización natural (*Title Case*), prohibiendo el uso de fuentes display o deportivas pesadas como `Anton`.
 - Centro Legal & Normativa LOPDP: Sección pública accesible desde el pie de página con 5 documentos institucionales: Política de Privacidad (LOPDP), Términos del Dojang, Descargo Deportivo/Médico (Waiver), Uso de Imagen de Menores y Política de Cookies Técnicas sin rastreo publicitario.
 - Animaciones y Micro-interacciones: Animaciones de entrada escalonadas y micro-interacciones interactivas en tarjetas (*hover elevation*, realce de bordes e indicadores activos), garantizando que las animaciones web no se bloqueen por configuraciones de rendimiento del sistema.
-- Logo e Insignia: Uso de `/logo.png` de alta resolución optimizado para pantallas retina.
+- Logo e Insignia: Uso de `/logo.webp` de alta resolución optimizado para pantallas retina en formato WebP de carga instantánea.

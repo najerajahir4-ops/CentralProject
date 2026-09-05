@@ -41,7 +41,7 @@ const Navbar = () => {
         {/* Brand */}
         <Link to="/" className="flex items-center gap-4 flex-shrink-0">
           <div className="w-14 h-14 flex items-center justify-center">
-            <img src="/admin_logo.png" alt="Club Central Logo" className="w-full h-full object-contain drop-shadow-sm" />
+            <img src="/admin_logo.webp" alt="Club Central Logo" width="56" height="56" className="w-full h-full object-contain drop-shadow-sm" />
           </div>
           <div className="hidden sm:flex flex-col justify-center">
             <span className="font-title text-2xl tracking-wide text-rojo-impacto leading-none mt-1">
