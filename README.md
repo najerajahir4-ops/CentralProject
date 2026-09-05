@@ -9,20 +9,25 @@ Plataforma Web Full-Stack integral construida desde cero. Consta de una **Landin
 * **PROHIBICIÓN TOTAL DE BADGES / PÍLDORAS FLOTANTES ("tarjets"):** Queda estrictamente prohibido volver a usar etiquetas redondeadas, píldoras decorativas o tags flotantes encima de los títulos principales o encabezados (ejemplos eliminados: `DOJANG OFICIAL • SANTO DOMINGO`, `CENTRO LEGAL & TRANSPARENCIA`). Los títulos deben arrancar de forma directa, limpia, imponente y sin adornos de tipo "chip" o píldora arriba.
 * **Tipografía del Título Principal (Hero):** `Oswald` (peso 700 bold, en mayúsculas sostenidas), con `letter-spacing: 4px` (`tracking-[4px]`) dividido en dos líneas lógicas (`CLUB FORMATIVO` / `ESPECIALIZADO CENTRAL`).
 * **Pincelada Marcial Heroica:** Se diseñó e integró un trazo marcial texturizado dinámico con transparencia alfa (`/martial-brush.webp`), alojado en un contenedor unificado de alineación flex (`flex items-center justify-center`) junto al escudo oficial (`/logo.webp`) para garantizar centrado matemático y escalado perfecto en todos los viewports.
-* **Tipografía Formal Institucional en Centro Legal:** En la sección `/legal`, se utiliza rigurosamente `font-body` (Inter) con pesos ejecutivos (`font-bold`, `font-semibold`) y capitalización formal (*Title Case*), erradicando el uso de fuentes de póster deportivo (`Anton`) en documentos de validez legal.
+* **Tipografía y Estilo Minimalista en Centro Legal (`/legal`):** Los encabezados principales, títulos H2 de cada documento, subtítulos H3 y la navegación lateral utilizan la tipografía institucional `Oswald` (`font-oswald`) en mayúsculas con espaciado tracking, logrando perfecta coherencia con el branding del Hero. El cuerpo del texto legal utiliza `font-body` (Inter) con pesos ligeros y equilibrados, erradicando el uso excesivo de negritas, cajas pesadas y badges innecesarios.
 * **Garantía de Animaciones Web:** Se eliminaron las reglas que anulaban transiciones CSS ante preferencias del sistema operativo (`prefers-reduced-motion`), asegurando que las entradas escalonadas y micro-interacciones hover de tarjetas se ejecuten con total fluidez.
-* **Fondo:** Blanco institucional enriquecido con trazos marciales dinámicos y marca de agua sutil, evitando tanto el fondo plano estéril como el fondo negro saturado.
+* **Fondo Hero:** Blanco institucional con gradiente sutil tatami (`from-blanco-absoluto via-tatami-blanco to-gris-claro opacity-50`), manteniendo un fondo despejado y elegante sin marcas de agua redundantes del logotipo que saturen el espacio visual.
 
 ---
 
 ## ⚖️ Centro Legal y Protección de Datos Personales (LOPDP Ecuador)
 
-Ubicado en la ruta pública `/legal` y enlazado desde el pie de página global, provee acceso a los 5 pilares normativos de la academia:
+Ubicado en la ruta pública `/legal` y enlazado directamente desde el pie de página global mediante accesos independientes y transparentes (**Política de Privacidad** y **Términos y Condiciones**), provee acceso a los 5 pilares normativos de la academia:
 1. **Política de Privacidad y Protección de Datos Personales:** Conforme a la Ley Orgánica de Protección de Datos Personales (LOPDP) de la República del Ecuador, con tratamiento especial de fichas médicas deportivas (Art. 25 LOPDP) y derechos ARCO.
 2. **Términos & Condiciones del Dojang:** Reglamento interno, código de conducta marcial, políticas de asistencia y administración del semáforo de mensualidades.
 3. **Descargo Deportivo & Médico (Waiver):** Asunción informada de riesgos inherentes al combate y declaración jurada de aptitud física.
 4. **Uso de Imagen & Menores de Edad:** Conforme al Código de la Niñez y Adolescencia del Ecuador, con autorización voluntaria y derecho a revocatoria en 48 horas.
 5. **Política de Cookies & Seguridad Digital:** Explicación formal y comprensible sobre el uso exclusivo de cookies técnicas esenciales, garantía explícita de **Cero Rastreo Publicitario** y directrices de ciberseguridad HTTPS/SSL.
+
+### Características de la Experiencia Legal:
+* **Navegación Lateral Dinámica:** Pestañas con indicador visual de acento sutil (`border-l-2 border-rojo-impacto`), permitiendo saltar de forma instantánea entre documentos mediante parámetros de URL (`?tab=privacidad`, `?tab=terminos`, etc.).
+* **Lectura Editorial Serena:** Estructura tipográfica limpia (títulos `Oswald`, párrafos `Inter`), sin badges ruidosos tipo videojuego ni saturación de negritas.
+* **Depuración de Ruido:** Eliminación de botones de impresión o fechas superfluas en la cabecera; respeta la capacidad nativa de impresión y exportación a PDF de los navegadores (`Ctrl + P`).
 
 ---
 
@@ -216,3 +221,9 @@ Para que las políticas de CORS y seguridad reconozcan tu nuevo dominio oficial:
 - **UX/UI Administrativo:** Habilitación de modal interactivo a pantalla completa para previsualización de la Galería de Progreso del estudiante, optimización de contrastes para legibilidad de textos sobre fotos, y contención con "custom scroll" en la Línea de Tiempo de Auditoría.
 - **Marketing y Media (Remotion):** Creación de una arquitectura de video programático en React para exportar Reels/TikToks promocionales. El sistema compila videos MP4 de 15s a 60fps con animaciones basadas en físicas (springs), tipografía brutalista asimétrica e incorpora la paleta de colores corporativa estricta (Carbono y acentos Rojo Impacto), incluyendo integración real de streams de audio (AAC/H264).
 - **Optimización WebP y Carga Instantánea LCP:** Migración completa de los activos de identidad visual (`logo.webp`, `admin_logo.webp`, `martial-brush.webp`) a formato WebP optimizado en alta resolución con preloading (`link rel="preload"`), reduciendo el peso de transferencia inicial en casi un 90% (de ~4 MB a ~480 KB) para eliminar los tiempos de espera en la carga inicial.
+- **Rediseño Minimalista del Centro Legal & Arquitectura de Navegación de Confianza:**
+  - **Reestructuración del Footer:** Se reemplazó el enlace genérico/técnico "Centro Legal & LOPDP" por accesos directos e independientes para "Política de Privacidad" y "Términos y Condiciones", alineados con los estándares de UX y cumplimiento legal de la LOPDP ecuatoriana.
+  - **Estética Editorial Minimalista:** Eliminación de tarjetas abultadas, fondos grises pesados, exceso de negritas y etiquetas ruidosas (`[OBLIGATORIO]`, `[REGLAMENTO]`) en favor de un diseño limpio con navegación lateral por pestaña y acento en rojo impacto.
+  - **Unificación Tipográfica (`Oswald`):** Aplicación de la fuente institucional `Oswald` en todos los títulos principales de políticas, reglamentos y navegación del Centro Legal, manteniendo coherencia visual con la identidad de marca del Hero.
+  - **Depuración de Ruido Visual:** Retiro del botón decorativo de impresión y metadatos de fecha en el encabezado superior, garantizando una presentación sobria y confiando en la función nativa de impresión del navegador (`Ctrl + P` / Guardar en PDF).
+  - **Definición Estética del Hero:** Preservación del fondo con gradiente blanco tatami sin marcas de agua duplicadas del escudo, manteniendo una jerarquía visual limpia y sin redundancias.
