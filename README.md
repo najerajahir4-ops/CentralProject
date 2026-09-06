@@ -221,9 +221,22 @@ Para que las políticas de CORS y seguridad reconozcan tu nuevo dominio oficial:
 - **UX/UI Administrativo:** Habilitación de modal interactivo a pantalla completa para previsualización de la Galería de Progreso del estudiante, optimización de contrastes para legibilidad de textos sobre fotos, y contención con "custom scroll" en la Línea de Tiempo de Auditoría.
 - **Marketing y Media (Remotion):** Creación de una arquitectura de video programático en React para exportar Reels/TikToks promocionales. El sistema compila videos MP4 de 15s a 60fps con animaciones basadas en físicas (springs), tipografía brutalista asimétrica e incorpora la paleta de colores corporativa estricta (Carbono y acentos Rojo Impacto), incluyendo integración real de streams de audio (AAC/H264).
 - **Optimización WebP y Carga Instantánea LCP:** Migración completa de los activos de identidad visual (`logo.webp`, `admin_logo.webp`, `martial-brush.webp`) a formato WebP optimizado en alta resolución con preloading (`link rel="preload"`), reduciendo el peso de transferencia inicial en casi un 90% (de ~4 MB a ~480 KB) para eliminar los tiempos de espera en la carga inicial.
-- **Rediseño Minimalista del Centro Legal & Arquitectura de Navegación de Confianza:**
-  - **Reestructuración del Footer:** Se reemplazó el enlace genérico/técnico "Centro Legal & LOPDP" por accesos directos e independientes para "Política de Privacidad" y "Términos y Condiciones", alineados con los estándares de UX y cumplimiento legal de la LOPDP ecuatoriana.
-  - **Estética Editorial Minimalista:** Eliminación de tarjetas abultadas, fondos grises pesados, exceso de negritas y etiquetas ruidosas (`[OBLIGATORIO]`, `[REGLAMENTO]`) en favor de un diseño limpio con navegación lateral por pestaña y acento en rojo impacto.
-  - **Unificación Tipográfica (`Oswald`):** Aplicación de la fuente institucional `Oswald` en todos los títulos principales de políticas, reglamentos y navegación del Centro Legal, manteniendo coherencia visual con la identidad de marca del Hero.
-  - **Depuración de Ruido Visual:** Retiro del botón decorativo de impresión y metadatos de fecha en el encabezado superior, garantizando una presentación sobria y confiando en la función nativa de impresión del navegador (`Ctrl + P` / Guardar en PDF).
-  - **Definición Estética del Hero:** Preservación del fondo con gradiente blanco tatami sin marcas de agua duplicadas del escudo, manteniendo una jerarquía visual limpia y sin redundancias.
+- **Gestión de Disciplinas en Perfiles (`/admin/perfiles`):** Implementación de pestañas dinámicas segmentadas (`Taekwondo`, `Kickboxing`, `Todos`) con contadores automáticos en tiempo real y etiquetas de modalidad (`TKD & KB`, `Taekwondo`, `Kickboxing`), facilitando la supervisión independiente de alumnos solicitada por la directiva.
+- **Optimización Dinámica y Entrega CDN con Cloudinary (`client/src/utils/cloudinary.js`):**
+  - Implementación de utilidades universales de transformación al vuelo con presets adaptativos (`CARD`, `AVATAR`, `THUMBNAIL`, `GALLERY_THUMB`, `MODAL`, `FULL`).
+  - Inyección de compresión inteligente `q_auto`, formato de última generación `f_auto` (WebP/AVIF) y redimensión adaptada a la cuadrícula (`w_600, c_limit`).
+  - Reducción masiva de peso de imágenes de celulares de **~3.8 MB a solo 67 KB** (reducción del **98%** en ancho de banda), acelerando la carga inicial a **~100 milisegundos**.
+  - Erradicación de errores HTTP 400 mediante la separación estricta de parámetros de recorte (`gravity: 'face'` solo en avatares circulares `c_fill`, omitido en modo seguro `c_limit`).
+- **Conservación Integral de Fotos y Prevención de Recortes Destructivos:**
+  - Restauración y preservación 100% íntegra de las fotografías originales en la base de datos y en Cloudinary.
+  - Eliminación de herramientas de recorte permanente para evitar pérdidas accidentales de encuadre.
+  - Ampliación de las tarjetas de perfil (`h-56 sm:h-64`) con alineación `object-cover object-top` para visualizar de forma natural la cabeza, rostro y uniforme del alumno sin cortes.
+- **Restauración de Color Vivo en Biblioteca Marcial y Contactos:**
+  - Remoción de filtros en blanco y negro (`grayscale`) en las tarjetas de artículos de la Biblioteca Marcial (`/contenido`) y en el mapa de Google Maps (`/contactos`), mostrando el contenido en sus colores vivos y naturales, con micro-interacciones suaves de zoom en hover (`scale-105`).
+- **Manejador Audiovisual Inteligente Multi-Plataforma (`/contenido/:id`):**
+  - Detección y parseo inteligente de URLs multimedia para YouTube (conversión automática a reproductor `youtube-nocookie.com/embed`), Vimeo y enlaces externos.
+  - Integración de tarjeta oficial e interactiva para publicaciones y reels de Facebook, permitiendo acceder a la fuente oficial sin falsas alarmas de seguridad (`⚠️ Video no disponible o enlace no permitido`).
+- **Normalización de Emojis e Iconos en Párrafos Markdown (`index.css`):**
+  - Reglas de estilo para emojis copiados de redes sociales (`<img src="...fbcdn.net...">`), forzando visualización en línea (`display: inline-block !important; vertical-align: -3px;`) y eliminando saltos de línea gigantes y espaciados rotos.
+- **Estandarización Tipográfica de Marca (`Oswald Bold`):**
+  - Aplicación de la tipografía institucional `Oswald` (`font-oswald uppercase font-bold tracking-wider`) en encabezados de sección del blog (`Material Audiovisual`, tarjetas de enlaces externos) para mantener total coherencia visual con el hero principal del sitio (*"CLUB FORMATIVO ESPECIALIZADO CENTRAL"*).

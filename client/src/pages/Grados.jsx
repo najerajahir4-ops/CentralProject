@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import Modal from '../components/Modal';
 import { Award, ShieldAlert, Edit2, Search, Trophy } from 'lucide-react';
 import { getBeltStyle } from '../utils/belt-colors';
+import { optimizeCloudinary, CLOUDINARY_PRESETS } from '../utils/cloudinary';
 import { useToast } from '../context/ToastContext';
 
 const TAEKWONDO_BELTS = [
@@ -251,8 +252,9 @@ const Grados = () => {
                 <div className="h-64 bg-[#0A0B0E] relative overflow-hidden flex items-center justify-center border-b border-white/5">
                   {student.foto ? (
                     <img
-                      src={student.foto}
+                      src={optimizeCloudinary(student.foto, CLOUDINARY_PRESETS.CARD)}
                       alt={`${student.nombres} ${student.apellidos}`}
+                      loading="lazy"
                       className="w-full h-full object-cover object-top opacity-85 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105"
                       onError={(e) => {
                         e.target.onerror = null;

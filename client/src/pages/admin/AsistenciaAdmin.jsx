@@ -21,6 +21,7 @@ import {
 import ConfirmModal from '../../components/ConfirmModal';
 import { useToast } from '../../context/ToastContext';
 import { useAuth } from '../../context/AuthContext';
+import { optimizeCloudinary, CLOUDINARY_PRESETS } from '../../utils/cloudinary';
 
 const AsistenciaAdmin = () => {
   // Obtener fecha actual en formato local YYYY-MM-DD
@@ -513,9 +514,10 @@ const AsistenciaAdmin = () => {
                             <div class="flex items-center gap-3">
                               {student.foto ? (
                                 <img
-                                  src={student.foto}
+                                  src={optimizeCloudinary(student.foto, CLOUDINARY_PRESETS.THUMBNAIL)}
                                   alt={student.nombreCompleto}
-                                  class="w-8 h-8 rounded-full object-cover border border-carbon/30 dark:border-white/20"
+                                  loading="lazy"
+                                  className="w-8 h-8 rounded-full object-cover object-top border border-carbon/30 dark:border-white/20"
                                 />
                               ) : (
                                 <div class="w-8 h-8 rounded-full bg-white dark:bg-[#0A0B0E] border border-carbon/30 dark:border-white/20 flex items-center justify-center text-[10px] font-bold text-carbon dark:text-white uppercase">
@@ -774,9 +776,10 @@ const AsistenciaAdmin = () => {
                             <div class="flex items-center gap-3">
                               {student.foto ? (
                                 <img
-                                  src={student.foto}
+                                  src={optimizeCloudinary(student.foto, CLOUDINARY_PRESETS.THUMBNAIL)}
                                   alt={student.nombreCompleto}
-                                  class="w-8 h-8 rounded-full object-cover border border-carbon/30 dark:border-white/20"
+                                  loading="lazy"
+                                  className="w-8 h-8 rounded-full object-cover object-top border border-carbon/30 dark:border-white/20"
                                 />
                               ) : (
                                 <div class="w-8 h-8 rounded-full bg-white dark:bg-[#0A0B0E] border border-carbon/30 dark:border-white/20 flex items-center justify-center text-[10px] font-bold text-carbon dark:text-white uppercase">

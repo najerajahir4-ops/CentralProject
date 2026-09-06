@@ -6,6 +6,7 @@ import ConfirmModal from '../../components/ConfirmModal';
 import { useToast } from '../../context/ToastContext';
 import imageCompression from 'browser-image-compression';
 import { getErrorMessage } from '../../utils/errorHandler';
+import { optimizeCloudinary, CLOUDINARY_PRESETS } from '../../utils/cloudinary';
 
 const GeneralPhotosAdmin = () => {
   const [photos, setPhotos] = useState([]);
@@ -214,9 +215,10 @@ const GeneralPhotosAdmin = () => {
             {photos.map((photo) => (
               <div key={photo.id} class="group relative rounded-xl overflow-hidden border border-carbon/20 dark:border-white/10 bg-gray-50 dark:bg-[#1C1C21] aspect-square">
                 <img 
-                  src={photo.url} 
+                  src={optimizeCloudinary(photo.url, CLOUDINARY_PRESETS.GALLERY_THUMB)} 
                   alt={photo.descripcion || 'Foto general'} 
-                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 
                 {/* Overlay info */}

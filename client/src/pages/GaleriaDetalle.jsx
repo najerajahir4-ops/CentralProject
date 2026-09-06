@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Loader, ImageOff, ArrowLeft, Calendar } from 'lucide-react';
 import API from '../services/api';
 import PhotoModal from '../components/PhotoModal';
+import { optimizeCloudinary, CLOUDINARY_PRESETS } from '../utils/cloudinary';
 
 const GaleriaDetalle = () => {
   const { id } = useParams();
@@ -70,7 +71,12 @@ const GaleriaDetalle = () => {
           
           <div className="w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-full overflow-hidden border-4 border-white shadow-lg bg-gray-100">
             {student.foto ? (
-              <img src={student.foto} alt={student.nombres} className="w-full h-full object-cover" />
+              <img 
+                src={optimizeCloudinary(student.foto, CLOUDINARY_PRESETS.AVATAR)} 
+                alt={student.nombres} 
+                loading="lazy"
+                className="w-full h-full object-cover object-top" 
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-100">
                 <ImageOff size={40} className="text-gray-400 opacity-50" />
@@ -126,7 +132,12 @@ const GaleriaDetalle = () => {
                 className="break-inside-avoid group relative rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl bg-gray-100 cursor-pointer transition-all hover:-translate-y-1"
                 onClick={() => openModal(index)}
               >
-                <img src={img.url} alt={img.descripcion || 'Foto del estudiante'} className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700" />
+                <img 
+                  src={optimizeCloudinary(img.url, CLOUDINARY_PRESETS.FULL)} 
+                  alt={img.descripcion || 'Foto del estudiante'} 
+                  loading="lazy"
+                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700" 
+                />
                 
                 <div className="absolute inset-0 bg-gradient-to-t from-carbon/80 via-carbon/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
                   {img.descripcion && (

@@ -79,7 +79,7 @@ const Contactos = () => {
           <div className="border border-gray-200 rounded-xl overflow-hidden h-[300px] w-full relative group bg-white shadow-sm">
             <iframe
               src="https://maps.google.com/maps?q=-0.2596667,-79.1849444&z=17&output=embed"
-              className="w-full h-full border-0 grayscale group-hover:grayscale-0 transition-all duration-700"
+              className="w-full h-full border-0 transition-all duration-700"
               title="Mapa Ubicación"
               loading="lazy"
             ></iframe>

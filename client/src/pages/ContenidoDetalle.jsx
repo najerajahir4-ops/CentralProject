@@ -1,33 +1,90 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import API from '../services/api';
-import { Calendar, ArrowLeft } from 'lucide-react';
+import { Calendar, ArrowLeft, ExternalLink, Play } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
+import { optimizeCloudinary, CLOUDINARY_PRESETS } from '../utils/cloudinary';
 
-const ALLOWED_VIDEO_HOSTS = [
-  'www.youtube.com',
-  'youtube.com',
-  'www.youtube-nocookie.com',
-  'player.vimeo.com',
-  'vimeo.com'
-];
-
-const validateSafeVideoUrl = (url) => {
+/**
+ * Procesa y detecta el tipo de URL multimedia (YouTube, Vimeo, Facebook o enlace externo)
+ * y devuelve la estructura adecuada para reproducirlo o enlazarlo de forma segura y atractiva.
+ */
+const getVideoEmbedInfo = (url) => {
   if (!url || typeof url !== 'string') return null;
+  const trimmed = url.trim();
+  if (!trimmed.startsWith('https://') && !trimmed.startsWith('http://')) return null;
+
   try {
-    const trimmed = url.trim();
-    if (!trimmed.startsWith('https://')) return null;
     const parsed = new URL(trimmed);
-    if (parsed.protocol !== 'https:') return null;
-    
-    const host = parsed.hostname.toLowerCase();
-    const isAllowed = ALLOWED_VIDEO_HOSTS.some(
-      allowed => host === allowed || host.endsWith('.' + allowed)
-    );
-    return isAllowed ? parsed.href : null;
+    const host = parsed.hostname.toLowerCase().replace(/^www\./, '');
+
+    // 1. YouTube
+    if (host === 'youtube.com' || host === 'm.youtube.com' || host === 'youtube-nocookie.com') {
+      let videoId = parsed.searchParams.get('v');
+      if (!videoId && parsed.pathname.startsWith('/embed/')) {
+        videoId = parsed.pathname.split('/embed/')[1]?.split('/')[0];
+      }
+      if (!videoId && parsed.pathname.startsWith('/shorts/')) {
+        videoId = parsed.pathname.split('/shorts/')[1]?.split('/')[0];
+      }
+      if (videoId) {
+        return {
+          type: 'youtube',
+          src: `https://www.youtube-nocookie.com/embed/${videoId}`,
+          originalUrl: trimmed,
+          platform: 'YouTube',
+        };
+      }
+    }
+    if (host === 'youtu.be') {
+      const videoId = parsed.pathname.slice(1).split('/')[0]?.split('?')[0];
+      if (videoId) {
+        return {
+          type: 'youtube',
+          src: `https://www.youtube-nocookie.com/embed/${videoId}`,
+          originalUrl: trimmed,
+          platform: 'YouTube',
+        };
+      }
+    }
+
+    // 2. Vimeo
+    if (host === 'vimeo.com' || host === 'player.vimeo.com') {
+      const videoId = parsed.pathname.split('/').filter(Boolean).pop();
+      if (videoId && /^\d+$/.test(videoId)) {
+        return {
+          type: 'vimeo',
+          src: `https://player.vimeo.com/video/${videoId}`,
+          originalUrl: trimmed,
+          platform: 'Vimeo',
+        };
+      }
+    }
+
+    // 3. Facebook (Reels, Videos, o Posts oficiales)
+    if (host === 'facebook.com' || host === 'm.facebook.com' || host === 'fb.watch' || host === 'web.facebook.com') {
+      const isVideo = trimmed.includes('/videos/') || trimmed.includes('/reel/') || trimmed.includes('/watch/') || host === 'fb.watch';
+      const pluginType = isVideo ? 'video.php' : 'post.php';
+      const pluginUrl = `https://www.facebook.com/plugins/${pluginType}?href=${encodeURIComponent(trimmed)}&show_text=true&width=500`;
+      return {
+        type: 'facebook',
+        src: pluginUrl,
+        originalUrl: trimmed,
+        platform: 'Facebook',
+      };
+    }
+
+    // 4. Cualquier otra plataforma / enlace externo
+    const cleanHost = host.split('.')[0];
+    const platformName = cleanHost.charAt(0).toUpperCase() + cleanHost.slice(1);
+    return {
+      type: 'external',
+      originalUrl: trimmed,
+      platform: platformName || 'Enlace Externo',
+    };
   } catch (e) {
     return null;
   }
@@ -141,7 +198,7 @@ const ContenidoDetalle = ({ previewData }) => {
               <div key={block.id} className="my-10">
                 {imgSrc && (
                   <figure>
-                    <img src={imgSrc} alt="Imagen del artículo" className="w-full h-auto rounded-2xl shadow-lg border border-carbon/5" />
+                    <img src={optimizeCloudinary(imgSrc, CLOUDINARY_PRESETS.FULL)} alt="Imagen del artículo" className="w-full h-auto rounded-2xl shadow-lg border border-carbon/5" />
                     {block.caption && <figcaption className="text-center text-sm text-carbon/50 mt-4">{block.caption}</figcaption>}
                   </figure>
                 )}
@@ -223,37 +280,97 @@ const ContenidoDetalle = ({ previewData }) => {
             {content.imagenUrl && (
               <div className="w-full">
                 <img 
-                  src={content.imagenUrl} 
+                  src={optimizeCloudinary(content.imagenUrl, CLOUDINARY_PRESETS.FULL)} 
                   alt={content.titulo} 
                   className="w-full h-[350px] sm:h-[450px] lg:h-[500px] object-cover rounded-2xl shadow-sm" 
                 />
               </div>
             )}
 
-            {/* Embedded Video (If present) */}
-            {content.videoUrl && (
-              <div className="space-y-4 w-full">
-                <h3 className="text-xl font-bold text-carbon border-l-4 border-rojo-impacto pl-3">
-                  Material Audiovisual
-                </h3>
-                {validateSafeVideoUrl(content.videoUrl) ? (
-                  <div className="aspect-video overflow-hidden rounded-2xl shadow-sm bg-black">
-                    <iframe
-                      src={validateSafeVideoUrl(content.videoUrl)}
-                      title={content.titulo}
-                      className="w-full h-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      sandbox="allow-scripts allow-same-origin allow-presentation"
-                    ></iframe>
+            {/* Material Audiovisual Inteligente */}
+            {content.videoUrl && (() => {
+              const media = getVideoEmbedInfo(content.videoUrl);
+              if (!media) return null;
+
+              return (
+                <div className="space-y-4 w-full">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xl sm:text-2xl font-oswald font-bold uppercase tracking-wider text-carbon border-l-4 border-rojo-impacto pl-3 flex items-center gap-2">
+                      Material Audiovisual
+                    </h3>
+                    <a
+                      href={media.originalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-rojo-impacto hover:underline font-semibold inline-flex items-center gap-1.5"
+                    >
+                      Abrir en {media.platform} <ExternalLink size={13} />
+                    </a>
                   </div>
-                ) : (
-                  <div className="p-6 rounded-2xl bg-gray-100 dark:bg-carbon border border-carbon/10 text-center text-sm text-carbon/60 dark:text-white/60">
-                    ⚠️ Video no disponible o enlace no permitido por políticas de seguridad.
-                  </div>
-                )}
-              </div>
-            )}
+
+                  {media.type === 'youtube' || media.type === 'vimeo' ? (
+                    <div className="aspect-video overflow-hidden rounded-2xl shadow-md bg-black">
+                      <iframe
+                        src={media.src}
+                        title={content.titulo}
+                        className="w-full h-full border-0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                    </div>
+                  ) : media.type === 'facebook' ? (
+                    <div className="bg-gradient-to-br from-blue-50/70 to-white dark:from-[#1877F2]/10 dark:to-[#0A0B0E] border border-[#1877F2]/30 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+                      <div className="flex items-center gap-4">
+                        <div className="w-13 h-13 rounded-2xl bg-[#1877F2] text-white flex items-center justify-center shrink-0 shadow-md">
+                          <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#1877F2] bg-[#1877F2]/10 px-2.5 py-0.5 rounded-full">
+                            Publicación Oficial en Facebook
+                          </span>
+                          <h4 className="font-oswald font-bold text-base text-carbon dark:text-white mt-1 tracking-wide uppercase">
+                            Ver cobertura multimedia y comentarios en Facebook
+                          </h4>
+                          <p className="text-xs text-carbon/60 dark:text-white/60 line-clamp-1 mt-0.5">
+                            Accede a la publicación oficial de la PUCE y Sociedad Deportiva Central.
+                          </p>
+                        </div>
+                      </div>
+                      <a
+                        href={media.originalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:w-auto px-6 py-3 bg-[#1877F2] hover:bg-[#166fe5] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 shrink-0 group whitespace-nowrap"
+                      >
+                        Abrir en Facebook <ExternalLink size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </a>
+                    </div>
+                  ) : (
+                    <div className="p-6 bg-gray-50 dark:bg-carbon/50 border border-carbon/10 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-xl bg-rojo-impacto/10 text-rojo-impacto flex items-center justify-center shrink-0">
+                          <ExternalLink size={22} />
+                        </div>
+                        <div>
+                          <h4 className="font-oswald font-bold text-sm text-carbon dark:text-white tracking-wide uppercase">Ver material en {media.platform}</h4>
+                          <p className="text-xs text-carbon/60 dark:text-white/60 truncate max-w-xs sm:max-w-md">{media.originalUrl}</p>
+                        </div>
+                      </div>
+                      <a
+                        href={media.originalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-5 py-2.5 bg-rojo-impacto text-white font-bold text-xs uppercase tracking-wider rounded-xl hover:bg-red-700 transition-colors inline-flex items-center gap-2 shrink-0"
+                      >
+                        Abrir Enlace <ExternalLink size={14} />
+                      </a>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
 
             {renderCuerpo()}
           </div>

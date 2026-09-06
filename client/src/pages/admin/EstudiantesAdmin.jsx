@@ -21,6 +21,7 @@ import {
 import { useToast } from '../../context/ToastContext';
 import imageCompression from 'browser-image-compression';
 import { getErrorMessage } from '../../utils/errorHandler';
+import { optimizeCloudinary, CLOUDINARY_PRESETS } from '../../utils/cloudinary';
 
 const TAEKWONDO_BELTS = [
   "Cinturón Blanco",
@@ -1358,7 +1359,11 @@ const EstudiantesAdmin = () => {
             </h3>
             <div class="flex items-center gap-4 bg-gray-50 dark:bg-[#1C1C21] p-4 rounded-sm border border-carbon/20 dark:border-white/10">
               {studentForm.foto ? (
-                <img src={studentForm.foto} alt="Perfil" class="w-16 h-16 rounded-full object-cover border border-carbon dark:border-white/20" />
+                <img 
+                  src={optimizeCloudinary(studentForm.foto, CLOUDINARY_PRESETS.AVATAR)} 
+                  alt="Perfil" 
+                  className="w-16 h-16 rounded-full object-cover object-top border border-carbon dark:border-white/20" 
+                />
               ) : (
                 <div class="w-16 h-16 rounded-full bg-white dark:bg-[#0A0B0E] border border-carbon/30 dark:border-white/20 flex items-center justify-center text-xs text-gray-500 uppercase">Sin Foto</div>
               )}

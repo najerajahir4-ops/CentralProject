@@ -4,6 +4,7 @@ import API from '../../services/api';
 import { User, ArrowLeft, Camera, Image as ImageIcon, Loader, Plus, Trash2, Calendar } from 'lucide-react';
 import PhotoModal from '../../components/PhotoModal';
 import ConfirmModal from '../../components/ConfirmModal';
+import { optimizeCloudinary, CLOUDINARY_PRESETS } from '../../utils/cloudinary';
 import { useToast } from '../../context/ToastContext';
 import imageCompression from 'browser-image-compression';
 import { getErrorMessage } from '../../utils/errorHandler';
@@ -178,9 +179,14 @@ const PerfilDetalleAdmin = () => {
             
             <div class="px-6 pb-6 relative">
               <div class="flex justify-center -mt-12 mb-4">
-                <div class="w-24 h-24 rounded-full border-4 border-carbon dark:border-white/20 bg-gray-50 dark:bg-[#1C1C21] overflow-hidden flex items-center justify-center shadow-lg relative z-10">
+                <div class="w-28 h-28 rounded-full border-4 border-carbon dark:border-white/20 bg-gray-50 dark:bg-[#1C1C21] overflow-hidden flex items-center justify-center shadow-lg relative z-10">
                   {student.foto ? (
-                    <img src={student.foto} alt={student.nombres} class="w-full h-full object-cover" />
+                    <img 
+                      src={optimizeCloudinary(student.foto, CLOUDINARY_PRESETS.AVATAR)} 
+                      alt={student.nombres} 
+                      loading="lazy"
+                      className="w-full h-full object-cover object-top" 
+                    />
                   ) : (
                     <User size={40} class="text-gray-500" />
                   )}
@@ -199,6 +205,10 @@ const PerfilDetalleAdmin = () => {
                 <div class="bg-gray-50 dark:bg-[#1C1C21] p-3 rounded-lg border border-carbon/10 dark:border-white/5">
                   <h4 class="text-[9px] text-gray-500 uppercase tracking-widest mb-2 font-bold font-body">Datos Personales</h4>
                   <div class="space-y-2 text-xs">
+                    <div class="flex justify-between border-b border-carbon/10 dark:border-white/5 pb-1">
+                      <span class="text-gray-600 dark:text-gray-400">Modalidad:</span>
+                      <span class="text-carbon dark:text-white font-bold">{student.modalidad || 'TAEKWONDO'}</span>
+                    </div>
                     <div class="flex justify-between border-b border-carbon/10 dark:border-white/5 pb-1">
                       <span class="text-gray-600 dark:text-gray-400">Edad:</span>
                       <span class="text-carbon dark:text-white font-mono">{student.edad} años</span>
@@ -315,9 +325,10 @@ const PerfilDetalleAdmin = () => {
                 {student.gallery.map((photo, index) => (
                   <div key={photo.id} class="group relative rounded-xl overflow-hidden border border-carbon/20 dark:border-white/10 bg-gray-50 dark:bg-[#1C1C21] aspect-square cursor-pointer" onClick={() => openModal(index)}>
                     <img 
-                      src={photo.url} 
+                      src={optimizeCloudinary(photo.url, CLOUDINARY_PRESETS.GALLERY_THUMB)} 
                       alt={photo.descripcion || 'Foto del estudiante'} 
-                      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     
                     {/* Overlay info */}

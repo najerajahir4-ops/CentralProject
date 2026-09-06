@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import API from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { FileText, Calendar, Video, Edit3, Check, GripVertical, Loader } from 'lucide-react';
+import { optimizeCloudinary, CLOUDINARY_PRESETS } from '../utils/cloudinary';
 
 // Dnd-kit imports
 import {
@@ -60,9 +61,10 @@ const SortableContentCard = ({ item, isEditMode }) => {
       <div className="relative h-56 overflow-hidden bg-gris-claro border-b-2 border-carbon">
         {item.imagenUrl ? (
           <img
-            src={item.imagenUrl}
+            src={optimizeCloudinary(item.imagenUrl, CLOUDINARY_PRESETS.CARD)}
             alt={item.titulo}
-            className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
+            loading="lazy"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center space-y-2 group-hover:scale-105 transition-transform">

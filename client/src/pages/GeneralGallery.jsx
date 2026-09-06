@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Loader, ImageOff, ArrowLeft, Calendar } from 'lucide-react';
 import API from '../services/api';
 import PhotoModal from '../components/PhotoModal';
+import { optimizeCloudinary, CLOUDINARY_PRESETS } from '../utils/cloudinary';
 
 const GeneralGallery = () => {
   const [photos, setPhotos] = useState([]);
@@ -87,7 +88,12 @@ const GeneralGallery = () => {
                 className="break-inside-avoid group relative rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl bg-gray-100 cursor-pointer transition-all hover:-translate-y-1"
                 onClick={() => openModal(index)}
               >
-                <img src={img.url} alt={img.descripcion || 'Foto del evento'} className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700" />
+                <img 
+                  src={optimizeCloudinary(img.url, CLOUDINARY_PRESETS.FULL)} 
+                  alt={img.descripcion || 'Foto del evento'} 
+                  loading="lazy"
+                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700" 
+                />
                 
                 <div className="absolute inset-0 bg-gradient-to-t from-carbon/80 via-carbon/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
                   {img.descripcion && (

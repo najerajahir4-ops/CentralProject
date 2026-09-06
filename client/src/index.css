@@ -108,3 +108,23 @@
     clip-path: none;
   }
 }
+
+/* Emojis e imágenes pequeñas en línea dentro de artículos (evita saltos de línea gigantes) */
+.prose p img,
+.prose img[src*="emoji"],
+.prose img[src*="fbcdn.net"],
+.prose img[height="16"],
+.prose img[width="16"],
+.prose img[height="18"],
+.prose img[width="18"],
+.prose img[height="20"],
+.prose img[width="20"] {
+  display: inline-block !important;
+  margin: 0 3px !important;
+  vertical-align: -3px !important;
+  max-height: 1.3em !important;
+  width: auto !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+}

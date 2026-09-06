@@ -6,6 +6,7 @@ import { useToast } from '../../context/ToastContext';
 import { Trophy, Plus, Edit, Trash2, Camera, Loader, Image as ImageIcon } from 'lucide-react';
 import imageCompression from 'browser-image-compression';
 import { getErrorMessage } from '../../utils/errorHandler';
+import { optimizeCloudinary, CLOUDINARY_PRESETS } from '../../utils/cloudinary';
 
 const AlumnosDestacadosAdmin = () => {
   const [featured, setFeatured] = useState([]);
@@ -183,9 +184,10 @@ const AlumnosDestacadosAdmin = () => {
                     <div class="flex items-center gap-3">
                       {item.imagenUrl || item.student?.foto ? (
                         <img
-                          src={item.imagenUrl || item.student.foto}
+                          src={optimizeCloudinary(item.imagenUrl || item.student.foto, CLOUDINARY_PRESETS.THUMBNAIL)}
                           alt={`${item.student?.nombres} ${item.student?.apellidos}`}
-                          class="w-8 h-8 rounded-full object-cover border border-carbon/30 dark:border-white/20 flex-shrink-0"
+                          loading="lazy"
+                          className="w-8 h-8 rounded-full object-cover object-top border border-carbon/30 dark:border-white/20 flex-shrink-0"
                         />
                       ) : (
                         <div class="w-8 h-8 rounded-full bg-white dark:bg-[#0A0B0E] border border-carbon/30 dark:border-white/20 flex items-center justify-center text-[10px] font-bold text-carbon dark:text-white uppercase flex-shrink-0">

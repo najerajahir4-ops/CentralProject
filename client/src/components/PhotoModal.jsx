@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Download, ChevronLeft, ChevronRight } from 'lucide-react';
+import { optimizeCloudinary, CLOUDINARY_PRESETS } from '../utils/cloudinary';
 
 const PhotoModal = ({ photo, isOpen, onClose, onNext, onPrev, hasMultiple }) => {
   useEffect(() => {
@@ -87,7 +88,7 @@ const PhotoModal = ({ photo, isOpen, onClose, onNext, onPrev, hasMultiple }) => 
         onClick={(e) => e.stopPropagation()}
       >
         <img 
-          src={photo.url} 
+          src={optimizeCloudinary(photo.url, CLOUDINARY_PRESETS.MODAL)} 
           alt={photo.descripcion || 'Foto expandida'} 
           className="max-w-full max-h-[80vh] object-contain shadow-2xl rounded-sm border border-white/10"
         />
